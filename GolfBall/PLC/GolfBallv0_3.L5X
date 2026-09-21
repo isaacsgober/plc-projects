@@ -1,0 +1,3254 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.02" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Mon Sep 21 18:34:10 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Aug 25 11:52:13 2026" LastModifiedDate="Mon Sep 21 18:32:03 2026" SFCExecutionControl="CurrentActive"
+ SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
+<RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
+<Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
+<SafetyInfo/>
+<DataTypes>
+<DataType Name="FAULTRECORD" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Stores the MajorFaultRecord attribute or MinorFaultRecord attribute of the Program object]]>
+</Description>
+<Members>
+<Member Name="Time_Low" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Lower 32 bits of the fault timestamp value]]>
+</Description>
+</Member>
+<Member Name="Time_High" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Upper 32 bits of the fault timestamp value]]>
+</Description>
+</Member>
+<Member Name="Type" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Fault type (program, I/O, and so forth)]]>
+</Description>
+</Member>
+<Member Name="Code" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Unique code for the fault]]>
+</Description>
+</Member>
+<Member Name="Info" DataType="DINT" Dimension="8" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Fault specific information]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+<Modules>
+<Module Name="Local" CatalogNumber="1769-L24ER-QB1B" Vendor="1" ProductType="14" ProductCode="149" Major="36" Minor="12" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true"
+>
+<EKey State="ExactMatch"/>
+<Ports>
+<Port Id="1" Address="0" Type="Compact" Upstream="false">
+<Bus Size="6"/>
+</Port>
+<Port Id="2" Type="Ethernet" Upstream="false">
+<Bus/>
+</Port>
+</Ports>
+</Module>
+<Module Name="Discrete_IO" CatalogNumber="Embedded" Vendor="1" ProductType="7" ProductCode="64" Major="3" Minor="1" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true"
+>
+<EKey State="CompatibleModule"/>
+<Ports>
+<Port Id="1" Address="1" Type="Compact" Upstream="true"/>
+</Ports>
+<Communications>
+<ConfigTag ConfigSize="20" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[24,102,1,0,0,0,0,0,0,0,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="AB:Embedded_DiscreteIO1:C:0">
+<DataValueMember Name="Filter0OffOn_0" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OffOn_1" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OffOn_2" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OffOn_3" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OnOff_4" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OnOff_5" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OnOff_6" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter0OnOff_7" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OffOn_0" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OffOn_1" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OffOn_2" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OffOn_3" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OnOff_4" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OnOff_5" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OnOff_6" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Filter1OnOff_7" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</ConfigTag>
+<Connections>
+<Connection Name="Output" RPI="20000" Type="Output" EventID="0" ProgrammaticallySendEventTrigger="false" Unicast="false">
+<InputTag ExternalAccess="Read Only">
+<Data Format="Decorated">
+<Structure DataType="AB:Embedded_DiscreteIO1:I:0">
+<DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0010_1001_0101_0000"/>
+<DataValueMember Name="Readback" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+</Structure>
+</Data>
+</InputTag>
+<OutputTag ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="AB:Embedded_DiscreteIO1:O:0">
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+</Structure>
+</Data>
+</OutputTag>
+</Connection>
+</Connections>
+</Communications>
+<ExtendedProperties>
+<public><ConfigID>100</ConfigID><CatNum>Embedded</CatNum></public>
+</ExtendedProperties>
+</Module>
+<Module CatalogNumber="1769-IQ16/A" Vendor="1" ProductType="7" ProductCode="67" Major="1" Minor="1" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true">
+<EKey State="CompatibleModule"/>
+<Ports>
+<Port Id="1" Address="2" Type="Compact" Upstream="true"/>
+</Ports>
+<Communications CommMethod="536870913">
+<ConfigData ConfigSize="4">
+<Data Format="L5K">
+<![CDATA[[8,102,1]]]>
+</Data>
+</ConfigData>
+<Connections>
+<Connection Name="Input" RPI="20000" Type="Input" EventID="0" ProgrammaticallySendEventTrigger="false" Unicast="false">
+<InputTag ExternalAccess="Read Only">
+<Data Format="Decorated">
+<Structure DataType="AB:1769_DI16:I:0">
+<DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0110"/>
+</Structure>
+</Data>
+</InputTag>
+</Connection>
+</Connections>
+</Communications>
+<ExtendedProperties>
+<public><ConfigID>250</ConfigID><CatNum>1769-IQ16</CatNum></public>
+</ExtendedProperties>
+</Module>
+<Module CatalogNumber="1769-IQ16/A" Vendor="1" ProductType="7" ProductCode="67" Major="3" Minor="1" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true">
+<EKey State="Disabled"/>
+<Ports>
+<Port Id="1" Address="3" Type="Compact" Upstream="true"/>
+</Ports>
+<Communications CommMethod="536870913">
+<ConfigData ConfigSize="4">
+<Data Format="L5K">
+<![CDATA[[8,102,1]]]>
+</Data>
+</ConfigData>
+<Connections>
+<Connection Name="Input" RPI="20000" Type="Input" EventID="0" ProgrammaticallySendEventTrigger="false" Unicast="false">
+<InputTag ExternalAccess="Read Only">
+<Data Format="Decorated">
+<Structure DataType="AB:1769_DI16:I:0">
+<DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0100_0110_0110"/>
+</Structure>
+</Data>
+</InputTag>
+</Connection>
+</Connections>
+</Communications>
+<ExtendedProperties>
+<public><ConfigID>250</ConfigID><CatNum>1769-IQ16</CatNum></public>
+</ExtendedProperties>
+</Module>
+<Module Name="Relay" CatalogNumber="1769-OB16/B" Vendor="1" ProductType="7" ProductCode="71" Major="3" Minor="1" ParentModule="Local" ParentModPortId="1" Inhibited="false" MajorFault="true"
+>
+<EKey State="Disabled"/>
+<Ports>
+<Port Id="1" Address="4" Type="Compact" Upstream="true"/>
+</Ports>
+<Communications CommMethod="536870913">
+<ConfigTag ConfigSize="14" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[18,102,1,0,0,0,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="AB:1769_DO16:C:0">
+<DataValueMember Name="Config" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+<DataValueMember Name="ProgToFaultEn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ProgMode" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+<DataValueMember Name="ProgValue" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+<DataValueMember Name="FaultMode" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+<DataValueMember Name="FaultValue" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
+</Structure>
+</Data>
+</ConfigTag>
+<Connections>
+<Connection Name="Output" RPI="20000" Type="Output" EventID="0" ProgrammaticallySendEventTrigger="false" Unicast="false">
+<InputTag ExternalAccess="Read Only">
+<Data Format="Decorated">
+<Structure DataType="AB:1769_DO16:I:0">
+<DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
+<DataValueMember Name="ReadBack" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0000"/>
+</Structure>
+</Data>
+</InputTag>
+<OutputTag ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[10752]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="AB:1769_DO16:O:0">
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0000"/>
+</Structure>
+</Data>
+</OutputTag>
+</Connection>
+</Connections>
+</Communications>
+<ExtendedProperties>
+<public><ConfigID>150</ConfigID><CatNum>1769-OB16</CatNum></public>
+</ExtendedProperties>
+</Module>
+</Modules>
+<AddOnInstructionDefinitions/>
+<Tags>
+<Tag Name="Actuate_T1_Diverter" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.5" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T1_Drop_Advance" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.12" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T1_Drop_Release" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.13" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T2_Diverter" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.6" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T2_Drop_Advance" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.10" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T2_Drop_Release" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.11" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T3_Diverter" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.7" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T3_Drop_Advance" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.8" ExternalAccess="Read Only"/>
+<Tag Name="Actuate_T3_Drop_Release" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.9" ExternalAccess="Read Only"/>
+<Tag Name="All_Tubes_Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Auto_Run_Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Ball_Bypass_Photo" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.3" ExternalAccess="Read Only"/>
+<Tag Name="Ball_Feeder_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.8" ExternalAccess="Read Only"/>
+<Tag Name="Ball_Feeder_Intermediate" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.9" ExternalAccess="Read Only"/>
+<Tag Name="Ball_Feeder_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.10" ExternalAccess="Read Only"/>
+<Tag Name="Ball_Feeder_Retracted_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[4,0,400,0,0,0,543183,1536,990057071,2,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="400"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Ball_Feeder_Step" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Ball_Present_Ball_Feeder" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.11" ExternalAccess="Read Only"/>
+<Tag Name="Blink_Bit" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="Color" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Color_Advance_Cylinder_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.6" ExternalAccess="Read Only"/>
+<Tag Name="Color_Advance_Cylinder_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.7" ExternalAccess="Read Only"/>
+<Tag Name="Color_Read_Advance_Cylinder_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0,0,1000,0,0,1,543925,5632,981668463,2,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="1000"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Color_Read_Dwell_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0,0,1500,0,0,1,545427,5632,981668463,2,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="1500"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Color_Release_Cylinder_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.8" ExternalAccess="Read Only"/>
+<Tag Name="Color_Release_Cylinder_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.9" ExternalAccess="Read Only"/>
+<Tag Name="Color_Scan_Green" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.13" ExternalAccess="Read Only"/>
+<Tag Name="Color_Scan_Orange" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.14" ExternalAccess="Read Only"/>
+<Tag Name="Color_Scan_Pink" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.12" ExternalAccess="Read Only"/>
+<Tag Name="Color_Sort_Dwell_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[2,6,3500,651,0,1,546079,5632,981668463,2,651,6]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3500"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="651"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Color_Sort_Step" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Drop_Ball_Feeder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.15" ExternalAccess="Read Only"/>
+<Tag Name="Fault" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Master Fault]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Fault_Blink" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Fault_Feeder_Drop_Timeout" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Fault_Feeder_Lift_Timeout" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Fault_Feeder_Watchdog" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Drop_Timeout_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[4,0,3000,0,0,1,543076,5632,981668463,2,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Feeder_Extend_Count" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Fault" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Fault_Active" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Hard_Fault_HMI" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Homing" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Lift_Timeout_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[2,10,3000,3000,0,1,546079,5632,981668463,2,3000,10]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Feeder_Motion_Detected_OS" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Motion_Storage" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Recovery_Attempt_Counter" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Recovery_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0,0,5000,0,0,0,257911,25088,0,2,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Feeder_Recovery_Total" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Stuck_at_Sensor" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feeder_Watchdog_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[2,6,5000,3002,0,1,546079,5632,981668463,2,3002,6]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="3002"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Feed_Bypass" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feed_Resume_OS" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feed_Resume_Storage" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Feed_Run" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Fill_Indexes_Cleared" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="Green" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[3]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="3"/>
+</Data>
+</Tag>
+<Tag Name="HMI_All_Tubes_Are_Empty" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[10]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="10"/>
+</Data>
+</Tag>
+<Tag Name="HMI_ColorStationAdv" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_ColorStationRel" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Diverter1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Diverter2" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Diverter3" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_DropFeedCylinder" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Fault_Reset_PB" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Page_State" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[2]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="2"/>
+</Data>
+</Tag>
+<Tag Name="HMI_RaiseFeedCylinder" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Setup_Done" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Setup_in_Progress" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Setup_Request" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T1Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T1Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T1SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T2Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T2Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T2SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[3]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="3"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T3Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T3Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_T3SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[2]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="2"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Trigger_Init" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Tube1_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Tube2_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Tube3_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="i" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[6]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="6"/>
+</Data>
+</Tag>
+<Tag Name="idx1" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="idx2" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="idx3" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Lift_Ball_Feeder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.14" ExternalAccess="Read Only"/>
+<Tag Name="Lift_Time_Max" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Lift_Time_Max_Full" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Magazine_Full" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.15" ExternalAccess="Read Only"/>
+<Tag Name="major_fault_record" TagType="Base" DataType="FAULTRECORD" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FAULTRECORD">
+<DataValueMember Name="Time_Low" DataType="DINT" Radix="Decimal" Value="-1123216650"/>
+<DataValueMember Name="Time_High" DataType="DINT" Radix="Decimal" Value="209391"/>
+<DataValueMember Name="Type" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Code" DataType="INT" Radix="Decimal" Value="0"/>
+<ArrayMember Name="Info" DataType="DINT" Dimensions="8" Radix="Hex">
+<Element Index="[0]" Value="16#ba69_35d2"/>
+<Element Index="[1]" Value="16#0003_31ef"/>
+<Element Index="[2]" Value="16#0000_0000"/>
+<Element Index="[3]" Value="16#0000_0000"/>
+<Element Index="[4]" Value="16#0000_0000"/>
+<Element Index="[5]" Value="16#0000_0000"/>
+<Element Index="[6]" Value="16#0000_0000"/>
+<Element Index="[7]" Value="16#0000_0000"/>
+</ArrayMember>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Number_of_Positions" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[8]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="8"/>
+</Data>
+</Tag>
+<Tag Name="One_Sec_Blink_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[3,7,500,307,0,1,1363129,5632,981668463,0,307,7]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="FBD_TIMER">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
+<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="307"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="Orange" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[2]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="2"/>
+</Data>
+</Tag>
+<Tag Name="Pink" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="PLC_Init_Done" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="PowerUp_Handler_Ran" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[30]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="30"/>
+</Data>
+</Tag>
+<Tag Name="Retract_Color_Advance_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.3" ExternalAccess="Read Only"/>
+<Tag Name="Retract_Color_Release_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.4" ExternalAccess="Read Only"/>
+<Tag Name="Run_Allowed" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="Run_Latch" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Run_Light" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.2" ExternalAccess="Read Only"/>
+<Tag Name="Run_Permissive" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Selected_Tube" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Sort_Bypass" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Sort_Resume_OS" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Sort_Resume_Storage" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Sort_Run" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Start_PB" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.5" ExternalAccess="Read Only"/>
+<Tag Name="Start_PB_RE" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Start_PB_Storage" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Stop_PB" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.4" ExternalAccess="Read Only"/>
+<Tag Name="System_Mode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[30: Auto
+20: Manual
+10: Recovery
+0: Undefined]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[30]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="30"/>
+</Data>
+</Tag>
+<Tag Name="System_Standby" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="t" TagType="Base" DataType="INT" Dimensions="3" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="3" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="T1Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T1_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[3,2,1,3,2,1,3,2]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="3"/>
+<Element Index="[1]" Value="2"/>
+<Element Index="[2]" Value="1"/>
+<Element Index="[3]" Value="3"/>
+<Element Index="[4]" Value="2"/>
+<Element Index="[5]" Value="1"/>
+<Element Index="[6]" Value="3"/>
+<Element Index="[7]" Value="2"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="T1_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.11" ExternalAccess="Read Only"/>
+<Tag Name="T1_Diverter_Opened" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.10" ExternalAccess="Read Only"/>
+<Tag Name="T1_Drop_Adv_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.4" ExternalAccess="Read Only"/>
+<Tag Name="T1_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.5" ExternalAccess="Read Only"/>
+<Tag Name="T1_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.6" ExternalAccess="Read Only"/>
+<Tag Name="T1_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.7" ExternalAccess="Read Only"/>
+<Tag Name="T1_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T1_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[3]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="3"/>
+</Data>
+</Tag>
+<Tag Name="T2Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T2_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[3,3,3,3,3,3,3,3]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="3"/>
+<Element Index="[1]" Value="3"/>
+<Element Index="[2]" Value="3"/>
+<Element Index="[3]" Value="3"/>
+<Element Index="[4]" Value="3"/>
+<Element Index="[5]" Value="3"/>
+<Element Index="[6]" Value="3"/>
+<Element Index="[7]" Value="3"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="T2_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.13" ExternalAccess="Read Only"/>
+<Tag Name="T2_Diverter_Opened" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.12" ExternalAccess="Read Only"/>
+<Tag Name="T2_Drop_Adv_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.0" ExternalAccess="Read Only"/>
+<Tag Name="T2_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.1" ExternalAccess="Read Only"/>
+<Tag Name="T2_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.2" ExternalAccess="Read Only"/>
+<Tag Name="T2_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.3" ExternalAccess="Read Only"/>
+<Tag Name="T2_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T2_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[3]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="3"/>
+</Data>
+</Tag>
+<Tag Name="T3Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T3_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[2,2,2,2,2,2,2,2]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="2"/>
+<Element Index="[1]" Value="2"/>
+<Element Index="[2]" Value="2"/>
+<Element Index="[3]" Value="2"/>
+<Element Index="[4]" Value="2"/>
+<Element Index="[5]" Value="2"/>
+<Element Index="[6]" Value="2"/>
+<Element Index="[7]" Value="2"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="T3_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.15" ExternalAccess="Read Only"/>
+<Tag Name="T3_Diverter_Opened" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.14" ExternalAccess="Read Only"/>
+<Tag Name="T3_Drop_Adv_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.0" ExternalAccess="Read Only"/>
+<Tag Name="T3_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.1" ExternalAccess="Read Only"/>
+<Tag Name="T3_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.2" ExternalAccess="Read Only"/>
+<Tag Name="T3_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.3" ExternalAccess="Read Only"/>
+<Tag Name="T3_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="T3_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[2]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="2"/>
+</Data>
+</Tag>
+<Tag Name="Tube_1_BDPhoto" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.0" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Unused]]>
+</Description>
+</Tag>
+<Tag Name="Tube_2_BDPhoto" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.1" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Unused]]>
+</Description>
+</Tag>
+<Tag Name="Tube_3_BDPhoto" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.2" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Unused]]>
+</Description>
+</Tag>
+<Tag Name="Tube_Color" TagType="Base" DataType="INT" Dimensions="3 8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[3,2,1,3,2,1,3,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="3,8" Radix="Decimal">
+<Element Index="[0,0]" Value="3"/>
+<Element Index="[0,1]" Value="2"/>
+<Element Index="[0,2]" Value="1"/>
+<Element Index="[0,3]" Value="3"/>
+<Element Index="[0,4]" Value="2"/>
+<Element Index="[0,5]" Value="1"/>
+<Element Index="[0,6]" Value="3"/>
+<Element Index="[0,7]" Value="2"/>
+<Element Index="[1,0]" Value="3"/>
+<Element Index="[1,1]" Value="3"/>
+<Element Index="[1,2]" Value="3"/>
+<Element Index="[1,3]" Value="3"/>
+<Element Index="[1,4]" Value="3"/>
+<Element Index="[1,5]" Value="3"/>
+<Element Index="[1,6]" Value="3"/>
+<Element Index="[1,7]" Value="3"/>
+<Element Index="[2,0]" Value="2"/>
+<Element Index="[2,1]" Value="2"/>
+<Element Index="[2,2]" Value="2"/>
+<Element Index="[2,3]" Value="2"/>
+<Element Index="[2,4]" Value="2"/>
+<Element Index="[2,5]" Value="2"/>
+<Element Index="[2,6]" Value="2"/>
+<Element Index="[2,7]" Value="2"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="Tube_Fill_Index" TagType="Base" DataType="INT" Dimensions="3" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[[0,0,0]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="INT" Dimensions="3" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+</Array>
+</Data>
+</Tag>
+<Tag Name="White" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+</Tags>
+<Programs>
+<Program Name="Initialize" TestEdits="false" MainRoutineName="Initialization" Disabled="false" UseAsFolder="false">
+<Tags/>
+<Routines>
+<Routine Name="Initialization" Type="ST">
+<Description>
+<![CDATA[Initialize Outputs and Flags]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[GSV(Program,THIS,MajorFaultRecord,major_fault_record.Time_Low);]]>
+</Line>
+<Line Number="1">
+<![CDATA[		major_fault_record.Type := 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[		major_fault_record.Code := 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[		SSV(Program,THIS,MajorFaultRecord,major_fault_record.Time_Low);]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[// FORCE SAFE OUTPUTS]]>
+</Line>
+<Line Number="6">
+<![CDATA[// -------------------------------]]>
+</Line>
+<Line Number="7">
+<![CDATA[    Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="8">
+<![CDATA[    Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="9">
+<![CDATA[]]>
+</Line>
+<Line Number="10">
+<![CDATA[    Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="11">
+<![CDATA[    Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="12">
+<![CDATA[    Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="13">
+<![CDATA[	]]>
+</Line>
+<Line Number="14">
+<![CDATA[	Actuate_T1_Drop_Advance := 0;]]>
+</Line>
+<Line Number="15">
+<![CDATA[	Actuate_T1_Drop_Release := 0;]]>
+</Line>
+<Line Number="16">
+<![CDATA[	Actuate_T2_Drop_Advance := 0;]]>
+</Line>
+<Line Number="17">
+<![CDATA[	Actuate_T2_Drop_Release := 0;]]>
+</Line>
+<Line Number="18">
+<![CDATA[	Actuate_T3_Drop_Advance := 0;]]>
+</Line>
+<Line Number="19">
+<![CDATA[	Actuate_T3_Drop_Release := 0;]]>
+</Line>
+<Line Number="20">
+<![CDATA[]]>
+</Line>
+<Line Number="21">
+<![CDATA[    Retract_Color_Advance_Cylinder := 0;]]>
+</Line>
+<Line Number="22">
+<![CDATA[    Retract_Color_Release_Cylinder := 0;]]>
+</Line>
+<Line Number="23">
+<![CDATA[]]>
+</Line>
+<Line Number="24">
+<![CDATA[    Run_Light := 0;]]>
+</Line>
+<Line Number="25">
+<![CDATA[]]>
+</Line>
+<Line Number="26">
+<![CDATA[    //  RESET MACHINE STATE]]>
+</Line>
+<Line Number="27">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="28">
+<![CDATA[    Run_Latch := 0;]]>
+</Line>
+<Line Number="29">
+<![CDATA[	System_Mode := 30;]]>
+</Line>
+<Line Number="30">
+<![CDATA[    Feeder_Fault_Active := 0;]]>
+</Line>
+<Line Number="31">
+<![CDATA[	Feeder_Recovery_Attempt_Counter := 0;]]>
+</Line>
+<Line Number="32">
+<![CDATA[    Feeder_Homing := 0;]]>
+</Line>
+<Line Number="33">
+<![CDATA[]]>
+</Line>
+<Line Number="34">
+<![CDATA[    Ball_Feeder_Step := 0;     // start in recovery/home]]>
+</Line>
+<Line Number="35">
+<![CDATA[    Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="36">
+<![CDATA[]]>
+</Line>
+<Line Number="37">
+<![CDATA[    // CLEAR FAULTS]]>
+</Line>
+<Line Number="38">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="39">
+<![CDATA[    Fault_Feeder_Drop_Timeout := 0;]]>
+</Line>
+<Line Number="40">
+<![CDATA[    Fault_Feeder_Lift_Timeout := 0;]]>
+</Line>
+<Line Number="41">
+<![CDATA[    Fault_Feeder_Watchdog := 0;]]>
+</Line>
+<Line Number="42">
+<![CDATA[]]>
+</Line>
+<Line Number="43">
+<![CDATA[    // RESET INTERNAL FLAGS]]>
+</Line>
+<Line Number="44">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="45">
+<![CDATA[    Feeder_Extend_Count := 0;]]>
+</Line>
+<Line Number="46">
+<![CDATA[    Start_PB_Storage := Start_PB;]]>
+</Line>
+<Line Number="47">
+<![CDATA[    Blink_Bit := 0;]]>
+</Line>
+<Line Number="48">
+<![CDATA[	HMI_Setup_Done := 0;]]>
+</Line>
+<Line Number="49">
+<![CDATA[	HMI_Trigger_Init := 0;]]>
+</Line>
+<Line Number="50">
+<![CDATA[	Number_of_Positions := 8;]]>
+</Line>
+<Line Number="51">
+<![CDATA[	HMI_All_Tubes_Are_Empty := 0;]]>
+</Line>
+<Line Number="52">
+<![CDATA[	Fill_Indexes_Cleared := 0;]]>
+</Line>
+<Line Number="53">
+<![CDATA[    ]]>
+</Line>
+<Line Number="54">
+<![CDATA[	// REQUEST OPERATOR INPUT]]>
+</Line>
+<Line Number="55">
+<![CDATA[	// -------------------------------]]>
+</Line>
+<Line Number="56">
+<![CDATA[	HMI_Setup_Request := 1;]]>
+</Line>
+<Line Number="57">
+<![CDATA[]]>
+</Line>
+<Line Number="58">
+<![CDATA[    // DONE (RUN ONLY ONCE)]]>
+</Line>
+<Line Number="59">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="60">
+<![CDATA[	PLC_Init_Done := 1;]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+</Program>
+<Program Name="MainProgram" TestEdits="false" MainRoutineName="MainRoutine" Disabled="false" UseAsFolder="false">
+<Tags/>
+<Routines>
+<Routine Name="Auto_Feed" Type="ST">
+<Description>
+<![CDATA[Feeding cylinder step-based machine.]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[//----// Resume handling: //----//]]>
+</Line>
+<Line Number="1">
+<![CDATA[IF Feed_Resume_OS THEN]]>
+</Line>
+<Line Number="2">
+<![CDATA[    Ball_Feeder_Step        := 00;   // every return to auto re-homes, same as a Stop]]>
+</Line>
+<Line Number="3">
+<![CDATA[    Feeder_Motion_Storage := Ball_Feeder_Retracted OR Ball_Feeder_Intermediate]]>
+</Line>
+<Line Number="4">
+<![CDATA[                               OR Ball_Feeder_Extended;   // no phantom edge on resume]]>
+</Line>
+<Line Number="5">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="6">
+<![CDATA[]]>
+</Line>
+<Line Number="7">
+<![CDATA[//----// Motion one-shot: //----//]]>
+</Line>
+<Line Number="8">
+<![CDATA[Feeder_Motion_Detected_OS := (Ball_Feeder_Retracted OR Ball_Feeder_Intermediate OR Ball_Feeder_Extended)]]>
+</Line>
+<Line Number="9">
+<![CDATA[                                  AND NOT Feeder_Motion_Storage;]]>
+</Line>
+<Line Number="10">
+<![CDATA[Feeder_Motion_Storage := Ball_Feeder_Retracted OR Ball_Feeder_Intermediate OR Ball_Feeder_Extended;]]>
+</Line>
+<Line Number="11">
+<![CDATA[]]>
+</Line>
+<Line Number="12">
+<![CDATA[//----// Lift timeout: //----//]]>
+</Line>
+<Line Number="13">
+<![CDATA[IF Feeder_Extend_Count < 5 THEN]]>
+</Line>
+<Line Number="14">
+<![CDATA[    Feeder_Lift_Timeout_Timer.PRE := 4000;]]>
+</Line>
+<Line Number="15">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="16">
+<![CDATA[    Feeder_Lift_Timeout_Timer.PRE := 6000;]]>
+</Line>
+<Line Number="17">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="18">
+<![CDATA[Feeder_Lift_Timeout_Timer.TimerEnable := Lift_Ball_Feeder;]]>
+</Line>
+<Line Number="19">
+<![CDATA[Feeder_Lift_Timeout_Timer.Reset       := NOT Lift_Ball_Feeder OR Feed_Resume_OS;]]>
+</Line>
+<Line Number="20">
+<![CDATA[TONR(Feeder_Lift_Timeout_Timer);]]>
+</Line>
+<Line Number="21">
+<![CDATA[]]>
+</Line>
+<Line Number="22">
+<![CDATA[// Lift margin monitor: longest normal stroke of each type, in ms]]>
+</Line>
+<Line Number="23">
+<![CDATA[IF Ball_Feeder_Step = 10 THEN]]>
+</Line>
+<Line Number="24">
+<![CDATA[    IF Feeder_Extend_Count < 5 THEN]]>
+</Line>
+<Line Number="25">
+<![CDATA[        IF Feeder_Lift_Timeout_Timer.ACC > Lift_Time_Max THEN Lift_Time_Max := Feeder_Lift_Timeout_Timer.ACC; END_IF;]]>
+</Line>
+<Line Number="26">
+<![CDATA[    ELSE]]>
+</Line>
+<Line Number="27">
+<![CDATA[        IF Feeder_Lift_Timeout_Timer.ACC > Lift_Time_Max_Full THEN Lift_Time_Max_Full := Feeder_Lift_Timeout_Timer.ACC; END_IF;]]>
+</Line>
+<Line Number="28">
+<![CDATA[    END_IF;]]>
+</Line>
+<Line Number="29">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="30">
+<![CDATA[]]>
+</Line>
+<Line Number="31">
+<![CDATA[IF Feeder_Lift_Timeout_Timer.DN AND NOT Feeder_Motion_Detected_OS THEN]]>
+</Line>
+<Line Number="32">
+<![CDATA[    Fault_Feeder_Lift_Timeout := 1;]]>
+</Line>
+<Line Number="33">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="34">
+<![CDATA[]]>
+</Line>
+<Line Number="35">
+<![CDATA[//----// Drop timeout: //----//]]>
+</Line>
+<Line Number="36">
+<![CDATA[IF Feeder_Extend_Count < 5 THEN]]>
+</Line>
+<Line Number="37">
+<![CDATA[    Feeder_Drop_Timeout_Timer.PRE := 3000;]]>
+</Line>
+<Line Number="38">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="39">
+<![CDATA[    Feeder_Drop_Timeout_Timer.PRE := 5000;]]>
+</Line>
+<Line Number="40">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="41">
+<![CDATA[Feeder_Drop_Timeout_Timer.TimerEnable := Drop_Ball_Feeder;]]>
+</Line>
+<Line Number="42">
+<![CDATA[Feeder_Drop_Timeout_Timer.Reset       := NOT Drop_Ball_Feeder OR Feed_Resume_OS;]]>
+</Line>
+<Line Number="43">
+<![CDATA[TONR(Feeder_Drop_Timeout_Timer);]]>
+</Line>
+<Line Number="44">
+<![CDATA[IF Feeder_Drop_Timeout_Timer.DN AND NOT Ball_Feeder_Retracted THEN]]>
+</Line>
+<Line Number="45">
+<![CDATA[    Fault_Feeder_Drop_Timeout := 1;]]>
+</Line>
+<Line Number="46">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="47">
+<![CDATA[]]>
+</Line>
+<Line Number="48">
+<![CDATA[//----// Recovery timer: //----//]]>
+</Line>
+<Line Number="49">
+<![CDATA[Feeder_Recovery_Timer.TimerEnable := (Ball_Feeder_Step = 00);]]>
+</Line>
+<Line Number="50">
+<![CDATA[Feeder_Recovery_Timer.Reset       := Ball_Feeder_Retracted OR Feed_Resume_OS;]]>
+</Line>
+<Line Number="51">
+<![CDATA[Feeder_Recovery_Timer.PRE         := 5000;]]>
+</Line>
+<Line Number="52">
+<![CDATA[TONR(Feeder_Recovery_Timer);]]>
+</Line>
+<Line Number="53">
+<![CDATA[]]>
+</Line>
+<Line Number="54">
+<![CDATA[//----// Watchdog: //----//]]>
+</Line>
+<Line Number="55">
+<![CDATA[Feeder_Watchdog_Timer.TimerEnable := (Lift_Ball_Feeder OR Drop_Ball_Feeder) AND (Ball_Feeder_Step <> 00);]]>
+</Line>
+<Line Number="56">
+<![CDATA[Feeder_Watchdog_Timer.Reset       := Feeder_Motion_Detected_OS OR Feed_Resume_OS;]]>
+</Line>
+<Line Number="57">
+<![CDATA[Feeder_Watchdog_Timer.PRE         := 5000;]]>
+</Line>
+<Line Number="58">
+<![CDATA[TONR(Feeder_Watchdog_Timer);]]>
+</Line>
+<Line Number="59">
+<![CDATA[IF Feeder_Watchdog_Timer.DN THEN]]>
+</Line>
+<Line Number="60">
+<![CDATA[    Fault_Feeder_Watchdog := 1;]]>
+</Line>
+<Line Number="61">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="62">
+<![CDATA[]]>
+</Line>
+<Line Number="63">
+<![CDATA[//----// Feeder dropped dwell: //----//]]>
+</Line>
+<Line Number="64">
+<![CDATA[Ball_Feeder_Retracted_Timer.TimerEnable := Ball_Feeder_Retracted;]]>
+</Line>
+<Line Number="65">
+<![CDATA[Ball_Feeder_Retracted_Timer.Reset       := NOT Ball_Feeder_Retracted OR Feed_Resume_OS;]]>
+</Line>
+<Line Number="66">
+<![CDATA[Ball_Feeder_Retracted_Timer.PRE         := 400;]]>
+</Line>
+<Line Number="67">
+<![CDATA[TONR(Ball_Feeder_Retracted_Timer);]]>
+</Line>
+<Line Number="68">
+<![CDATA[]]>
+</Line>
+<Line Number="69">
+<![CDATA[//----------------// Recovery //---------------------//|]]>
+</Line>
+<Line Number="70">
+<![CDATA[	IF Feeder_Fault AND NOT Feeder_Fault_Active THEN]]>
+</Line>
+<Line Number="71">
+<![CDATA[    	Feeder_Fault_Active := 1;]]>
+</Line>
+<Line Number="72">
+<![CDATA[    	Ball_Feeder_Step := 00;]]>
+</Line>
+<Line Number="73">
+<![CDATA[	END_IF;]]>
+</Line>
+<Line Number="74">
+<![CDATA[	]]>
+</Line>
+<Line Number="75">
+<![CDATA[		]]>
+</Line>
+<Line Number="76">
+<![CDATA[			]]>
+</Line>
+<Line Number="77">
+<![CDATA[CASE Ball_Feeder_Step OF]]>
+</Line>
+<Line Number="78">
+<![CDATA[	99:// HARD FAULT]]>
+</Line>
+<Line Number="79">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="80">
+<![CDATA[	 ]]>
+</Line>
+<Line Number="81">
+<![CDATA[		Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="82">
+<![CDATA[		Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="83">
+<![CDATA[		Feeder_Homing := 0;]]>
+</Line>
+<Line Number="84">
+<![CDATA[		Feeder_Hard_Fault_HMI := 1;    // Hard Fault flag to HMI]]>
+</Line>
+<Line Number="85">
+<![CDATA[	]]>
+</Line>
+<Line Number="86">
+<![CDATA[		IF HMI_Fault_Reset_PB THEN ]]>
+</Line>
+<Line Number="87">
+<![CDATA[			Ball_Feeder_Step := 00;    // Retry Recovery]]>
+</Line>
+<Line Number="88">
+<![CDATA[			]]>
+</Line>
+<Line Number="89">
+<![CDATA[			Feeder_Fault_Active := 0;]]>
+</Line>
+<Line Number="90">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="91">
+<![CDATA[	00:// RECOVERY / INIT]]>
+</Line>
+<Line Number="92">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="93">
+<![CDATA[	  ]]>
+</Line>
+<Line Number="94">
+<![CDATA[		Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="95">
+<![CDATA[	 	Drop_Ball_Feeder := 1;]]>
+</Line>
+<Line Number="96">
+<![CDATA[	 	Feeder_Homing := 1;]]>
+</Line>
+<Line Number="97">
+<![CDATA[	 ]]>
+</Line>
+<Line Number="98">
+<![CDATA[	 ]]>
+</Line>
+<Line Number="99">
+<![CDATA[		IF Ball_Feeder_Retracted THEN ]]>
+</Line>
+<Line Number="100">
+<![CDATA[			Ball_Feeder_Step := 05;]]>
+</Line>
+<Line Number="101">
+<![CDATA[			Feeder_Hard_Fault_HMI := 0;]]>
+</Line>
+<Line Number="102">
+<![CDATA[			Fault_Feeder_Drop_Timeout := 0;]]>
+</Line>
+<Line Number="103">
+<![CDATA[			Fault_Feeder_Lift_Timeout := 0;]]>
+</Line>
+<Line Number="104">
+<![CDATA[			Fault_Feeder_Watchdog := 0;]]>
+</Line>
+<Line Number="105">
+<![CDATA[			Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="106">
+<![CDATA[			IF Feeder_Fault_Active THEN]]>
+</Line>
+<Line Number="107">
+<![CDATA[	    	Feeder_Recovery_Attempt_Counter := Feeder_Recovery_Attempt_Counter + 1;]]>
+</Line>
+<Line Number="108">
+<![CDATA[			Feeder_Recovery_Total := Feeder_Recovery_Total + 1;]]>
+</Line>
+<Line Number="109">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="110">
+<![CDATA[		ELSIF Feeder_Recovery_Timer.DN THEN ]]>
+</Line>
+<Line Number="111">
+<![CDATA[			Ball_Feeder_Step := 99;]]>
+</Line>
+<Line Number="112">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="113">
+<![CDATA[	05:// WAIT FOR START]]>
+</Line>
+<Line Number="114">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="115">
+<![CDATA[	]]>
+</Line>
+<Line Number="116">
+<![CDATA[    	Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="117">
+<![CDATA[    	Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="118">
+<![CDATA[		Feeder_Homing := 0;]]>
+</Line>
+<Line Number="119">
+<![CDATA[		Feeder_Fault_Active := 0;]]>
+</Line>
+<Line Number="120">
+<![CDATA[    	IF Run_Latch AND NOT Magazine_Full THEN]]>
+</Line>
+<Line Number="121">
+<![CDATA[        	Ball_Feeder_Step := 10;]]>
+</Line>
+<Line Number="122">
+<![CDATA[    	END_IF;]]>
+</Line>
+<Line Number="123">
+<![CDATA[]]>
+</Line>
+<Line Number="124">
+<![CDATA[	10:// LIFT FEED CYLINDER]]>
+</Line>
+<Line Number="125">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="126">
+<![CDATA[	]]>
+</Line>
+<Line Number="127">
+<![CDATA[    	Lift_Ball_Feeder := 1;]]>
+</Line>
+<Line Number="128">
+<![CDATA[    	Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="129">
+<![CDATA[    	IF Feeder_Extend_Count < 5 THEN]]>
+</Line>
+<Line Number="130">
+<![CDATA[]]>
+</Line>
+<Line Number="131">
+<![CDATA[        	IF Ball_Feeder_Intermediate OR Ball_Feeder_Extended THEN]]>
+</Line>
+<Line Number="132">
+<![CDATA[            	Ball_Feeder_Step := 20;]]>
+</Line>
+<Line Number="133">
+<![CDATA[				Feeder_Recovery_Attempt_Counter := 0;]]>
+</Line>
+<Line Number="134">
+<![CDATA[        	END_IF;]]>
+</Line>
+<Line Number="135">
+<![CDATA[]]>
+</Line>
+<Line Number="136">
+<![CDATA[    	ELSE]]>
+</Line>
+<Line Number="137">
+<![CDATA[        	IF Ball_Feeder_Extended THEN]]>
+</Line>
+<Line Number="138">
+<![CDATA[            	Ball_Feeder_Step := 20;]]>
+</Line>
+<Line Number="139">
+<![CDATA[            	Feeder_Extend_Count := 0;]]>
+</Line>
+<Line Number="140">
+<![CDATA[				Feeder_Recovery_Attempt_Counter := 0;]]>
+</Line>
+<Line Number="141">
+<![CDATA[        	END_IF;]]>
+</Line>
+<Line Number="142">
+<![CDATA[    	END_IF;]]>
+</Line>
+<Line Number="143">
+<![CDATA[]]>
+</Line>
+<Line Number="144">
+<![CDATA[	20:// DROP FEED CYLINDER]]>
+</Line>
+<Line Number="145">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="146">
+<![CDATA[	]]>
+</Line>
+<Line Number="147">
+<![CDATA[    	Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="148">
+<![CDATA[    	Drop_Ball_Feeder := 1;]]>
+</Line>
+<Line Number="149">
+<![CDATA[    	IF Ball_Feeder_Retracted THEN]]>
+</Line>
+<Line Number="150">
+<![CDATA[        	Ball_Feeder_Step := 25;]]>
+</Line>
+<Line Number="151">
+<![CDATA[    	END_IF;]]>
+</Line>
+<Line Number="152">
+<![CDATA[		]]>
+</Line>
+<Line Number="153">
+<![CDATA[	25:// FEED CYLINDER DWELL]]>
+</Line>
+<Line Number="154">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="155">
+<![CDATA[		]]>
+</Line>
+<Line Number="156">
+<![CDATA[		IF Ball_Feeder_Retracted_Timer.DN THEN]]>
+</Line>
+<Line Number="157">
+<![CDATA[			Ball_Feeder_Step := 30;]]>
+</Line>
+<Line Number="158">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="159">
+<![CDATA[		]]>
+</Line>
+<Line Number="160">
+<![CDATA[	30:// CYCLE COMPLETE / LOOP]]>
+</Line>
+<Line Number="161">
+<![CDATA[	// --------------------------------------------------]]>
+</Line>
+<Line Number="162">
+<![CDATA[    	IF Magazine_Full THEN]]>
+</Line>
+<Line Number="163">
+<![CDATA[        	Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="164">
+<![CDATA[        	Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="165">
+<![CDATA[        	Ball_Feeder_Step := 0;]]>
+</Line>
+<Line Number="166">
+<![CDATA[        	Feeder_Extend_Count := 0;]]>
+</Line>
+<Line Number="167">
+<![CDATA[]]>
+</Line>
+<Line Number="168">
+<![CDATA[    	ELSE ]]>
+</Line>
+<Line Number="169">
+<![CDATA[       	 	Feeder_Extend_Count := Feeder_Extend_Count + 1;]]>
+</Line>
+<Line Number="170">
+<![CDATA[        	Ball_Feeder_Step := 05;]]>
+</Line>
+<Line Number="171">
+<![CDATA[    	END_IF;]]>
+</Line>
+<Line Number="172">
+<![CDATA[	]]>
+</Line>
+<Line Number="173">
+<![CDATA[END_CASE;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Auto_Sort" Type="ST">
+<Description>
+<![CDATA[Sorting step-based machine.]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[//----// Resume handling: //----//]]>
+</Line>
+<Line Number="1">
+<![CDATA[IF Sort_Resume_OS THEN]]>
+</Line>
+<Line Number="2">
+<![CDATA[    Color_Sort_Step := 0;   // every return to auto restarts the sort cycle]]>
+</Line>
+<Line Number="3">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[//----// Timers: //----//]]>
+</Line>
+<Line Number="6">
+<![CDATA[Color_Read_Advance_Cylinder_Timer.TimerEnable := (Color_Sort_Step = 5);]]>
+</Line>
+<Line Number="7">
+<![CDATA[Color_Read_Advance_Cylinder_Timer.PRE         := 1000;]]>
+</Line>
+<Line Number="8">
+<![CDATA[TONR(Color_Read_Advance_Cylinder_Timer);]]>
+</Line>
+<Line Number="9">
+<![CDATA[]]>
+</Line>
+<Line Number="10">
+<![CDATA[Color_Read_Dwell_Timer.TimerEnable := (Color_Sort_Step = 10);]]>
+</Line>
+<Line Number="11">
+<![CDATA[Color_Read_Dwell_Timer.PRE         := 1500;]]>
+</Line>
+<Line Number="12">
+<![CDATA[TONR(Color_Read_Dwell_Timer);]]>
+</Line>
+<Line Number="13">
+<![CDATA[]]>
+</Line>
+<Line Number="14">
+<![CDATA[Color_Sort_Dwell_Timer.TimerEnable := (Color_Sort_Step = 30);]]>
+</Line>
+<Line Number="15">
+<![CDATA[CASE Selected_Tube OF]]>
+</Line>
+<Line Number="16">
+<![CDATA[    1: Color_Sort_Dwell_Timer.PRE := 1500;]]>
+</Line>
+<Line Number="17">
+<![CDATA[    2: Color_Sort_Dwell_Timer.PRE := 2200;]]>
+</Line>
+<Line Number="18">
+<![CDATA[    3: Color_Sort_Dwell_Timer.PRE := 3200;]]>
+</Line>
+<Line Number="19">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="20">
+<![CDATA[    Color_Sort_Dwell_Timer.PRE := 3500;]]>
+</Line>
+<Line Number="21">
+<![CDATA[END_CASE;]]>
+</Line>
+<Line Number="22">
+<![CDATA[TONR(Color_Sort_Dwell_Timer);]]>
+</Line>
+<Line Number="23">
+<![CDATA[]]>
+</Line>
+<Line Number="24">
+<![CDATA[CASE Color_Sort_Step OF ]]>
+</Line>
+<Line Number="25">
+<![CDATA[	0: //INIT]]>
+</Line>
+<Line Number="26">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="27">
+<![CDATA[		Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="28">
+<![CDATA[		Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="29">
+<![CDATA[		Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="30">
+<![CDATA[		Retract_Color_Release_Cylinder := 0;]]>
+</Line>
+<Line Number="31">
+<![CDATA[		Retract_Color_Advance_Cylinder := 0;]]>
+</Line>
+<Line Number="32">
+<![CDATA[		]]>
+</Line>
+<Line Number="33">
+<![CDATA[		Color_Sort_Step := 5;]]>
+</Line>
+<Line Number="34">
+<![CDATA[		]]>
+</Line>
+<Line Number="35">
+<![CDATA[	5: //ADVANCE]]>
+</Line>
+<Line Number="36">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="37">
+<![CDATA[			Retract_Color_Release_Cylinder := 0;]]>
+</Line>
+<Line Number="38">
+<![CDATA[			Retract_Color_Advance_Cylinder := 1;]]>
+</Line>
+<Line Number="39">
+<![CDATA[		IF Color_Scan_Pink THEN]]>
+</Line>
+<Line Number="40">
+<![CDATA[    		Color := Pink;]]>
+</Line>
+<Line Number="41">
+<![CDATA[		ELSIF Color_Scan_Orange THEN]]>
+</Line>
+<Line Number="42">
+<![CDATA[    		Color := Orange;]]>
+</Line>
+<Line Number="43">
+<![CDATA[		ELSIF Color_Scan_Green THEN]]>
+</Line>
+<Line Number="44">
+<![CDATA[    		Color := Green;]]>
+</Line>
+<Line Number="45">
+<![CDATA[		ELSE]]>
+</Line>
+<Line Number="46">
+<![CDATA[    		Color := White;]]>
+</Line>
+<Line Number="47">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="48">
+<![CDATA[		IF Color_Read_Advance_Cylinder_Timer.DN THEN ]]>
+</Line>
+<Line Number="49">
+<![CDATA[			Color_Sort_Step := 10; ]]>
+</Line>
+<Line Number="50">
+<![CDATA[			Retract_Color_Advance_Cylinder := 0;]]>
+</Line>
+<Line Number="51">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="52">
+<![CDATA[			]]>
+</Line>
+<Line Number="53">
+<![CDATA[	10: //TUBE SELECT]]>
+</Line>
+<Line Number="54">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="55">
+<![CDATA[		IF Color_Read_Dwell_Timer.DN THEN ]]>
+</Line>
+<Line Number="56">
+<![CDATA[			IF 	  (Color = T1_TargetColor) AND NOT T1Full THEN ]]>
+</Line>
+<Line Number="57">
+<![CDATA[				Selected_Tube := 1;]]>
+</Line>
+<Line Number="58">
+<![CDATA[				]]>
+</Line>
+<Line Number="59">
+<![CDATA[			ELSIF (Color = T2_TargetColor) AND NOT T2Full THEN ]]>
+</Line>
+<Line Number="60">
+<![CDATA[				Selected_Tube := 2;]]>
+</Line>
+<Line Number="61">
+<![CDATA[			]]>
+</Line>
+<Line Number="62">
+<![CDATA[			ELSIF (Color = T3_TargetColor) AND NOT T3Full THEN ]]>
+</Line>
+<Line Number="63">
+<![CDATA[				Selected_Tube := 3;]]>
+</Line>
+<Line Number="64">
+<![CDATA[			]]>
+</Line>
+<Line Number="65">
+<![CDATA[			ELSE ]]>
+</Line>
+<Line Number="66">
+<![CDATA[				Selected_Tube := 0;]]>
+</Line>
+<Line Number="67">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="68">
+<![CDATA[			]]>
+</Line>
+<Line Number="69">
+<![CDATA[		Color_Sort_Step := 20;]]>
+</Line>
+<Line Number="70">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="71">
+<![CDATA[		   ]]>
+</Line>
+<Line Number="72">
+<![CDATA[	20: //DIVERTER FIRE]]>
+</Line>
+<Line Number="73">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="74">
+<![CDATA[		CASE Selected_Tube OF ]]>
+</Line>
+<Line Number="75">
+<![CDATA[			0:]]>
+</Line>
+<Line Number="76">
+<![CDATA[				Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="77">
+<![CDATA[				Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="78">
+<![CDATA[				Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="79">
+<![CDATA[			1:]]>
+</Line>
+<Line Number="80">
+<![CDATA[				Actuate_T1_Diverter := 1;]]>
+</Line>
+<Line Number="81">
+<![CDATA[				Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="82">
+<![CDATA[				Actuate_T3_Diverter := 0;	]]>
+</Line>
+<Line Number="83">
+<![CDATA[				Tube_Fill_Index[0] := Tube_Fill_Index[0] + 1;]]>
+</Line>
+<Line Number="84">
+<![CDATA[			2:]]>
+</Line>
+<Line Number="85">
+<![CDATA[				Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="86">
+<![CDATA[				Actuate_T2_Diverter := 1;]]>
+</Line>
+<Line Number="87">
+<![CDATA[				Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="88">
+<![CDATA[				Tube_Fill_Index[1] := Tube_Fill_Index[1] + 1;]]>
+</Line>
+<Line Number="89">
+<![CDATA[			3:]]>
+</Line>
+<Line Number="90">
+<![CDATA[				Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="91">
+<![CDATA[				Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="92">
+<![CDATA[				Actuate_T3_Diverter := 1;]]>
+</Line>
+<Line Number="93">
+<![CDATA[				Tube_Fill_Index[2] := Tube_Fill_Index[2] + 1;]]>
+</Line>
+<Line Number="94">
+<![CDATA[		END_CASE;]]>
+</Line>
+<Line Number="95">
+<![CDATA[			]]>
+</Line>
+<Line Number="96">
+<![CDATA[		Color_Sort_Step := 30;]]>
+</Line>
+<Line Number="97">
+<![CDATA[			]]>
+</Line>
+<Line Number="98">
+<![CDATA[	30: //RELEASE]]>
+</Line>
+<Line Number="99">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="100">
+<![CDATA[		Retract_Color_Release_Cylinder := 1;]]>
+</Line>
+<Line Number="101">
+<![CDATA[			]]>
+</Line>
+<Line Number="102">
+<![CDATA[		IF Color_Sort_Dwell_Timer.DN THEN Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="103">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="104">
+<![CDATA[				]]>
+</Line>
+<Line Number="105">
+<![CDATA[END_CASE;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Color_Indexing" Type="ST">
+<Description>
+<![CDATA[Sorting Array Generation]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[Pink := 1;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Orange := 2;]]>
+</Line>
+<Line Number="2">
+<![CDATA[Green := 3;]]>
+</Line>
+<Line Number="3">
+<![CDATA[White := 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[// Sort modes: 0 = manual (the HMI writes each position of T<N>_Color),]]>
+</Line>
+<Line Number="6">
+<![CDATA[// 1-3 = fill all eight positions with Pink, Orange, or Green.]]>
+</Line>
+<Line Number="7">
+<![CDATA[IF HMI_T1SortMode > 0 THEN]]>
+</Line>
+<Line Number="8">
+<![CDATA[    FOR i := 0 TO 7 DO]]>
+</Line>
+<Line Number="9">
+<![CDATA[        T1_Color[i] := HMI_T1SortMode;]]>
+</Line>
+<Line Number="10">
+<![CDATA[    END_FOR;]]>
+</Line>
+<Line Number="11">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="12">
+<![CDATA[IF HMI_T2SortMode > 0 THEN]]>
+</Line>
+<Line Number="13">
+<![CDATA[    FOR i := 0 TO 7 DO]]>
+</Line>
+<Line Number="14">
+<![CDATA[        T2_Color[i] := HMI_T2SortMode;]]>
+</Line>
+<Line Number="15">
+<![CDATA[    END_FOR;]]>
+</Line>
+<Line Number="16">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="17">
+<![CDATA[IF HMI_T3SortMode > 0 THEN]]>
+</Line>
+<Line Number="18">
+<![CDATA[    FOR i := 0 TO 7 DO]]>
+</Line>
+<Line Number="19">
+<![CDATA[        T3_Color[i] := HMI_T3SortMode;]]>
+</Line>
+<Line Number="20">
+<![CDATA[    END_FOR;]]>
+</Line>
+<Line Number="21">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="22">
+<![CDATA[]]>
+</Line>
+<Line Number="23">
+<![CDATA[// Each tube's target is the color assigned to its next empty position.]]>
+</Line>
+<Line Number="24">
+<![CDATA[// A full tube has no next position, so its target is -1, which no ball can match.]]>
+</Line>
+<Line Number="25">
+<![CDATA[// Logix won't accept an array element as a subscript; each fill count]]>
+</Line>
+<Line Number="26">
+<![CDATA[// writes into an INT first.]]>
+</Line>
+<Line Number="27">
+<![CDATA[idx1 := Tube_Fill_Index[0];]]>
+</Line>
+<Line Number="28">
+<![CDATA[idx2 := Tube_Fill_Index[1];]]>
+</Line>
+<Line Number="29">
+<![CDATA[idx3 := Tube_Fill_Index[2];]]>
+</Line>
+<Line Number="30">
+<![CDATA[]]>
+</Line>
+<Line Number="31">
+<![CDATA[IF T1Full OR idx1 < 0 OR idx1 > 7 THEN]]>
+</Line>
+<Line Number="32">
+<![CDATA[    T1_TargetColor := -1;]]>
+</Line>
+<Line Number="33">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="34">
+<![CDATA[    T1_TargetColor := T1_Color[idx1];]]>
+</Line>
+<Line Number="35">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="36">
+<![CDATA[]]>
+</Line>
+<Line Number="37">
+<![CDATA[IF T2Full OR idx2 < 0 OR idx2 > 7 THEN]]>
+</Line>
+<Line Number="38">
+<![CDATA[    T2_TargetColor := -1;]]>
+</Line>
+<Line Number="39">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="40">
+<![CDATA[    T2_TargetColor := T2_Color[idx2];]]>
+</Line>
+<Line Number="41">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="42">
+<![CDATA[]]>
+</Line>
+<Line Number="43">
+<![CDATA[IF T3Full OR idx3 < 0 OR idx3 > 7 THEN]]>
+</Line>
+<Line Number="44">
+<![CDATA[    T3_TargetColor := -1;]]>
+</Line>
+<Line Number="45">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="46">
+<![CDATA[    T3_TargetColor := T3_Color[idx3];]]>
+</Line>
+<Line Number="47">
+<![CDATA[END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="FaultRecovery" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Feed_ProcessBypass" Type="ST">
+<Description>
+<![CDATA[Homes feeding cylinder and disables feed process.]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="1">
+<![CDATA[IF NOT Ball_Feeder_Retracted THEN ]]>
+</Line>
+<Line Number="2">
+<![CDATA[	Drop_Ball_Feeder := 1;]]>
+</Line>
+<Line Number="3">
+<![CDATA[ELSE ]]>
+</Line>
+<Line Number="4">
+<![CDATA[	Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Initialization" Type="ST">
+<Description>
+<![CDATA[Same as Power-Up Handler Initialization routine.]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[// FORCE SAFE OUTPUTS]]>
+</Line>
+<Line Number="1">
+<![CDATA[// -------------------------------]]>
+</Line>
+<Line Number="2">
+<![CDATA[    Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[    Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[    Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="6">
+<![CDATA[    Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="7">
+<![CDATA[    Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="8">
+<![CDATA[	]]>
+</Line>
+<Line Number="9">
+<![CDATA[	Actuate_T1_Drop_Advance := 0;]]>
+</Line>
+<Line Number="10">
+<![CDATA[	Actuate_T1_Drop_Release := 0;]]>
+</Line>
+<Line Number="11">
+<![CDATA[	Actuate_T2_Drop_Advance := 0;]]>
+</Line>
+<Line Number="12">
+<![CDATA[	Actuate_T2_Drop_Release := 0;]]>
+</Line>
+<Line Number="13">
+<![CDATA[	Actuate_T3_Drop_Advance := 0;]]>
+</Line>
+<Line Number="14">
+<![CDATA[	Actuate_T3_Drop_Release := 0;]]>
+</Line>
+<Line Number="15">
+<![CDATA[]]>
+</Line>
+<Line Number="16">
+<![CDATA[    Retract_Color_Advance_Cylinder := 0;]]>
+</Line>
+<Line Number="17">
+<![CDATA[    Retract_Color_Release_Cylinder := 0;]]>
+</Line>
+<Line Number="18">
+<![CDATA[]]>
+</Line>
+<Line Number="19">
+<![CDATA[    Run_Light := 0;]]>
+</Line>
+<Line Number="20">
+<![CDATA[]]>
+</Line>
+<Line Number="21">
+<![CDATA[    //  RESET MACHINE STATE]]>
+</Line>
+<Line Number="22">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="23">
+<![CDATA[    Run_Latch := 0;]]>
+</Line>
+<Line Number="24">
+<![CDATA[	System_Mode := 30;]]>
+</Line>
+<Line Number="25">
+<![CDATA[    Feeder_Fault_Active := 0;]]>
+</Line>
+<Line Number="26">
+<![CDATA[	Feeder_Recovery_Attempt_Counter := 0;]]>
+</Line>
+<Line Number="27">
+<![CDATA[    Feeder_Homing := 0;]]>
+</Line>
+<Line Number="28">
+<![CDATA[]]>
+</Line>
+<Line Number="29">
+<![CDATA[    Ball_Feeder_Step := 0;     // start in recovery/home]]>
+</Line>
+<Line Number="30">
+<![CDATA[    Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="31">
+<![CDATA[]]>
+</Line>
+<Line Number="32">
+<![CDATA[    // CLEAR FAULTS]]>
+</Line>
+<Line Number="33">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="34">
+<![CDATA[    Fault_Feeder_Drop_Timeout := 0;]]>
+</Line>
+<Line Number="35">
+<![CDATA[    Fault_Feeder_Lift_Timeout := 0;]]>
+</Line>
+<Line Number="36">
+<![CDATA[    Fault_Feeder_Watchdog := 0;]]>
+</Line>
+<Line Number="37">
+<![CDATA[]]>
+</Line>
+<Line Number="38">
+<![CDATA[    // RESET INTERNAL FLAGS]]>
+</Line>
+<Line Number="39">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="40">
+<![CDATA[    Feeder_Extend_Count := 0;]]>
+</Line>
+<Line Number="41">
+<![CDATA[    Start_PB_Storage := Start_PB;]]>
+</Line>
+<Line Number="42">
+<![CDATA[    Blink_Bit := 0;]]>
+</Line>
+<Line Number="43">
+<![CDATA[	HMI_Setup_Done := 0;]]>
+</Line>
+<Line Number="44">
+<![CDATA[	HMI_Trigger_Init := 0;]]>
+</Line>
+<Line Number="45">
+<![CDATA[	Number_of_Positions := 8;]]>
+</Line>
+<Line Number="46">
+<![CDATA[	HMI_All_Tubes_Are_Empty := 0;]]>
+</Line>
+<Line Number="47">
+<![CDATA[	Fill_Indexes_Cleared := 0;]]>
+</Line>
+<Line Number="48">
+<![CDATA[    ]]>
+</Line>
+<Line Number="49">
+<![CDATA[	// REQUEST OPERATOR INPUT]]>
+</Line>
+<Line Number="50">
+<![CDATA[	// -------------------------------]]>
+</Line>
+<Line Number="51">
+<![CDATA[	HMI_Setup_Request := 1;]]>
+</Line>
+<Line Number="52">
+<![CDATA[]]>
+</Line>
+<Line Number="53">
+<![CDATA[    // DONE (RUN ONLY ONCE)]]>
+</Line>
+<Line Number="54">
+<![CDATA[    // -------------------------------]]>
+</Line>
+<Line Number="55">
+<![CDATA[	PLC_Init_Done := 1;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="MainRoutine" Type="RLL">
+<Description>
+<![CDATA[Executes subroutine calls.]]>
+</Description>
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[System Initialization]]>
+</Comment>
+<Text>
+<![CDATA[XIO(PLC_Init_Done)JSR(Initialization,0);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[Monitoring and Data Management Subroutines]]>
+</Comment>
+<Text>
+<![CDATA[JSR(SysMon,0)JSR(SysCtl,0)JSR(TubeFill_Indexing,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[JSR(Mode_Dispatch,0);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+<Routine Name="Manual_Ctrl" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[	Lift_Ball_Feeder := HMI_RaiseFeedCylinder AND NOT Ball_Feeder_Extended;]]>
+</Line>
+<Line Number="1">
+<![CDATA[	Drop_Ball_Feeder := HMI_DropFeedCylinder AND NOT Ball_Feeder_Retracted;]]>
+</Line>
+<Line Number="2">
+<![CDATA[	Actuate_T1_Diverter := HMI_Diverter1;]]>
+</Line>
+<Line Number="3">
+<![CDATA[	Actuate_T2_Diverter := HMI_Diverter2;]]>
+</Line>
+<Line Number="4">
+<![CDATA[	Actuate_T3_Diverter := HMI_Diverter3;]]>
+</Line>
+<Line Number="5">
+<![CDATA[	Retract_Color_Advance_Cylinder := HMI_ColorStationAdv;]]>
+</Line>
+<Line Number="6">
+<![CDATA[	Retract_Color_Release_Cylinder := HMI_ColorStationRel;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Mode_Dispatch" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[// Stop request handler: (Auto only)]]>
+</Line>
+<Line Number="1">
+<![CDATA[IF (NOT Run_Latch OR NOT Stop_PB) AND (System_Mode = 30) THEN]]>
+</Line>
+<Line Number="2">
+<![CDATA[    JSR(StopProcedures, 0);]]>
+</Line>
+<Line Number="3">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[Auto_Run_Enable := Run_Latch AND PLC_Init_Done AND (System_Mode = 30);]]>
+</Line>
+<Line Number="6">
+<![CDATA[]]>
+</Line>
+<Line Number="7">
+<![CDATA[// Feed:]]>
+</Line>
+<Line Number="8">
+<![CDATA[Feed_Run            := Auto_Run_Enable AND NOT Feed_Bypass;]]>
+</Line>
+<Line Number="9">
+<![CDATA[Feed_Resume_OS      := Feed_Run AND NOT Feed_Resume_Storage;]]>
+</Line>
+<Line Number="10">
+<![CDATA[Feed_Resume_Storage := Feed_Run;]]>
+</Line>
+<Line Number="11">
+<![CDATA[IF Feed_Run THEN]]>
+</Line>
+<Line Number="12">
+<![CDATA[    JSR(Auto_Feed, 0);]]>
+</Line>
+<Line Number="13">
+<![CDATA[ELSIF Auto_Run_Enable THEN        // Auto with Feed_Bypass on]]>
+</Line>
+<Line Number="14">
+<![CDATA[    JSR(Feed_ProcessBypass, 0);]]>
+</Line>
+<Line Number="15">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="16">
+<![CDATA[]]>
+</Line>
+<Line Number="17">
+<![CDATA[// Sort:]]>
+</Line>
+<Line Number="18">
+<![CDATA[Sort_Run            := Auto_Run_Enable AND NOT Sort_Bypass;]]>
+</Line>
+<Line Number="19">
+<![CDATA[Sort_Resume_OS      := Sort_Run AND NOT Sort_Resume_Storage;]]>
+</Line>
+<Line Number="20">
+<![CDATA[Sort_Resume_Storage := Sort_Run;]]>
+</Line>
+<Line Number="21">
+<![CDATA[IF Sort_Run THEN]]>
+</Line>
+<Line Number="22">
+<![CDATA[    JSR(Auto_Sort, 0);]]>
+</Line>
+<Line Number="23">
+<![CDATA[ELSIF Auto_Run_Enable THEN        // Auto with Sort_Bypass on]]>
+</Line>
+<Line Number="24">
+<![CDATA[    JSR(Sort_ProcessBypass, 0);]]>
+</Line>
+<Line Number="25">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="26">
+<![CDATA[]]>
+</Line>
+<Line Number="27">
+<![CDATA[// Manual and recovery:]]>
+</Line>
+<Line Number="28">
+<![CDATA[IF PLC_Init_Done AND (System_Mode = 20) THEN]]>
+</Line>
+<Line Number="29">
+<![CDATA[    JSR(Manual_Ctrl, 0);]]>
+</Line>
+<Line Number="30">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="31">
+<![CDATA[IF PLC_Init_Done AND (System_Mode = 10) THEN]]>
+</Line>
+<Line Number="32">
+<![CDATA[    JSR(FaultRecovery, 0);]]>
+</Line>
+<Line Number="33">
+<![CDATA[END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Sort_ProcessBypass" Type="ST">
+<Description>
+<![CDATA[Holds sort cylinders open and disables sort process.]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[Actuate_T3_Diverter := 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[Retract_Color_Advance_Cylinder := 1;]]>
+</Line>
+<Line Number="4">
+<![CDATA[Retract_Color_Release_Cylinder := 1;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="StopProcedures" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[Ball_Feeder_Step := 00;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Lift_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[IF NOT Ball_Feeder_Retracted THEN ]]>
+</Line>
+<Line Number="3">
+<![CDATA[	Drop_Ball_Feeder := 1;]]>
+</Line>
+<Line Number="4">
+<![CDATA[ELSE ]]>
+</Line>
+<Line Number="5">
+<![CDATA[	Drop_Ball_Feeder := 0;]]>
+</Line>
+<Line Number="6">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="7">
+<![CDATA[]]>
+</Line>
+<Line Number="8">
+<![CDATA[Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="9">
+<![CDATA[Retract_Color_Advance_Cylinder := 0;]]>
+</Line>
+<Line Number="10">
+<![CDATA[Retract_Color_Release_Cylinder := 0;]]>
+</Line>
+<Line Number="11">
+<![CDATA[]]>
+</Line>
+<Line Number="12">
+<![CDATA[Actuate_T1_Diverter := 0;]]>
+</Line>
+<Line Number="13">
+<![CDATA[Actuate_T2_Diverter := 0;]]>
+</Line>
+<Line Number="14">
+<![CDATA[Actuate_T3_Diverter := 0;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="SysCtl" Type="ST">
+<Description>
+<![CDATA[System Control]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[Start_PB_RE := Start_PB AND NOT Start_PB_Storage;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Start_PB_Storage := Start_PB;]]>
+</Line>
+<Line Number="2">
+<![CDATA[]]>
+</Line>
+<Line Number="3">
+<![CDATA[Run_Latch := (Run_Latch OR Start_PB_RE) AND Stop_PB AND NOT Fault AND (System_Mode = 30);]]>
+</Line>
+<Line Number="4">
+<![CDATA[]]>
+</Line>
+<Line Number="5">
+<![CDATA[IF Fault THEN                                                                //Run Light ]]>
+</Line>
+<Line Number="6">
+<![CDATA[	Run_Light := Fault_Blink;]]>
+</Line>
+<Line Number="7">
+<![CDATA[ELSE ]]>
+</Line>
+<Line Number="8">
+<![CDATA[	Run_Light := Run_Latch;         ]]>
+</Line>
+<Line Number="9">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="10">
+<![CDATA[]]>
+</Line>
+<Line Number="11">
+<![CDATA[]]>
+</Line>
+<Line Number="12">
+<![CDATA[Feeder_Stuck_at_Sensor := Feeder_Recovery_Attempt_Counter > 3;]]>
+</Line>
+<Line Number="13">
+<![CDATA[Feeder_Fault :=                                                              //Feeder Fault Conditions]]>
+</Line>
+<Line Number="14">
+<![CDATA[    Fault_Feeder_Drop_Timeout OR]]>
+</Line>
+<Line Number="15">
+<![CDATA[	Fault_Feeder_Lift_Timeout OR]]>
+</Line>
+<Line Number="16">
+<![CDATA[	Fault_Feeder_Watchdog;]]>
+</Line>
+<Line Number="17">
+<![CDATA[	]]>
+</Line>
+<Line Number="18">
+<![CDATA[Fault := (Feeder_Stuck_at_Sensor OR Feeder_Fault) AND NOT Feeder_Homing;]]>
+</Line>
+<Line Number="19">
+<![CDATA[]]>
+</Line>
+<Line Number="20">
+<![CDATA[IF HMI_Fault_Reset_PB THEN                                                       //Fault Reset]]>
+</Line>
+<Line Number="21">
+<![CDATA[	Fault_Feeder_Drop_Timeout := 0;]]>
+</Line>
+<Line Number="22">
+<![CDATA[	Fault_Feeder_Lift_Timeout := 0;]]>
+</Line>
+<Line Number="23">
+<![CDATA[	Fault_Feeder_Watchdog := 0;]]>
+</Line>
+<Line Number="24">
+<![CDATA[	Feeder_Stuck_at_Sensor := 0; ]]>
+</Line>
+<Line Number="25">
+<![CDATA[	Feeder_Recovery_Attempt_Counter := 0;]]>
+</Line>
+<Line Number="26">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="27">
+<![CDATA[]]>
+</Line>
+<Line Number="28">
+<![CDATA[// Bypass only after the current ball finishes (sort back at step 0),]]>
+</Line>
+<Line Number="29">
+<![CDATA[// Drop out as soon as any tube has room again.]]>
+</Line>
+<Line Number="30">
+<![CDATA[Sort_Bypass := All_Tubes_Full AND (Sort_Bypass OR (Color_Sort_Step = 0));]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="SysMon" Type="ST">
+<Description>
+<![CDATA[System Monitoring]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[//                                NOTES:]]>
+</Line>
+<Line Number="1">
+<![CDATA[//			HMI_Page_State (s) are: 1-Init; 2-Home; 3-Config; 4-Manual]]>
+</Line>
+<Line Number="2">
+<![CDATA[]]>
+</Line>
+<Line Number="3">
+<![CDATA[IF HMI_Trigger_Init THEN ]]>
+</Line>
+<Line Number="4">
+<![CDATA[	PLC_Init_Done := 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="6">
+<![CDATA[IF HMI_Page_State = 1 THEN ]]>
+</Line>
+<Line Number="7">
+<![CDATA[	HMI_Setup_Request := 0;]]>
+</Line>
+<Line Number="8">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="9">
+<![CDATA[]]>
+</Line>
+<Line Number="10">
+<![CDATA[Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;]]>
+</Line>
+<Line Number="11">
+<![CDATA[System_Standby := Run_Allowed AND NOT Run_Latch;]]>
+</Line>
+<Line Number="12">
+<![CDATA[]]>
+</Line>
+<Line Number="13">
+<![CDATA[Fault_Blink := (Fault AND Blink_Bit);                                        //Fault Blink]]>
+</Line>
+<Line Number="14">
+<![CDATA[]]>
+</Line>
+<Line Number="15">
+<![CDATA[//----// Global 1Hz Blink Timer //----//|]]>
+</Line>
+<Line Number="16">
+<![CDATA[One_Sec_Blink_Timer.TimerEnable := 1;]]>
+</Line>
+<Line Number="17">
+<![CDATA[One_Sec_Blink_Timer.PRE := 500;]]>
+</Line>
+<Line Number="18">
+<![CDATA[TONR(One_Sec_Blink_Timer);]]>
+</Line>
+<Line Number="19">
+<![CDATA[IF One_Sec_Blink_Timer.DN THEN]]>
+</Line>
+<Line Number="20">
+<![CDATA[	One_Sec_Blink_Timer.Reset := 1;]]>
+</Line>
+<Line Number="21">
+<![CDATA[	Blink_Bit := NOT Blink_Bit;]]>
+</Line>
+<Line Number="22">
+<![CDATA[ELSE]]>
+</Line>
+<Line Number="23">
+<![CDATA[	One_Sec_Blink_Timer.Reset := 0;]]>
+</Line>
+<Line Number="24">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="25">
+<![CDATA[//------------------------------------//|]]>
+</Line>
+<Line Number="26">
+<![CDATA[]]>
+</Line>
+<Line Number="27">
+<![CDATA[IF T1Full AND T2Full AND T3Full THEN]]>
+</Line>
+<Line Number="28">
+<![CDATA[	All_Tubes_Full := 1;]]>
+</Line>
+<Line Number="29">
+<![CDATA[ELSE ]]>
+</Line>
+<Line Number="30">
+<![CDATA[	All_Tubes_Full := 0;]]>
+</Line>
+<Line Number="31">
+<![CDATA[END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="TEMPORARYTubeDrops" Type="ST">
+<Description>
+<![CDATA[To be replaced by tube emptying + ball shuffling subroutine(s)]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[// Close Tube Drops (TEMPORARY)]]>
+</Line>
+<Line Number="1">
+<![CDATA[IF Run_Latch THEN              ]]>
+</Line>
+<Line Number="2">
+<![CDATA[	Actuate_T1_Drop_Advance := 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[	Actuate_T1_Drop_Release := 1;]]>
+</Line>
+<Line Number="4">
+<![CDATA[	Actuate_T2_Drop_Advance := 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[	Actuate_T2_Drop_Release := 1;]]>
+</Line>
+<Line Number="6">
+<![CDATA[	Actuate_T3_Drop_Advance := 0;]]>
+</Line>
+<Line Number="7">
+<![CDATA[	Actuate_T3_Drop_Release := 1;]]>
+</Line>
+<Line Number="8">
+<![CDATA[END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="TubeFill_Indexing" Type="ST">
+<Description>
+<![CDATA[Capacity Array Generation]]>
+</Description>
+<STContent>
+<Line Number="0">
+<![CDATA[//                                NOTES:]]>
+</Line>
+<Line Number="1">
+<![CDATA[//			HMI_All_Tubes_Are_Empty States: 0-UNDEF; 10-Yes; 20-No;]]>
+</Line>
+<Line Number="2">
+<![CDATA[]]>
+</Line>
+<Line Number="3">
+<![CDATA[IF HMI_All_Tubes_Are_Empty = 10 AND NOT Fill_Indexes_Cleared THEN ]]>
+</Line>
+<Line Number="4">
+<![CDATA[Tube_Fill_Index[0] := 0; Tube_Fill_Index[1] := 0; Tube_Fill_Index[2] := 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[Fill_Indexes_Cleared := 1;]]>
+</Line>
+<Line Number="6">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="7">
+<![CDATA[]]>
+</Line>
+<Line Number="8">
+<![CDATA[T1Full := Tube_Fill_Index[0] >= Number_of_Positions;]]>
+</Line>
+<Line Number="9">
+<![CDATA[T2Full := Tube_Fill_Index[1] >= Number_of_Positions;]]>
+</Line>
+<Line Number="10">
+<![CDATA[T3Full := Tube_Fill_Index[2] >= Number_of_Positions;]]>
+</Line>
+<Line Number="11">
+<![CDATA[//Clamp]]>
+</Line>
+<Line Number="12">
+<![CDATA[IF Tube_Fill_Index[0] > Number_of_Positions THEN Tube_Fill_Index[0] := Number_of_Positions; END_IF;   ]]>
+</Line>
+<Line Number="13">
+<![CDATA[IF Tube_Fill_Index[1] > Number_of_Positions THEN Tube_Fill_Index[1] := Number_of_Positions; END_IF;]]>
+</Line>
+<Line Number="14">
+<![CDATA[IF Tube_Fill_Index[2] > Number_of_Positions THEN Tube_Fill_Index[2] := Number_of_Positions; END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+</Program>
+</Programs>
+<Tasks>
+<Task Name="MainTask" Type="CONTINUOUS" Priority="10" Watchdog="500" DisableUpdateOutputs="false" InhibitTask="false">
+<ScheduledPrograms>
+<ScheduledProgram Name="MainProgram"/>
+</ScheduledPrograms>
+</Task>
+</Tasks>
+<CST MasterID="0"/>
+<WallClockTime LocalTimeAdjustment="0" TimeZone="0"/>
+<Trends/>
+<DataLogs/>
+<TimeSynchronize Priority1="128" Priority2="128" PTPEnable="false"/>
+<EthernetPorts>
+<EthernetPort Port="1" Label="1" PortEnabled="true"/>
+<EthernetPort Port="2" Label="2" PortEnabled="true"/>
+</EthernetPorts>
+<EthernetNetwork SupervisorModeEnabled="false" SupervisorPrecedence="0" BeaconInterval="400" BeaconTimeout="1960" VLANID="0"/>
+</Controller>
+</RSLogix5000Content>

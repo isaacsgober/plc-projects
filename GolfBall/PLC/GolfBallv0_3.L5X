@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Sep 29 14:57:42 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Sep 29 14:50:52 2026" SFCExecutionControl="CurrentActive"
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Sep 29 17:41:43 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Sep 29 17:41:00 2026" SFCExecutionControl="CurrentActive"
  SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
@@ -157,7 +157,7 @@
 <Data Format="Decorated">
 <Structure DataType="AB:1769_DI16:I:0">
 <DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
-<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0100_0110_0010"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0100_0010_0110"/>
 </Structure>
 </Data>
 </InputTag>
@@ -861,10 +861,10 @@
 </Tag>
 <Tag Name="i" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[1]]>
+<![CDATA[8]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="1"/>
+<DataValue DataType="INT" Radix="Decimal" Value="8"/>
 </Data>
 </Tag>
 <Tag Name="idx1" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -963,7 +963,7 @@
 </Tag>
 <Tag Name="One_Sec_Blink_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[3,7,500,84,0,0,1726759,1536,981668463,0,84,7]]]>
+<![CDATA[[3,7,500,184,0,0,3981885,1536,981668463,0,184,7]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
@@ -972,7 +972,7 @@
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
 <DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="84"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="184"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="1"/>
 <DataValueMember Name="DN" DataType="BOOL" Value="0"/>
@@ -3060,7 +3060,7 @@
 <![CDATA[]]>
 </Line>
 <Line Number="3">
-<![CDATA[Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND NOT Fault AND (System_Mode = 30));]]>
+<![CDATA[Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND NOT Fault AND (System_Mode = 30));]]>
 </Line>
 <Line Number="4">
 <![CDATA[]]>

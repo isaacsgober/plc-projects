@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Sep 29 17:41:19 2026
+  Exported  := Tue Sep 29 18:25:35 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -1030,15 +1030,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'Start_PB_RE := (Start_PB AND NOT Start_PB_Storage);
 			'Start_PB_Storage := Start_PB;
 			'
-			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND NOT Fault AND (System_Mode = 30));
-			'
-			'IF Fault THEN                                                                //Run Light 
-			'	Run_Light := Fault_Blink;
-			'ELSE 
-			'	Run_Light := Run_Latch;         
-			'END_IF;
-			'
-			'
 			'Feeder_Stuck_at_Sensor := (Feeder_Recovery_Attempt_Counter > 3);
 			'Feeder_Fault :=                                                              //Feeder Fault Conditions
 			'    Fault_Feeder_Drop_Timeout OR
@@ -1046,6 +1037,15 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'	Fault_Feeder_Watchdog;
 			'	
 			'Fault := ((Feeder_Stuck_at_Sensor OR Feeder_Fault) AND NOT Feeder_Homing);
+			'Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;
+			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND (System_Mode = 30));
+			'System_Standby := Run_Allowed AND NOT Run_Latch;
+			'
+			'IF Fault THEN                                                                //Run Light 
+			'	Run_Light := Fault_Blink;
+			'ELSE 
+			'	Run_Light := Run_Latch;         
+			'END_IF;
 			'
 			'IF HMI_Fault_Reset_PB THEN                                                       //Fault Reset
 			'	Fault_Feeder_Drop_Timeout := 0;
@@ -1070,9 +1070,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'IF (HMI_Page_State = 1) THEN 
 			'	HMI_Setup_Request := 0;
 			'END_IF;
-			'
-			'Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;
-			'System_Standby := Run_Allowed AND NOT Run_Latch;
 			'
 			'Fault_Blink := (Fault AND Blink_Bit);                                        //Fault Blink
 			'

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Sep 29 17:41:43 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Sep 29 17:41:00 2026" SFCExecutionControl="CurrentActive"
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Sep 29 18:25:41 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Sep 29 18:25:28 2026" SFCExecutionControl="CurrentActive"
  SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
@@ -3060,52 +3060,52 @@
 <![CDATA[]]>
 </Line>
 <Line Number="3">
-<![CDATA[Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND NOT Fault AND (System_Mode = 30));]]>
-</Line>
-<Line Number="4">
-<![CDATA[]]>
-</Line>
-<Line Number="5">
-<![CDATA[IF Fault THEN                                                                //Run Light ]]>
-</Line>
-<Line Number="6">
-<![CDATA[	Run_Light := Fault_Blink;]]>
-</Line>
-<Line Number="7">
-<![CDATA[ELSE ]]>
-</Line>
-<Line Number="8">
-<![CDATA[	Run_Light := Run_Latch;         ]]>
-</Line>
-<Line Number="9">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="10">
-<![CDATA[]]>
-</Line>
-<Line Number="11">
-<![CDATA[]]>
-</Line>
-<Line Number="12">
 <![CDATA[Feeder_Stuck_at_Sensor := (Feeder_Recovery_Attempt_Counter > 3);]]>
 </Line>
-<Line Number="13">
+<Line Number="4">
 <![CDATA[Feeder_Fault :=                                                              //Feeder Fault Conditions]]>
 </Line>
-<Line Number="14">
+<Line Number="5">
 <![CDATA[    Fault_Feeder_Drop_Timeout OR]]>
 </Line>
-<Line Number="15">
+<Line Number="6">
 <![CDATA[	Fault_Feeder_Lift_Timeout OR]]>
 </Line>
-<Line Number="16">
+<Line Number="7">
 <![CDATA[	Fault_Feeder_Watchdog;]]>
 </Line>
-<Line Number="17">
+<Line Number="8">
 <![CDATA[	]]>
 </Line>
-<Line Number="18">
+<Line Number="9">
 <![CDATA[Fault := ((Feeder_Stuck_at_Sensor OR Feeder_Fault) AND NOT Feeder_Homing);]]>
+</Line>
+<Line Number="10">
+<![CDATA[Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;]]>
+</Line>
+<Line Number="11">
+<![CDATA[Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND (System_Mode = 30));]]>
+</Line>
+<Line Number="12">
+<![CDATA[System_Standby := Run_Allowed AND NOT Run_Latch;]]>
+</Line>
+<Line Number="13">
+<![CDATA[]]>
+</Line>
+<Line Number="14">
+<![CDATA[IF Fault THEN                                                                //Run Light ]]>
+</Line>
+<Line Number="15">
+<![CDATA[	Run_Light := Fault_Blink;]]>
+</Line>
+<Line Number="16">
+<![CDATA[ELSE ]]>
+</Line>
+<Line Number="17">
+<![CDATA[	Run_Light := Run_Latch;         ]]>
+</Line>
+<Line Number="18">
+<![CDATA[END_IF;]]>
 </Line>
 <Line Number="19">
 <![CDATA[]]>
@@ -3181,87 +3181,78 @@
 <![CDATA[]]>
 </Line>
 <Line Number="10">
-<![CDATA[Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;]]>
-</Line>
-<Line Number="11">
-<![CDATA[System_Standby := Run_Allowed AND NOT Run_Latch;]]>
-</Line>
-<Line Number="12">
-<![CDATA[]]>
-</Line>
-<Line Number="13">
 <![CDATA[Fault_Blink := (Fault AND Blink_Bit);                                        //Fault Blink]]>
 </Line>
-<Line Number="14">
+<Line Number="11">
 <![CDATA[]]>
 </Line>
-<Line Number="15">
+<Line Number="12">
 <![CDATA[//----// Global 1Hz Blink Timer //----//|]]>
 </Line>
-<Line Number="16">
+<Line Number="13">
 <![CDATA[One_Sec_Blink_Timer.TimerEnable := 1;]]>
 </Line>
-<Line Number="17">
+<Line Number="14">
 <![CDATA[One_Sec_Blink_Timer.PRE := 500;]]>
 </Line>
-<Line Number="18">
+<Line Number="15">
 <![CDATA[TONR(One_Sec_Blink_Timer);]]>
 </Line>
-<Line Number="19">
+<Line Number="16">
 <![CDATA[IF One_Sec_Blink_Timer.DN THEN]]>
 </Line>
-<Line Number="20">
+<Line Number="17">
 <![CDATA[	One_Sec_Blink_Timer.Reset := 1;]]>
 </Line>
-<Line Number="21">
+<Line Number="18">
 <![CDATA[	Blink_Bit := NOT Blink_Bit;]]>
 </Line>
-<Line Number="22">
+<Line Number="19">
 <![CDATA[ELSE]]>
 </Line>
-<Line Number="23">
+<Line Number="20">
 <![CDATA[	One_Sec_Blink_Timer.Reset := 0;]]>
 </Line>
-<Line Number="24">
+<Line Number="21">
 <![CDATA[END_IF;]]>
 </Line>
-<Line Number="25">
+<Line Number="22">
 <![CDATA[//------------------------------------//|]]>
 </Line>
-<Line Number="26">
+<Line Number="23">
 <![CDATA[]]>
 </Line>
-<Line Number="27">
+<Line Number="24">
 <![CDATA[IF (T1Full AND T2Full AND T3Full) THEN]]>
 </Line>
-<Line Number="28">
+<Line Number="25">
 <![CDATA[	All_Tubes_Full := 1;]]>
 </Line>
-<Line Number="29">
+<Line Number="26">
 <![CDATA[ELSE ]]>
 </Line>
-<Line Number="30">
+<Line Number="27">
 <![CDATA[	All_Tubes_Full := 0;]]>
 </Line>
-<Line Number="31">
+<Line Number="28">
 <![CDATA[END_IF;]]>
 </Line>
-<Line Number="32">
+<Line Number="29">
 <![CDATA[]]>
 </Line>
-<Line Number="33">
+<Line Number="30">
 <![CDATA[IF Drop_Ball_Feeder THEN]]>
 </Line>
-<Line Number="34">
+<Line Number="31">
 <![CDATA[	Dropping_Ball_Feeder := 1;]]>
 </Line>
-<Line Number="35">
+<Line Number="32">
 <![CDATA[ELSE]]>
 </Line>
-<Line Number="36">
+<Line Number="33">
 <![CDATA[	Dropping_Ball_Feeder := 0;]]>
 </Line>
-<Line Number="37">
+<Line Number="34">
 <![CDATA[END_IF;]]>
 </Line>
 </STContent>

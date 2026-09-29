@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Sep 29 14:43:36 2026
+  Exported  := Tue Sep 29 17:41:19 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -123,7 +123,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Input (Rate := 20000,
 			                  EventID := 0,
 			                  Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,1122];
+					InputData (ExternalAccess := Read Only) := [0,1062];
 			END_CONNECTION
 
 	END_MODULE
@@ -292,7 +292,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		HMI_Tube2_Diverter : BOOL (RADIX := Decimal) := 0;
 		HMI_Tube3_Diverter : BOOL (RADIX := Decimal) := 0;
 		i : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
+		            ExternalAccess := Read Only) := 8;
 		idx1 : INT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		idx2 : INT (RADIX := Decimal,
@@ -310,7 +310,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]];
 		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,0,0,0,0,0,0,0,0,0,1];
 		Number_of_Positions : DINT (RADIX := Decimal) := 8;
-		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,84,0,0,1726759,1536,981668463,0,84,7];
+		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,184,0,0,3981885,1536,981668463,0,184,7];
 		Orange : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 2;
 		Pink : DINT (RADIX := Decimal,
@@ -1030,7 +1030,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'Start_PB_RE := (Start_PB AND NOT Start_PB_Storage);
 			'Start_PB_Storage := Start_PB;
 			'
-			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND NOT Fault AND (System_Mode = 30));
+			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND NOT Fault AND (System_Mode = 30));
 			'
 			'IF Fault THEN                                                                //Run Light 
 			'	Run_Light := Fault_Blink;

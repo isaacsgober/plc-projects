@@ -1,0 +1,1178 @@
+﻿(*********************************************
+
+  Import-Export
+  Version   := RSLogix 5000 v36.03
+  Owner     := , 
+  Exported  := Tue Sep 29 14:43:36 2026
+
+  Note:  File encoded in UTF-8.  Only edit file in a program 
+         which supports UTF-8 (like Notepad, not Wordpad).
+
+**********************************************)
+IE_VER := 2.27;
+
+CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
+                     Major := 36,
+                     TimeSlice := 20,
+                     ShareUnusedTimeSlice := 1,
+                     PowerLossProgram := "Initialize",
+                     RedundancyEnabled := 0,
+                     KeepTestEditsOnSwitchOver := 0,
+                     DataTablePadPercentage := 50,
+                     SecurityCode := 0,
+                     ChangesToDetect := 16#ffff_ffff_ffff_ffff,
+                     SFCExecutionControl := "CurrentActive",
+                     SFCRestartPosition := "MostRecent",
+                     SFCLastScan := "DontScan",
+                     SerialNumber := 16#c01e_3352,
+                     MatchProjectToController := No,
+                     CanUseRPIFromProducer := No,
+                     InhibitAutomaticFirmwareUpdate := 0,
+                     PassThroughConfiguration := EnabledWithAppend,
+                     DownloadProjectDocumentationAndExtendedProperties := Yes,
+                     ReportMinorOverflow := 0)
+	DATATYPE FAULTRECORD (Description := "Stores the MajorFaultRecord attribute or MinorFaultRecord attribute of the Program object",
+	                      FamilyType := NoFamily)
+		DINT Time_Low (Description := "Lower 32 bits of the fault timestamp value");
+		DINT Time_High (Description := "Upper 32 bits of the fault timestamp value");
+		INT Type (Description := "Fault type (program, I/O, and so forth)");
+		INT Code (Description := "Unique code for the fault");
+		DINT Info[8] (Description := "Fault specific information",
+		          Radix := Hex);
+	END_DATATYPE
+
+	MODULE Local (Parent := "Local",
+	              ParentModPortId := 1,
+	              CatalogNumber := "1769-L24ER-QB1B",
+	              Vendor := 1,
+	              ProductType := 14,
+	              ProductCode := 149,
+	              Major := 36,
+	              Minor := 12,
+	              ChassisSize := 6,
+	              Slot := 0,
+	              Mode := 2#0000_0000_0000_0001,
+	              CompatibleModule := 0,
+	              KeyMask := 2#0000_0000_0001_1111)
+	END_MODULE
+
+	MODULE Discrete_IO (Parent := "Local",
+	                    ParentModPortId := 1,
+	                    CatalogNumber := "Embedded",
+	                    Vendor := 1,
+	                    ProductType := 7,
+	                    ProductCode := 64,
+	                    Major := 3,
+	                    Minor := 1,
+	                    PortLabel := "RxBACKPLANE",
+	                    Slot := 1,
+	                    Mode := 2#0000_0000_0000_0001,
+	                    CompatibleModule := 1,
+	                    KeyMask := 2#0000_0000_0001_1111)
+			ExtendedProp := [[[___<public><ConfigID>100</ConfigID><CatNum>Embedded</CatNum></public>___]]]
+			ConfigData (ExternalAccess := Read Only) := [24,102,1,0,0,0,0,0,0,0,0,0];
+			CONNECTION Output (Rate := 20000,
+			                   EventID := 0,
+			                   Unicast := No)
+					InputData (ExternalAccess := Read Only) := [0,-22192,0];
+					OutputData (ExternalAccess := Read Only) := [0];
+			END_CONNECTION
+
+	END_MODULE
+
+	MODULE $NoName (Parent := "Local",
+	            ParentModPortId := 1,
+	            CatalogNumber := "1769-IQ16/A",
+	            Vendor := 1,
+	            ProductType := 7,
+	            ProductCode := 67,
+	            Major := 1,
+	            Minor := 1,
+	            PortLabel := "RxBACKPLANE",
+	            Slot := 2,
+	            CommMethod := 536870913,
+	            Mode := 2#0000_0000_0000_0001,
+	            CompatibleModule := 1,
+	            KeyMask := 2#0000_0000_0001_1111)
+			ExtendedProp := [[[___<public><ConfigID>250</ConfigID><CatNum>1769-IQ16</CatNum></public>___]]]
+			ConfigData := [8,102,1];
+			CONNECTION Input (Rate := 20000,
+			                  EventID := 0,
+			                  Unicast := No)
+					InputData (ExternalAccess := Read Only) := [0,6];
+			END_CONNECTION
+
+	END_MODULE
+
+	MODULE $NoName (Parent := "Local",
+	            ParentModPortId := 1,
+	            CatalogNumber := "1769-IQ16/A",
+	            Vendor := 1,
+	            ProductType := 7,
+	            ProductCode := 67,
+	            Major := 3,
+	            Minor := 1,
+	            PortLabel := "RxBACKPLANE",
+	            Slot := 3,
+	            CommMethod := 536870913,
+	            Mode := 2#0000_0000_0000_0001,
+	            CompatibleModule := 0,
+	            KeyMask := 2#0000_0000_0000_0000)
+			ExtendedProp := [[[___<public><ConfigID>250</ConfigID><CatNum>1769-IQ16</CatNum></public>___]]]
+			ConfigData := [8,102,1];
+			CONNECTION Input (Rate := 20000,
+			                  EventID := 0,
+			                  Unicast := No)
+					InputData (ExternalAccess := Read Only) := [0,1122];
+			END_CONNECTION
+
+	END_MODULE
+
+	MODULE Relay (Parent := "Local",
+	              ParentModPortId := 1,
+	              CatalogNumber := "1769-OB16/B",
+	              Vendor := 1,
+	              ProductType := 7,
+	              ProductCode := 71,
+	              Major := 3,
+	              Minor := 1,
+	              PortLabel := "RxBACKPLANE",
+	              Slot := 4,
+	              CommMethod := 536870913,
+	              Mode := 2#0000_0000_0000_0001,
+	              CompatibleModule := 0,
+	              KeyMask := 2#0000_0000_0000_0000)
+			ExtendedProp := [[[___<public><ConfigID>150</ConfigID><CatNum>1769-OB16</CatNum></public>___]]]
+			ConfigData (ExternalAccess := Read Only) := [18,102,1,0,0,0,0,0];
+			CONNECTION Output (Rate := 20000,
+			                   EventID := 0,
+			                   Unicast := No)
+					InputData (ExternalAccess := Read Only) := [0,10752];
+					OutputData (ExternalAccess := Read Only) := [10752];
+			END_CONNECTION
+
+	END_MODULE
+
+	TAG
+		Actuate_T1_Diverter OF Local:4:O.Data.5 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T1_Drop_Advance OF Local:4:O.Data.12 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T1_Drop_Release OF Local:4:O.Data.13 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T2_Diverter OF Local:4:O.Data.6 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T2_Drop_Advance OF Local:4:O.Data.10 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T2_Drop_Release OF Local:4:O.Data.11 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T3_Diverter OF Local:4:O.Data.7 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T3_Drop_Advance OF Local:4:O.Data.8 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Actuate_T3_Drop_Release OF Local:4:O.Data.9 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		All_Tubes_Full : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Auto_Run_Enable : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Ball_Bypass_Photo OF Local:1:I.Data.3 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Ball_Feeder_Extended OF Local:3:I.Data.8 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Ball_Feeder_Intermediate OF Local:3:I.Data.9 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Ball_Feeder_Retracted OF Local:3:I.Data.10 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Ball_Feeder_Retracted_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,400,0,0,0,543183,1536,990057071,2,0,0];
+		Ball_Feeder_Step : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Ball_Present_Ball_Feeder OF Local:3:I.Data.11 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Blink_Bit : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Color : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Color_Advance_Cylinder_Extended OF Local:1:I.Data.6 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Advance_Cylinder_Retracted OF Local:1:I.Data.7 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Read_Advance_Cylinder_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1000,0,0,1,543925,5632,981668463,2,0,0];
+		Color_Read_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1500,0,0,1,545427,5632,981668463,2,0,0];
+		Color_Release_Cylinder_Extended OF Local:1:I.Data.8 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Release_Cylinder_Retracted OF Local:1:I.Data.9 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Scan_Green OF Local:3:I.Data.13 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Scan_Orange OF Local:3:I.Data.14 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Scan_Pink OF Local:3:I.Data.12 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Color_Sort_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,3500,651,0,1,546079,5632,981668463,2,651,6];
+		Color_Sort_Step : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Dropping_Ball_Feeder : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Drop_Ball_Feeder OF Local:4:O.Data.15 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Fault : BOOL (Description := "Master Fault",
+		            RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fault_Blink : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fault_Feeder_Drop_Timeout : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fault_Feeder_Lift_Timeout : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fault_Feeder_Watchdog : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,3000,0,0,1,543076,5632,981668463,2,0,0];
+		Feeder_Extend_Count : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Fault : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Fault_Active : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Hard_Fault_HMI : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Homing : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Lift_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,10,3000,3000,0,1,546079,5632,981668463,2,3000,10];
+		Feeder_Motion_Detected_OS : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Motion_Storage : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Recovery_Attempt_Counter : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Recovery_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,5000,0,0,0,257911,25088,0,2,0,0];
+		Feeder_Recovery_Total : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Stuck_at_Sensor : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feeder_Watchdog_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,5000,3002,0,1,546079,5632,981668463,2,3002,6];
+		Feed_Bypass : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feed_Resume_OS : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feed_Resume_Storage : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Feed_Run : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fill_Indexes_Cleared : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		Green : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 3;
+		HMI_All_Tubes_Are_Empty : INT (RADIX := Decimal) := 10;
+		HMI_ColorStationAdv : BOOL (RADIX := Decimal) := 0;
+		HMI_ColorStationRel : BOOL (RADIX := Decimal) := 1;
+		HMI_Diverter1 : BOOL (RADIX := Decimal) := 0;
+		HMI_Diverter2 : BOOL (RADIX := Decimal) := 0;
+		HMI_Diverter3 : BOOL (RADIX := Decimal) := 0;
+		HMI_DropFeedCylinder : BOOL (RADIX := Decimal) := 0;
+		HMI_Fault_Reset_PB : BOOL (RADIX := Decimal) := 0;
+		HMI_Page_State : INT (RADIX := Decimal) := 2;
+		HMI_RaiseFeedCylinder : BOOL (RADIX := Decimal) := 0;
+		HMI_RequestedMode : INT (Description := "30: Auto$N20: Manual$N10: Recovery$N0: Undefined",
+		            RADIX := Decimal) := 0;
+		HMI_Setup_Done : BOOL (RADIX := Decimal) := 1;
+		HMI_Setup_in_Progress : BOOL (RADIX := Decimal) := 0;
+		HMI_Setup_Request : BOOL (RADIX := Decimal) := 0;
+		HMI_T1Drop1 : BOOL (RADIX := Decimal) := 0;
+		HMI_T1Enable : BOOL (RADIX := Decimal) := 1;
+		HMI_T1SortMode : DINT (RADIX := Decimal) := 0;
+		HMI_T2Drop1 : BOOL (RADIX := Decimal) := 0;
+		HMI_T2Enable : BOOL (RADIX := Decimal) := 0;
+		HMI_T2SortMode : DINT (RADIX := Decimal) := 3;
+		HMI_T3Drop1 : BOOL (RADIX := Decimal) := 0;
+		HMI_T3Enable : BOOL (RADIX := Decimal) := 0;
+		HMI_T3SortMode : DINT (RADIX := Decimal) := 2;
+		HMI_Trigger_Init : BOOL (RADIX := Decimal) := 0;
+		HMI_Tube1_Diverter : BOOL (RADIX := Decimal) := 0;
+		HMI_Tube2_Diverter : BOOL (RADIX := Decimal) := 0;
+		HMI_Tube3_Diverter : BOOL (RADIX := Decimal) := 0;
+		i : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		idx1 : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		idx2 : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		idx3 : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Lift_Ball_Feeder OF Local:4:O.Data.14 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Lift_Time_Max : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Lift_Time_Max_Full : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Magazine_Full OF Local:3:I.Data.15 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]];
+		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,0,0,0,0,0,0,0,0,0,1];
+		Number_of_Positions : DINT (RADIX := Decimal) := 8;
+		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,84,0,0,1726759,1536,981668463,0,84,7];
+		Orange : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 2;
+		Pink : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		PLC_Init_Done : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		PowerUp_Handler_Ran : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 30;
+		Retract_Color_Advance_Cylinder OF Local:4:O.Data.3 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Retract_Color_Release_Cylinder OF Local:4:O.Data.4 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Run_Allowed : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		Run_Latch : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Run_Light OF Local:4:O.Data.2 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Run_Permissive : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Selected_Tube : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Sort_Bypass : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Sort_Resume_OS : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Sort_Resume_Storage : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Sort_Run : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Start_PB OF Local:1:I.Data.5 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Start_PB_RE : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Start_PB_Storage : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Stop_PB OF Local:1:I.Data.4 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		System_Mode : DINT (Description := "30: Auto$N20: Manual$N10: Recovery$N0: Undefined",
+		            RADIX := Decimal,
+		            ExternalAccess := Read Only) := 30;
+		System_Standby : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 1;
+		t : INT[3] (RADIX := Decimal,
+		            ExternalAccess := Read Only) := [0,0,0];
+		T1Full : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T1_Color : INT[8] (RADIX := Decimal,
+		            ExternalAccess := Read Only) := [3,2,1,3,2,1,3,2];
+		T1_Diverter_Closed OF Local:1:I.Data.11 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Diverter_Opened OF Local:1:I.Data.10 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Drop_Adv_Cyl_Extended OF Local:3:I.Data.4 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Drop_Adv_Cyl_Retracted OF Local:3:I.Data.5 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Drop_Rel_Cyl_Extended OF Local:3:I.Data.6 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Drop_Rel_Cyl_Retracted OF Local:3:I.Data.7 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T1_Index : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T1_TargetColor : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 3;
+		T2Full : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T2_Color : INT[8] (RADIX := Decimal,
+		            ExternalAccess := Read Only) := [3,3,3,3,3,3,3,3];
+		T2_Diverter_Closed OF Local:1:I.Data.13 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Diverter_Opened OF Local:1:I.Data.12 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Drop_Adv_Cyl_Extended OF Local:3:I.Data.0 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Drop_Adv_Cyl_Retracted OF Local:3:I.Data.1 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Drop_Rel_Cyl_Extended OF Local:3:I.Data.2 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Drop_Rel_Cyl_Retracted OF Local:3:I.Data.3 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T2_Index : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T2_TargetColor : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 3;
+		T3Full : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T3_Color : INT[8] (RADIX := Decimal,
+		            ExternalAccess := Read Only) := [2,2,2,2,2,2,2,2];
+		T3_Diverter_Closed OF Local:1:I.Data.15 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Diverter_Opened OF Local:1:I.Data.14 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Drop_Adv_Cyl_Extended OF Local:2:I.Data.0 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Drop_Adv_Cyl_Retracted OF Local:2:I.Data.1 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Drop_Rel_Cyl_Extended OF Local:2:I.Data.2 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Drop_Rel_Cyl_Retracted OF Local:2:I.Data.3 (RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		T3_Index : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		T3_TargetColor : INT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 2;
+		Tube_1_BDPhoto OF Local:1:I.Data.0 (Description := "Unused",
+		            RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Tube_2_BDPhoto OF Local:1:I.Data.1 (Description := "Unused",
+		            RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Tube_3_BDPhoto OF Local:1:I.Data.2 (Description := "Unused",
+		            RADIX := Decimal,
+		            ExternalAccess := Read Only);
+		Tube_Color : INT[3,8] (RADIX := Decimal,
+		            ExternalAccess := Read Only) := [3,2,1,3,2,1,3,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2];
+		Tube_Fill_Index : INT[3] (RADIX := Decimal) := [0,0,0];
+		White : DINT (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+	END_TAG
+
+	PROGRAM Initialize (MAIN := "Initialization",
+	                    MODE := 0,
+	                    DisableFlag := 0,
+	                    UseAsFolder := 0)
+		TAG
+		END_TAG
+
+		ST_ROUTINE Initialization (Description := "Initialize Outputs and Flags")
+			'GSV(Program,THIS,MajorFaultRecord,major_fault_record.Time_Low);
+			'		major_fault_record.Type := 0;
+			'		major_fault_record.Code := 0;
+			'		SSV(Program,THIS,MajorFaultRecord,major_fault_record.Time_Low);
+			'
+			'// FORCE SAFE OUTPUTS
+			'// -------------------------------
+			'    Lift_Ball_Feeder := 0;
+			'    Drop_Ball_Feeder := 0;
+			'
+			'    Actuate_T1_Diverter := 0;
+			'    Actuate_T2_Diverter := 0;
+			'    Actuate_T3_Diverter := 0;
+			'	
+			'	Actuate_T1_Drop_Advance := 0;
+			'	Actuate_T1_Drop_Release := 0;
+			'	Actuate_T2_Drop_Advance := 0;
+			'	Actuate_T2_Drop_Release := 0;
+			'	Actuate_T3_Drop_Advance := 0;
+			'	Actuate_T3_Drop_Release := 0;
+			'
+			'    Retract_Color_Advance_Cylinder := 0;
+			'    Retract_Color_Release_Cylinder := 0;
+			'
+			'    Run_Light := 0;
+			'
+			'    //  RESET MACHINE STATE
+			'    // -------------------------------
+			'    Run_Latch := 0;
+			'	System_Mode := 30;
+			'    Feeder_Fault_Active := 0;
+			'	Feeder_Recovery_Attempt_Counter := 0;
+			'    Feeder_Homing := 0;
+			'
+			'    Ball_Feeder_Step := 0;     // start in recovery/home
+			'    Color_Sort_Step := 0;
+			'
+			'    // CLEAR FAULTS
+			'    // -------------------------------
+			'    Fault_Feeder_Drop_Timeout := 0;
+			'    Fault_Feeder_Lift_Timeout := 0;
+			'    Fault_Feeder_Watchdog := 0;
+			'
+			'    // RESET INTERNAL FLAGS
+			'    // -------------------------------
+			'    Feeder_Extend_Count := 0;
+			'    Start_PB_Storage := Start_PB;
+			'    Blink_Bit := 0;
+			'	HMI_Setup_Done := 0;
+			'	HMI_Trigger_Init := 0;
+			'	Number_of_Positions := 8;
+			'	HMI_All_Tubes_Are_Empty := 0;
+			'	Fill_Indexes_Cleared := 0;
+			'    
+			'	// REQUEST OPERATOR INPUT
+			'	// -------------------------------
+			'	HMI_Setup_Request := 1;
+			'
+			'    // DONE (RUN ONLY ONCE)
+			'    // -------------------------------
+			'	PLC_Init_Done := 1;
+		END_ST_ROUTINE
+
+		CHILD_PROGRAMS
+		END_CHILD_PROGRAMS
+
+	END_PROGRAM
+
+	PROGRAM MainProgram (MAIN := "MainRoutine",
+	                     MODE := 0,
+	                     DisableFlag := 0,
+	                     UseAsFolder := 0)
+		TAG
+		END_TAG
+
+		ST_ROUTINE Auto_Feed (Description := "Feeding cylinder step-based machine.")
+			'//----// Resume handling: //----//
+			'IF Feed_Resume_OS THEN
+			'    Ball_Feeder_Step        := 00;   // every return to auto re-homes, same as a Stop
+			'    Feeder_Motion_Storage := Ball_Feeder_Retracted OR Ball_Feeder_Intermediate
+			'                               OR Ball_Feeder_Extended;   // no phantom edge on resume
+			'END_IF;
+			'
+			'//----// Motion one-shot: //----//
+			'Feeder_Motion_Detected_OS := (Ball_Feeder_Retracted OR Ball_Feeder_Intermediate OR Ball_Feeder_Extended)
+			'                                  AND NOT Feeder_Motion_Storage;
+			'Feeder_Motion_Storage := Ball_Feeder_Retracted OR Ball_Feeder_Intermediate OR Ball_Feeder_Extended;
+			'
+			'//----// Lift timeout: //----//
+			'IF Feeder_Extend_Count < 5 THEN
+			'    Feeder_Lift_Timeout_Timer.PRE := 4000;
+			'ELSE
+			'    Feeder_Lift_Timeout_Timer.PRE := 6000;
+			'END_IF;
+			'Feeder_Lift_Timeout_Timer.TimerEnable := Lift_Ball_Feeder;
+			'Feeder_Lift_Timeout_Timer.Reset       := NOT Lift_Ball_Feeder OR Feed_Resume_OS;
+			'TONR(Feeder_Lift_Timeout_Timer);
+			'
+			'// Lift margin monitor: longest normal stroke of each type, in ms
+			'IF Ball_Feeder_Step = 10 THEN
+			'    IF Feeder_Extend_Count < 5 THEN
+			'        IF Feeder_Lift_Timeout_Timer.ACC > Lift_Time_Max THEN Lift_Time_Max := Feeder_Lift_Timeout_Timer.ACC; END_IF;
+			'    ELSE
+			'        IF Feeder_Lift_Timeout_Timer.ACC > Lift_Time_Max_Full THEN Lift_Time_Max_Full := Feeder_Lift_Timeout_Timer.ACC; END_IF;
+			'    END_IF;
+			'END_IF;
+			'
+			'IF Feeder_Lift_Timeout_Timer.DN AND NOT Feeder_Motion_Detected_OS THEN
+			'    Fault_Feeder_Lift_Timeout := 1;
+			'END_IF;
+			'
+			'//----// Drop timeout: //----//
+			'IF Feeder_Extend_Count < 5 THEN
+			'    Feeder_Drop_Timeout_Timer.PRE := 3000;
+			'ELSE
+			'    Feeder_Drop_Timeout_Timer.PRE := 5000;
+			'END_IF;
+			'Feeder_Drop_Timeout_Timer.TimerEnable := Drop_Ball_Feeder;
+			'Feeder_Drop_Timeout_Timer.Reset       := NOT Drop_Ball_Feeder OR Feed_Resume_OS;
+			'TONR(Feeder_Drop_Timeout_Timer);
+			'IF Feeder_Drop_Timeout_Timer.DN AND NOT Ball_Feeder_Retracted THEN
+			'    Fault_Feeder_Drop_Timeout := 1;
+			'END_IF;
+			'
+			'//----// Recovery timer: //----//
+			'Feeder_Recovery_Timer.TimerEnable := (Ball_Feeder_Step = 00);
+			'Feeder_Recovery_Timer.Reset       := Ball_Feeder_Retracted OR Feed_Resume_OS;
+			'Feeder_Recovery_Timer.PRE         := 5000;
+			'TONR(Feeder_Recovery_Timer);
+			'
+			'//----// Watchdog: //----//
+			'Feeder_Watchdog_Timer.TimerEnable := (Lift_Ball_Feeder OR Drop_Ball_Feeder) AND (Ball_Feeder_Step <> 00);
+			'Feeder_Watchdog_Timer.Reset       := Feeder_Motion_Detected_OS OR Feed_Resume_OS;
+			'Feeder_Watchdog_Timer.PRE         := 5000;
+			'TONR(Feeder_Watchdog_Timer);
+			'IF Feeder_Watchdog_Timer.DN THEN
+			'    Fault_Feeder_Watchdog := 1;
+			'END_IF;
+			'
+			'//----// Feeder dropped dwell: //----//
+			'Ball_Feeder_Retracted_Timer.TimerEnable := Ball_Feeder_Retracted;
+			'Ball_Feeder_Retracted_Timer.Reset       := NOT Ball_Feeder_Retracted OR Feed_Resume_OS;
+			'Ball_Feeder_Retracted_Timer.PRE         := 400;
+			'TONR(Ball_Feeder_Retracted_Timer);
+			'
+			'//----------------// Recovery //---------------------//|
+			'	IF Feeder_Fault AND NOT Feeder_Fault_Active THEN
+			'    	Feeder_Fault_Active := 1;
+			'    	Ball_Feeder_Step := 00;
+			'	END_IF;
+			'	
+			'		
+			'			
+			'CASE Ball_Feeder_Step OF
+			'	99:// HARD FAULT
+			'	// --------------------------------------------------
+			'	 
+			'		Lift_Ball_Feeder := 0;
+			'		Drop_Ball_Feeder := 0;
+			'		Feeder_Homing := 0;
+			'		Feeder_Hard_Fault_HMI := 1;    // Hard Fault flag to HMI
+			'	
+			'		IF HMI_Fault_Reset_PB THEN 
+			'			Ball_Feeder_Step := 00;    // Retry Recovery
+			'			
+			'			Feeder_Fault_Active := 0;
+			'		END_IF;
+			'	00:// RECOVERY / INIT
+			'	// --------------------------------------------------
+			'	  
+			'		Lift_Ball_Feeder := 0;
+			'	 	Drop_Ball_Feeder := 1;
+			'	 	Feeder_Homing := 1;
+			'	 
+			'	 
+			'		IF Ball_Feeder_Retracted THEN 
+			'			Ball_Feeder_Step := 05;
+			'			Feeder_Hard_Fault_HMI := 0;
+			'			Fault_Feeder_Drop_Timeout := 0;
+			'			Fault_Feeder_Lift_Timeout := 0;
+			'			Fault_Feeder_Watchdog := 0;
+			'			Drop_Ball_Feeder := 0;
+			'			IF Feeder_Fault_Active THEN
+			'	    	Feeder_Recovery_Attempt_Counter := Feeder_Recovery_Attempt_Counter + 1;
+			'			Feeder_Recovery_Total := Feeder_Recovery_Total + 1;
+			'			END_IF;
+			'		ELSIF Feeder_Recovery_Timer.DN THEN 
+			'			Ball_Feeder_Step := 99;
+			'		END_IF;
+			'	05:// WAIT FOR START
+			'	// --------------------------------------------------
+			'	
+			'    	Lift_Ball_Feeder := 0;
+			'    	Drop_Ball_Feeder := 0;
+			'		Feeder_Homing := 0;
+			'		Feeder_Fault_Active := 0;
+			'    	IF Run_Latch AND NOT Magazine_Full THEN
+			'        	Ball_Feeder_Step := 10;
+			'    	END_IF;
+			'
+			'	10:// LIFT FEED CYLINDER
+			'	// --------------------------------------------------
+			'	
+			'    	Lift_Ball_Feeder := 1;
+			'    	Drop_Ball_Feeder := 0;
+			'    	IF Feeder_Extend_Count < 5 THEN
+			'
+			'        	IF Ball_Feeder_Intermediate OR Ball_Feeder_Extended THEN
+			'            	Ball_Feeder_Step := 20;
+			'				Feeder_Recovery_Attempt_Counter := 0;
+			'        	END_IF;
+			'
+			'    	ELSE
+			'        	IF Ball_Feeder_Extended THEN
+			'            	Ball_Feeder_Step := 20;
+			'            	Feeder_Extend_Count := 0;
+			'				Feeder_Recovery_Attempt_Counter := 0;
+			'        	END_IF;
+			'    	END_IF;
+			'
+			'	20:// DROP FEED CYLINDER
+			'	// --------------------------------------------------
+			'	
+			'    	Lift_Ball_Feeder := 0;
+			'    	Drop_Ball_Feeder := 1;
+			'    	IF Ball_Feeder_Retracted THEN
+			'        	Ball_Feeder_Step := 25;
+			'    	END_IF;
+			'		
+			'	25:// FEED CYLINDER DWELL
+			'	// --------------------------------------------------
+			'		
+			'		IF Ball_Feeder_Retracted_Timer.DN THEN
+			'			Ball_Feeder_Step := 30;
+			'		END_IF;
+			'		
+			'	30:// CYCLE COMPLETE / LOOP
+			'	// --------------------------------------------------
+			'    	IF Magazine_Full THEN
+			'        	Lift_Ball_Feeder := 0;
+			'        	Drop_Ball_Feeder := 0;
+			'        	Ball_Feeder_Step := 0;
+			'        	Feeder_Extend_Count := 0;
+			'
+			'    	ELSE 
+			'       	 	Feeder_Extend_Count := Feeder_Extend_Count + 1;
+			'        	Ball_Feeder_Step := 05;
+			'    	END_IF;
+			'	
+			'END_CASE;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Auto_Sort (Description := "Sorting step-based machine.")
+			'//----// Resume handling: //----//
+			'IF Sort_Resume_OS THEN
+			'    Color_Sort_Step := 0;   // every return to auto restarts the sort cycle
+			'END_IF;
+			'
+			'//----// Timers: //----//
+			'Color_Read_Advance_Cylinder_Timer.TimerEnable := (Color_Sort_Step = 5);
+			'Color_Read_Advance_Cylinder_Timer.PRE         := 1000;
+			'TONR(Color_Read_Advance_Cylinder_Timer);
+			'
+			'Color_Read_Dwell_Timer.TimerEnable := (Color_Sort_Step = 10);
+			'Color_Read_Dwell_Timer.PRE         := 1500;
+			'TONR(Color_Read_Dwell_Timer);
+			'
+			'Color_Sort_Dwell_Timer.TimerEnable := (Color_Sort_Step = 30);
+			'CASE Selected_Tube OF
+			'    1: Color_Sort_Dwell_Timer.PRE := 1500;
+			'    2: Color_Sort_Dwell_Timer.PRE := 2200;
+			'    3: Color_Sort_Dwell_Timer.PRE := 3200;
+			'ELSE
+			'    Color_Sort_Dwell_Timer.PRE := 3500;
+			'END_CASE;
+			'TONR(Color_Sort_Dwell_Timer);
+			'
+			'CASE Color_Sort_Step OF 
+			'	0: //INIT
+			'	// --------------------------------------------------	
+			'		Actuate_T1_Diverter := 0;
+			'		Actuate_T2_Diverter := 0;
+			'		Actuate_T3_Diverter := 0;
+			'		Retract_Color_Release_Cylinder := 0;
+			'		Retract_Color_Advance_Cylinder := 0;
+			'		
+			'		Color_Sort_Step := 5;
+			'		
+			'	5: //ADVANCE
+			'	// --------------------------------------------------	
+			'			Retract_Color_Release_Cylinder := 0;
+			'			Retract_Color_Advance_Cylinder := 1;
+			'		IF Color_Scan_Pink THEN
+			'    		Color := Pink;
+			'		ELSIF Color_Scan_Orange THEN
+			'    		Color := Orange;
+			'		ELSIF Color_Scan_Green THEN
+			'    		Color := Green;
+			'		ELSE
+			'    		Color := White;
+			'		END_IF;
+			'		IF Color_Read_Advance_Cylinder_Timer.DN THEN 
+			'			Color_Sort_Step := 10; 
+			'			Retract_Color_Advance_Cylinder := 0;
+			'		END_IF;
+			'			
+			'	10: //TUBE SELECT
+			'	// --------------------------------------------------	
+			'		IF Color_Read_Dwell_Timer.DN THEN 
+			'			IF ((Color = T1_TargetColor) AND NOT T1Full) THEN 
+			'				Selected_Tube := 1;
+			'				
+			'			ELSIF ((Color = T2_TargetColor) AND NOT T2Full) THEN 
+			'				Selected_Tube := 2;
+			'			
+			'			ELSIF ((Color = T3_TargetColor) AND NOT T3Full) THEN 
+			'				Selected_Tube := 3;
+			'			
+			'			ELSE 
+			'				Selected_Tube := 0;
+			'			END_IF;
+			'			
+			'		Color_Sort_Step := 20;
+			'		END_IF;
+			'		   
+			'	20: //DIVERTER FIRE
+			'	// --------------------------------------------------	
+			'		CASE Selected_Tube OF 
+			'			0:
+			'				Actuate_T1_Diverter := 0;
+			'				Actuate_T2_Diverter := 0;
+			'				Actuate_T3_Diverter := 0;
+			'			1:
+			'				Actuate_T1_Diverter := 1;
+			'				Actuate_T2_Diverter := 0;
+			'				Actuate_T3_Diverter := 0;	
+			'				Tube_Fill_Index[0] := Tube_Fill_Index[0] + 1;
+			'			2:
+			'				Actuate_T1_Diverter := 0;
+			'				Actuate_T2_Diverter := 1;
+			'				Actuate_T3_Diverter := 0;
+			'				Tube_Fill_Index[1] := Tube_Fill_Index[1] + 1;
+			'			3:
+			'				Actuate_T1_Diverter := 0;
+			'				Actuate_T2_Diverter := 0;
+			'				Actuate_T3_Diverter := 1;
+			'				Tube_Fill_Index[2] := Tube_Fill_Index[2] + 1;
+			'		END_CASE;
+			'			
+			'		Color_Sort_Step := 30;
+			'			
+			'	30: //RELEASE
+			'	// --------------------------------------------------	
+			'		Retract_Color_Release_Cylinder := 1;
+			'			
+			'		IF Color_Sort_Dwell_Timer.DN THEN Color_Sort_Step := 0;
+			'		END_IF;
+			'				
+			'END_CASE;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Color_Indexing (Description := "Sorting Array Generation")
+			'Pink := 1;
+			'Orange := 2;
+			'Green := 3;
+			'White := 0;
+			'
+			'// Sort modes: 0 = manual (the HMI writes each position of T<N>_Color),
+			'// 1-3 = fill all eight positions with Pink, Orange, or Green.
+			'IF (HMI_T1SortMode > 0) THEN
+			'    FOR i := 0 TO 7 DO
+			'        T1_Color[i] := HMI_T1SortMode;
+			'    END_FOR;
+			'END_IF;
+			'IF (HMI_T2SortMode > 0) THEN
+			'    FOR i := 0 TO 7 DO
+			'        T2_Color[i] := HMI_T2SortMode;
+			'    END_FOR;
+			'END_IF;
+			'IF (HMI_T3SortMode > 0) THEN
+			'    FOR i := 0 TO 7 DO
+			'        T3_Color[i] := HMI_T3SortMode;
+			'    END_FOR;
+			'END_IF;
+			'
+			'// Each tube's target is the color assigned to its next empty position.
+			'// A full tube has no next position, so its target is -1, which no ball can match.
+			'// Logix won't accept an array element as a subscript; each fill count
+			'// writes into an INT first.
+			'idx1 := Tube_Fill_Index[0];
+			'idx2 := Tube_Fill_Index[1];
+			'idx3 := Tube_Fill_Index[2];
+			'
+			'IF (T1Full OR (idx1 < 0) OR (idx1 > 7)) THEN
+			'    T1_TargetColor := -1;
+			'ELSE
+			'    T1_TargetColor := T1_Color[idx1];
+			'END_IF;
+			'
+			'IF (T2Full OR (idx2 < 0) OR (idx2 > 7)) THEN
+			'    T2_TargetColor := -1;
+			'ELSE
+			'    T2_TargetColor := T2_Color[idx2];
+			'END_IF;
+			'
+			'IF (T3Full OR (idx3 < 0) OR (idx3 > 7)) THEN
+			'    T3_TargetColor := -1;
+			'ELSE
+			'    T3_TargetColor := T3_Color[idx3];
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE FaultRecovery 
+			'
+		END_ST_ROUTINE
+
+		ST_ROUTINE Feed_ProcessBypass (Description := "Homes feeding cylinder and disables feed process.")
+			'Lift_Ball_Feeder := 0;
+			'IF NOT Ball_Feeder_Retracted THEN 
+			'	Drop_Ball_Feeder := 1;
+			'ELSE 
+			'	Drop_Ball_Feeder := 0;
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Initialization (Description := "Same as Power-Up Handler Initialization routine.")
+			'// FORCE SAFE OUTPUTS
+			'// -------------------------------
+			'    Lift_Ball_Feeder := 0;
+			'    Drop_Ball_Feeder := 0;
+			'
+			'    Actuate_T1_Diverter := 0;
+			'    Actuate_T2_Diverter := 0;
+			'    Actuate_T3_Diverter := 0;
+			'	
+			'	Actuate_T1_Drop_Advance := 0;
+			'	Actuate_T1_Drop_Release := 0;
+			'	Actuate_T2_Drop_Advance := 0;
+			'	Actuate_T2_Drop_Release := 0;
+			'	Actuate_T3_Drop_Advance := 0;
+			'	Actuate_T3_Drop_Release := 0;
+			'
+			'    Retract_Color_Advance_Cylinder := 0;
+			'    Retract_Color_Release_Cylinder := 0;
+			'
+			'    Run_Light := 0;
+			'
+			'    //  RESET MACHINE STATE
+			'    // -------------------------------
+			'    Run_Latch := 0;
+			'	System_Mode := 30;
+			'    Feeder_Fault_Active := 0;
+			'	Feeder_Recovery_Attempt_Counter := 0;
+			'    Feeder_Homing := 0;
+			'
+			'    Ball_Feeder_Step := 0;     // start in recovery/home
+			'    Color_Sort_Step := 0;
+			'
+			'    // CLEAR FAULTS
+			'    // -------------------------------
+			'    Fault_Feeder_Drop_Timeout := 0;
+			'    Fault_Feeder_Lift_Timeout := 0;
+			'    Fault_Feeder_Watchdog := 0;
+			'
+			'    // RESET INTERNAL FLAGS
+			'    // -------------------------------
+			'    Feeder_Extend_Count := 0;
+			'    Start_PB_Storage := Start_PB;
+			'    Blink_Bit := 0;
+			'	HMI_Setup_Done := 0;
+			'	HMI_Trigger_Init := 0;
+			'	Number_of_Positions := 8;
+			'	HMI_All_Tubes_Are_Empty := 0;
+			'	Fill_Indexes_Cleared := 0;
+			'    
+			'	// REQUEST OPERATOR INPUT
+			'	// -------------------------------
+			'	HMI_Setup_Request := 1;
+			'
+			'    // DONE (RUN ONLY ONCE)
+			'    // -------------------------------
+			'	PLC_Init_Done := 1;
+		END_ST_ROUTINE
+
+		ROUTINE MainRoutine (Description := "Executes subroutine calls.")
+				RC: "System Initialization";
+				N: XIO(PLC_Init_Done)JSR(Initialization,0);
+				RC: "Monitoring and Data Management Subroutines";
+				N: JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(TubeFill_Indexing,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);
+				N: JSR(Mode_Dispatch,0);
+		END_ROUTINE
+
+		ST_ROUTINE Manual_Ctrl 
+			'	Lift_Ball_Feeder := HMI_RaiseFeedCylinder AND NOT Ball_Feeder_Extended;
+			'	Drop_Ball_Feeder := HMI_DropFeedCylinder AND NOT Ball_Feeder_Retracted;
+			'	Actuate_T1_Diverter := HMI_Diverter1;
+			'	Actuate_T2_Diverter := HMI_Diverter2;
+			'	Actuate_T3_Diverter := HMI_Diverter3;
+			'	Retract_Color_Advance_Cylinder := HMI_ColorStationAdv;
+			'	Retract_Color_Release_Cylinder := HMI_ColorStationRel;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Mode_Dispatch 
+			'// Stop request handler: (Auto only)
+			'IF ((NOT Run_Latch OR NOT Stop_PB) AND (System_Mode = 30)) THEN
+			'    JSR(StopProcedures, 0);
+			'END_IF;
+			'
+			'Auto_Run_Enable := (Run_Latch AND PLC_Init_Done AND (System_Mode = 30));
+			'
+			'// Feed:
+			'Feed_Run            := (Auto_Run_Enable AND NOT Feed_Bypass);
+			'Feed_Resume_OS      := (Feed_Run AND NOT Feed_Resume_Storage);
+			'Feed_Resume_Storage := Feed_Run;
+			'IF Feed_Run THEN
+			'    JSR(Auto_Feed, 0);
+			'ELSIF Auto_Run_Enable THEN        // Auto with Feed_Bypass on
+			'    JSR(Feed_ProcessBypass, 0);
+			'END_IF;
+			'
+			'// Sort:
+			'Sort_Run            := (Auto_Run_Enable AND NOT Sort_Bypass);
+			'Sort_Resume_OS      := (Sort_Run AND NOT Sort_Resume_Storage);
+			'Sort_Resume_Storage := Sort_Run;
+			'IF Sort_Run THEN
+			'    JSR(Auto_Sort, 0);
+			'ELSIF Auto_Run_Enable THEN        // Auto with Sort_Bypass on
+			'    JSR(Sort_ProcessBypass, 0);
+			'END_IF;
+			'
+			'// Manual and recovery:
+			'IF (PLC_Init_Done AND (System_Mode = 20)) THEN
+			'    JSR(Manual_Ctrl, 0);
+			'END_IF;
+			'IF (PLC_Init_Done AND (System_Mode = 10)) THEN
+			'    JSR(FaultRecovery, 0);
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Mode_Mgmt (Description := "Mode Selection")
+			'ModeChangeTimer.TimerEnable := ((HMI_RequestedMode <> System_Mode) AND (HMI_RequestedMode = 20));
+			'ModeChangeTimer.Reset := (HMI_RequestedMode = System_Mode);
+			'TONR(ModeChangeTimer);
+			'
+			'IF (HMI_RequestedMode <> System_Mode) THEN
+			'	//Auto
+			'	IF (HMI_RequestedMode = 30) THEN
+			'		System_Mode := HMI_RequestedMode;
+			'	END_IF;
+			'	//Manual
+			'	IF (HMI_RequestedMode = 20) THEN
+			'		JSR(StopProcedures, 0);
+			'		IF (ModeChangeTimer.DN AND NOT Dropping_Ball_Feeder) THEN
+			'			System_Mode := HMI_RequestedMode;
+			'		END_IF;
+			'	END_IF;
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE Sort_ProcessBypass (Description := "Holds sort cylinders open and disables sort process.")
+			'Actuate_T1_Diverter := 0;
+			'Actuate_T2_Diverter := 0;
+			'Actuate_T3_Diverter := 0;
+			'Retract_Color_Advance_Cylinder := 1;
+			'Retract_Color_Release_Cylinder := 1;
+		END_ST_ROUTINE
+
+		ST_ROUTINE StopProcedures 
+			'Ball_Feeder_Step := 00;
+			'Lift_Ball_Feeder := 0;
+			'IF NOT Ball_Feeder_Retracted THEN 
+			'	Dropping_Ball_Feeder := 1;
+			'	Drop_Ball_Feeder := 1;
+			'ELSE 
+			'	Drop_Ball_Feeder := 0;
+			'END_IF;
+			'
+			'Color_Sort_Step := 0;
+			'Retract_Color_Advance_Cylinder := 0;
+			'Retract_Color_Release_Cylinder := 0;
+			'
+			'Actuate_T1_Diverter := 0;
+			'Actuate_T2_Diverter := 0;
+			'Actuate_T3_Diverter := 0;
+		END_ST_ROUTINE
+
+		ST_ROUTINE SysCtl (Description := "System Control")
+			'Start_PB_RE := (Start_PB AND NOT Start_PB_Storage);
+			'Start_PB_Storage := Start_PB;
+			'
+			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND NOT Fault AND (System_Mode = 30));
+			'
+			'IF Fault THEN                                                                //Run Light 
+			'	Run_Light := Fault_Blink;
+			'ELSE 
+			'	Run_Light := Run_Latch;         
+			'END_IF;
+			'
+			'
+			'Feeder_Stuck_at_Sensor := (Feeder_Recovery_Attempt_Counter > 3);
+			'Feeder_Fault :=                                                              //Feeder Fault Conditions
+			'    Fault_Feeder_Drop_Timeout OR
+			'	Fault_Feeder_Lift_Timeout OR
+			'	Fault_Feeder_Watchdog;
+			'	
+			'Fault := ((Feeder_Stuck_at_Sensor OR Feeder_Fault) AND NOT Feeder_Homing);
+			'
+			'IF HMI_Fault_Reset_PB THEN                                                       //Fault Reset
+			'	Fault_Feeder_Drop_Timeout := 0;
+			'	Fault_Feeder_Lift_Timeout := 0;
+			'	Fault_Feeder_Watchdog := 0;
+			'	Feeder_Stuck_at_Sensor := 0; 
+			'	Feeder_Recovery_Attempt_Counter := 0;
+			'END_IF;
+			'
+			'// Bypass only after the current ball finishes (sort back at step 0),
+			'// Drop out as soon as any tube has room again.
+			'Sort_Bypass := (All_Tubes_Full AND (Sort_Bypass OR (Color_Sort_Step = 0)));
+		END_ST_ROUTINE
+
+		ST_ROUTINE SysMon (Description := "System Monitoring")
+			'//                                NOTES:
+			'//			HMI_Page_State (s) are: 1-Init; 2-Home; 3-Config; 4-Manual
+			'
+			'IF HMI_Trigger_Init THEN 
+			'	PLC_Init_Done := 0;
+			'END_IF;
+			'IF (HMI_Page_State = 1) THEN 
+			'	HMI_Setup_Request := 0;
+			'END_IF;
+			'
+			'Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;
+			'System_Standby := Run_Allowed AND NOT Run_Latch;
+			'
+			'Fault_Blink := (Fault AND Blink_Bit);                                        //Fault Blink
+			'
+			'//----// Global 1Hz Blink Timer //----//|
+			'One_Sec_Blink_Timer.TimerEnable := 1;
+			'One_Sec_Blink_Timer.PRE := 500;
+			'TONR(One_Sec_Blink_Timer);
+			'IF One_Sec_Blink_Timer.DN THEN
+			'	One_Sec_Blink_Timer.Reset := 1;
+			'	Blink_Bit := NOT Blink_Bit;
+			'ELSE
+			'	One_Sec_Blink_Timer.Reset := 0;
+			'END_IF;
+			'//------------------------------------//|
+			'
+			'IF (T1Full AND T2Full AND T3Full) THEN
+			'	All_Tubes_Full := 1;
+			'ELSE 
+			'	All_Tubes_Full := 0;
+			'END_IF;
+			'
+			'IF Drop_Ball_Feeder THEN
+			'	Dropping_Ball_Feeder := 1;
+			'ELSE
+			'	Dropping_Ball_Feeder := 0;
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE TEMPORARYTubeDrops (Description := "To be replaced by tube emptying + ball shuffling subroutine(s)")
+			'// Close Tube Drops (TEMPORARY)
+			'IF Run_Latch THEN              
+			'	Actuate_T1_Drop_Advance := 0;
+			'	Actuate_T1_Drop_Release := 1;
+			'	Actuate_T2_Drop_Advance := 0;
+			'	Actuate_T2_Drop_Release := 1;
+			'	Actuate_T3_Drop_Advance := 0;
+			'	Actuate_T3_Drop_Release := 1;
+			'END_IF;
+		END_ST_ROUTINE
+
+		ST_ROUTINE TubeFill_Indexing (Description := "Capacity Array Generation")
+			'//                                NOTES:
+			'//			HMI_All_Tubes_Are_Empty States: 0-UNDEF; 10-Yes; 20-No;
+			'
+			'IF ((HMI_All_Tubes_Are_Empty = 10) AND NOT Fill_Indexes_Cleared) THEN 
+			'Tube_Fill_Index[0] := 0; 
+			'Tube_Fill_Index[1] := 0; 
+			'Tube_Fill_Index[2] := 0;
+			'Fill_Indexes_Cleared := 1;
+			'END_IF;
+			'
+			'T1Full := (Tube_Fill_Index[0] >= Number_of_Positions);
+			'T2Full := (Tube_Fill_Index[1] >= Number_of_Positions);
+			'T3Full := (Tube_Fill_Index[2] >= Number_of_Positions);
+			'//Clamp
+			'IF (Tube_Fill_Index[0] > Number_of_Positions) THEN
+			'	Tube_Fill_Index[0] := Number_of_Positions;
+			'END_IF;   
+			'IF (Tube_Fill_Index[1] > Number_of_Positions) THEN
+			'	Tube_Fill_Index[1] := Number_of_Positions;
+			'END_IF;
+			'IF (Tube_Fill_Index[2] > Number_of_Positions) THEN
+			'	Tube_Fill_Index[2] := Number_of_Positions;
+			'END_IF;
+		END_ST_ROUTINE
+
+		CHILD_PROGRAMS
+		END_CHILD_PROGRAMS
+
+	END_PROGRAM
+
+	TASK MainTask (Type := CONTINUOUS,
+	               Rate := 10,
+	               Priority := 10,
+	               Watchdog := 500,
+	               DisableUpdateOutputs := No,
+	               InhibitTask := No)
+			MainProgram;
+	END_TASK
+
+CONFIG CST(SystemTimeMasterID := 0) END_CONFIG
+
+CONFIG EthernetNetwork(SupervisorModeEnabled := 0,
+	                                 SupervisorPrecedence := 0,
+	                                 BeaconInterval := 400,
+	                                 BeaconTimeout := 1960,
+	                                 VLANID := 0) END_CONFIG
+
+CONFIG EthernetPort1(Label := "1",
+	                             PortEnabled := 1) END_CONFIG
+
+CONFIG EthernetPort2(Label := "2",
+	                             PortEnabled := 1) END_CONFIG
+
+CONFIG TimeSynchronize(Priority1 := 128,
+	                                 Priority2 := 128,
+	                                 PTPEnable := 0) END_CONFIG
+
+CONFIG WallClockTime(LocalTimeAdjustment := 0,
+	                     TimeZone := 0) END_CONFIG
+
+END_CONTROLLER
+

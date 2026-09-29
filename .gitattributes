@@ -1,0 +1,13 @@
+cat > .gitattributes << 'EOF'
+# PLC and HMI project files: store exactly as-is
+*.ACD  binary
+*.apa  binary
+*.mer  binary
+*.cd3  binary
+*.cd31 binary
+*.cd32 binary
+
+# Logix exports: diff as text, but don't touch line endings
+*.L5K  -text diff
+*.L5X  -text diff
+EOF

@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Sep 29 18:25:35 2026
+  Exported  := Thu Oct  1 16:42:21 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -13,8 +13,6 @@ IE_VER := 2.27;
 
 CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
                      Major := 36,
-                     TimeSlice := 20,
-                     ShareUnusedTimeSlice := 1,
                      PowerLossProgram := "Initialize",
                      RedundancyEnabled := 0,
                      KeepTestEditsOnSwitchOver := 0,
@@ -39,6 +37,24 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		INT Code (Description := "Unique code for the fault");
 		DINT Info[8] (Description := "Fault specific information",
 		          Radix := Hex);
+	END_DATATYPE
+
+	DATATYPE UDT_Tube (Description := "Per-tube sort configuration, fill state, and ball inventory. Position 0 = bottom of tube.",
+	                   FamilyType := NoFamily,
+	                   ExternalLogging := "true")
+		INT TargetPattern[8] (Description := "Target color assigned to each position");
+		INT TargetColor (Description := "Target color of next empty position. -1 when full",
+		                ExternalAccess := Read Only);
+		INT FillIndex (Description := "Balls currently in tube",
+		              ExternalAccess := Read Only);
+		INT Inventory[8] (Description := "Actual color in each position. -1 = empty",
+		              ExternalAccess := Read Only);
+		SINT ZZZZZZZZZZUDT_Tube4 (Hidden := 1,
+		                         ExternalAccess := Read Only);
+		BIT Full ZZZZZZZZZZUDT_Tube4 : 0 (Description := "Tube is at capacity",
+		      ExternalAccess := Read Only);
+		BIT InventoryValid ZZZZZZZZZZUDT_Tube4 : 1 (Description := "Inventory has been validated",
+		                ExternalAccess := Read Only);
 	END_DATATYPE
 
 	MODULE Local (Parent := "Local",
@@ -123,7 +139,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Input (Rate := 20000,
 			                  EventID := 0,
 			                  Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,1062];
+					InputData (ExternalAccess := Read Only) := [0,1126];
 			END_CONNECTION
 
 	END_MODULE
@@ -283,10 +299,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		HMI_T1SortMode : DINT (RADIX := Decimal) := 0;
 		HMI_T2Drop1 : BOOL (RADIX := Decimal) := 0;
 		HMI_T2Enable : BOOL (RADIX := Decimal) := 0;
-		HMI_T2SortMode : DINT (RADIX := Decimal) := 3;
+		HMI_T2SortMode : DINT (RADIX := Decimal) := 2;
 		HMI_T3Drop1 : BOOL (RADIX := Decimal) := 0;
 		HMI_T3Enable : BOOL (RADIX := Decimal) := 0;
-		HMI_T3SortMode : DINT (RADIX := Decimal) := 2;
+		HMI_T3SortMode : DINT (RADIX := Decimal) := 3;
 		HMI_Trigger_Init : BOOL (RADIX := Decimal) := 0;
 		HMI_Tube1_Diverter : BOOL (RADIX := Decimal) := 0;
 		HMI_Tube2_Diverter : BOOL (RADIX := Decimal) := 0;
@@ -310,7 +326,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]];
 		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,0,0,0,0,0,0,0,0,0,1];
 		Number_of_Positions : DINT (RADIX := Decimal) := 8;
-		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,184,0,0,3981885,1536,981668463,0,184,7];
+		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,73,0,0,472494,1536,981668463,0,73,7];
 		Orange : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 2;
 		Pink : DINT (RADIX := Decimal,
@@ -359,7 +375,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		T1Full : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T1_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [3,2,1,3,2,1,3,2];
+		            ExternalAccess := Read Only) := [1,1,1,1,1,1,1,1];
 		T1_Diverter_Closed OF Local:1:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T1_Diverter_Opened OF Local:1:I.Data.10 (RADIX := Decimal,
@@ -375,11 +391,11 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		T1_Index : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T1_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 3;
+		            ExternalAccess := Read Only) := 1;
 		T2Full : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T2_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [3,3,3,3,3,3,3,3];
+		            ExternalAccess := Read Only) := [2,2,2,2,2,2,2,2];
 		T2_Diverter_Closed OF Local:1:I.Data.13 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T2_Diverter_Opened OF Local:1:I.Data.12 (RADIX := Decimal,
@@ -395,11 +411,11 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		T2_Index : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T2_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 3;
+		            ExternalAccess := Read Only) := 2;
 		T3Full : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T3_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [2,2,2,2,2,2,2,2];
+		            ExternalAccess := Read Only) := [3,3,3,3,3,3,3,3];
 		T3_Diverter_Closed OF Local:1:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T3_Diverter_Opened OF Local:1:I.Data.14 (RADIX := Decimal,
@@ -415,7 +431,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		T3_Index : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		T3_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 2;
+		            ExternalAccess := Read Only) := 3;
+		Tube : UDT_Tube[3] (COMMENT[0] := "Tube 1",
+		            COMMENT[1] := "Tube 2",
+		            COMMENT[2] := "Tube 3") := [[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0]];
 		Tube_1_BDPhoto OF Local:1:I.Data.0 (Description := "Unused",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only);
@@ -425,8 +444,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Tube_3_BDPhoto OF Local:1:I.Data.2 (Description := "Unused",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Tube_Color : INT[3,8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [3,2,1,3,2,1,3,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2];
 		Tube_Fill_Index : INT[3] (RADIX := Decimal) := [0,0,0];
 		White : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;

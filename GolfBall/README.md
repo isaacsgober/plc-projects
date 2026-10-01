@@ -33,3 +33,7 @@ The project uses Structured Text wherever practical.
 ## Notes
 
 - This is a lab machine with a process stop only; it has no E-stop.
+
+## Workflow
+
+Studio 5000 and Crimson run on lab computers where Git can't be installed, so a GitHub Codespace was opened to serve as the Git client. Each session, files pulled from GitHub are verified against the last session's output with SHA-256 hashes (`GolfBall/tools/hashcheck.ps1`) before work begins. Changes are committed on a branch per issue and merged through PRs.

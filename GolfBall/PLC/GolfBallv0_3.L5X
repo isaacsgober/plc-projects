@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Oct 06 17:34:40 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Oct 06 17:34:24 2026" SFCExecutionControl="CurrentActive"
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Oct 06 18:20:58 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Oct 06 18:20:41 2026" SFCExecutionControl="CurrentActive"
  SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
@@ -2246,13 +2246,13 @@
 <![CDATA[CASE Selected_Tube OF]]>
 </Line>
 <Line Number="16">
-<![CDATA[    1: Color_Sort_Dwell_Timer.PRE := 1500;]]>
+<![CDATA[    0: Color_Sort_Dwell_Timer.PRE := 1500;]]>
 </Line>
 <Line Number="17">
-<![CDATA[    2: Color_Sort_Dwell_Timer.PRE := 2200;]]>
+<![CDATA[    1: Color_Sort_Dwell_Timer.PRE := 2200;]]>
 </Line>
 <Line Number="18">
-<![CDATA[    3: Color_Sort_Dwell_Timer.PRE := 3200;]]>
+<![CDATA[    2: Color_Sort_Dwell_Timer.PRE := 3200;]]>
 </Line>
 <Line Number="19">
 <![CDATA[ELSE]]>
@@ -2309,34 +2309,34 @@
 <![CDATA[	// --------------------------------------------------	]]>
 </Line>
 <Line Number="37">
-<![CDATA[			Retract_Color_Release_Cylinder := 0;]]>
+<![CDATA[		Retract_Color_Release_Cylinder := 0;]]>
 </Line>
 <Line Number="38">
-<![CDATA[			Retract_Color_Advance_Cylinder := 1;]]>
+<![CDATA[		Retract_Color_Advance_Cylinder := 1;]]>
 </Line>
 <Line Number="39">
 <![CDATA[		IF Color_Scan_Pink THEN]]>
 </Line>
 <Line Number="40">
-<![CDATA[    		Color := Pink;]]>
+<![CDATA[			Color := Pink;]]>
 </Line>
 <Line Number="41">
 <![CDATA[		ELSIF Color_Scan_Orange THEN]]>
 </Line>
 <Line Number="42">
-<![CDATA[    		Color := Orange;]]>
+<![CDATA[			Color := Orange;]]>
 </Line>
 <Line Number="43">
 <![CDATA[		ELSIF Color_Scan_Green THEN]]>
 </Line>
 <Line Number="44">
-<![CDATA[    		Color := Green;]]>
+<![CDATA[			Color := Green;]]>
 </Line>
 <Line Number="45">
 <![CDATA[		ELSE]]>
 </Line>
 <Line Number="46">
-<![CDATA[    		Color := White;]]>
+<![CDATA[			Color := White;]]>
 </Line>
 <Line Number="47">
 <![CDATA[		END_IF;]]>
@@ -2363,156 +2363,96 @@
 <![CDATA[	// --------------------------------------------------	]]>
 </Line>
 <Line Number="55">
-<![CDATA[		IF Color_Read_Dwell_Timer.DN THEN ]]>
+<![CDATA[		IF Color_Read_Dwell_Timer.DN THEN]]>
 </Line>
 <Line Number="56">
-<![CDATA[			IF ((Color = T1_TargetColor) AND NOT T1Full) THEN ]]>
+<![CDATA[			Selected_Tube := -1;]]>
 </Line>
 <Line Number="57">
-<![CDATA[				Selected_Tube := 1;]]>
+<![CDATA[			FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="58">
-<![CDATA[				]]>
+<![CDATA[				IF ((Color = Tube[t].TargetColor) AND NOT Tube[t].Full) THEN]]>
 </Line>
 <Line Number="59">
-<![CDATA[			ELSIF ((Color = T2_TargetColor) AND NOT T2Full) THEN ]]>
+<![CDATA[					Selected_Tube := t;]]>
 </Line>
 <Line Number="60">
-<![CDATA[				Selected_Tube := 2;]]>
+<![CDATA[					EXIT;]]>
 </Line>
 <Line Number="61">
-<![CDATA[			]]>
+<![CDATA[				END_IF;]]>
 </Line>
 <Line Number="62">
-<![CDATA[			ELSIF ((Color = T3_TargetColor) AND NOT T3Full) THEN ]]>
+<![CDATA[			END_FOR;]]>
 </Line>
 <Line Number="63">
-<![CDATA[				Selected_Tube := 3;]]>
+<![CDATA[]]>
 </Line>
 <Line Number="64">
-<![CDATA[			]]>
+<![CDATA[			Color_Sort_Step := 20;]]>
 </Line>
 <Line Number="65">
-<![CDATA[			ELSE ]]>
+<![CDATA[		END_IF;]]>
 </Line>
 <Line Number="66">
-<![CDATA[				Selected_Tube := 0;]]>
-</Line>
-<Line Number="67">
-<![CDATA[			END_IF;]]>
-</Line>
-<Line Number="68">
-<![CDATA[			]]>
-</Line>
-<Line Number="69">
-<![CDATA[		Color_Sort_Step := 20;]]>
-</Line>
-<Line Number="70">
-<![CDATA[		END_IF;]]>
-</Line>
-<Line Number="71">
 <![CDATA[		   ]]>
 </Line>
-<Line Number="72">
+<Line Number="67">
 <![CDATA[	20: //DIVERTER FIRE]]>
 </Line>
-<Line Number="73">
+<Line Number="68">
 <![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="69">
+<![CDATA[		Actuate_T1_Diverter := (Selected_Tube = 0);]]>
+</Line>
+<Line Number="70">
+<![CDATA[		Actuate_T2_Diverter := (Selected_Tube = 1);]]>
+</Line>
+<Line Number="71">
+<![CDATA[		Actuate_T3_Diverter := (Selected_Tube = 2);]]>
+</Line>
+<Line Number="72">
+<![CDATA[		IF (Selected_Tube > -1) THEN]]>
+</Line>
+<Line Number="73">
+<![CDATA[			Tube[Selected_Tube].FillIndex := Tube[Selected_Tube].FillIndex + 1;]]>
 </Line>
 <Line Number="74">
-<![CDATA[		CASE Selected_Tube OF ]]>
-</Line>
-<Line Number="75">
-<![CDATA[			0:]]>
-</Line>
-<Line Number="76">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="77">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="78">
-<![CDATA[				Actuate_T3_Diverter := 0;]]>
-</Line>
-<Line Number="79">
-<![CDATA[			1:]]>
-</Line>
-<Line Number="80">
-<![CDATA[				Actuate_T1_Diverter := 1;]]>
-</Line>
-<Line Number="81">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="82">
-<![CDATA[				Actuate_T3_Diverter := 0;	]]>
-</Line>
-<Line Number="83">
-<![CDATA[				Tube_Fill_Index[0] := Tube_Fill_Index[0] + 1;]]>
-</Line>
-<Line Number="84">
-<![CDATA[			2:]]>
-</Line>
-<Line Number="85">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="86">
-<![CDATA[				Actuate_T2_Diverter := 1;]]>
-</Line>
-<Line Number="87">
-<![CDATA[				Actuate_T3_Diverter := 0;]]>
-</Line>
-<Line Number="88">
-<![CDATA[				Tube_Fill_Index[1] := Tube_Fill_Index[1] + 1;]]>
-</Line>
-<Line Number="89">
-<![CDATA[			3:]]>
-</Line>
-<Line Number="90">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="91">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="92">
-<![CDATA[				Actuate_T3_Diverter := 1;]]>
-</Line>
-<Line Number="93">
-<![CDATA[				Tube_Fill_Index[2] := Tube_Fill_Index[2] + 1;]]>
-</Line>
-<Line Number="94">
-<![CDATA[		END_CASE;]]>
-</Line>
-<Line Number="95">
-<![CDATA[			]]>
-</Line>
-<Line Number="96">
-<![CDATA[		Color_Sort_Step := 30;]]>
-</Line>
-<Line Number="97">
-<![CDATA[			]]>
-</Line>
-<Line Number="98">
-<![CDATA[	30: //RELEASE]]>
-</Line>
-<Line Number="99">
-<![CDATA[	// --------------------------------------------------	]]>
-</Line>
-<Line Number="100">
-<![CDATA[		Retract_Color_Release_Cylinder := 1;]]>
-</Line>
-<Line Number="101">
-<![CDATA[			]]>
-</Line>
-<Line Number="102">
-<![CDATA[		IF Color_Sort_Dwell_Timer.DN THEN Color_Sort_Step := 0;]]>
-</Line>
-<Line Number="103">
 <![CDATA[		END_IF;]]>
 </Line>
-<Line Number="104">
-<![CDATA[				]]>
+<Line Number="75">
+<![CDATA[		]]>
 </Line>
-<Line Number="105">
+<Line Number="76">
+<![CDATA[		Color_Sort_Step := 30;]]>
+</Line>
+<Line Number="77">
+<![CDATA[			]]>
+</Line>
+<Line Number="78">
+<![CDATA[	30: //RELEASE]]>
+</Line>
+<Line Number="79">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="80">
+<![CDATA[		Retract_Color_Release_Cylinder := 1;]]>
+</Line>
+<Line Number="81">
+<![CDATA[			]]>
+</Line>
+<Line Number="82">
+<![CDATA[		IF Color_Sort_Dwell_Timer.DN THEN]]>
+</Line>
+<Line Number="83">
+<![CDATA[			Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="84">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="85">
 <![CDATA[END_CASE;]]>
 </Line>
 </STContent>

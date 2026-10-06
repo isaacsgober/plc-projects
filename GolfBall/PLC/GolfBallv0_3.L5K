@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Oct  6 17:34:32 2026
+  Exported  := Tue Oct  6 18:20:47 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -731,9 +731,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'
 			'Color_Sort_Dwell_Timer.TimerEnable := (Color_Sort_Step = 30);
 			'CASE Selected_Tube OF
-			'    1: Color_Sort_Dwell_Timer.PRE := 1500;
-			'    2: Color_Sort_Dwell_Timer.PRE := 2200;
-			'    3: Color_Sort_Dwell_Timer.PRE := 3200;
+			'    0: Color_Sort_Dwell_Timer.PRE := 1500;
+			'    1: Color_Sort_Dwell_Timer.PRE := 2200;
+			'    2: Color_Sort_Dwell_Timer.PRE := 3200;
 			'ELSE
 			'    Color_Sort_Dwell_Timer.PRE := 3500;
 			'END_CASE;
@@ -752,16 +752,16 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'		
 			'	5: //ADVANCE
 			'	// --------------------------------------------------	
-			'			Retract_Color_Release_Cylinder := 0;
-			'			Retract_Color_Advance_Cylinder := 1;
+			'		Retract_Color_Release_Cylinder := 0;
+			'		Retract_Color_Advance_Cylinder := 1;
 			'		IF Color_Scan_Pink THEN
-			'    		Color := Pink;
+			'			Color := Pink;
 			'		ELSIF Color_Scan_Orange THEN
-			'    		Color := Orange;
+			'			Color := Orange;
 			'		ELSIF Color_Scan_Green THEN
-			'    		Color := Green;
+			'			Color := Green;
 			'		ELSE
-			'    		Color := White;
+			'			Color := White;
 			'		END_IF;
 			'		IF Color_Read_Advance_Cylinder_Timer.DN THEN 
 			'			Color_Sort_Step := 10; 
@@ -770,56 +770,36 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'			
 			'	10: //TUBE SELECT
 			'	// --------------------------------------------------	
-			'		IF Color_Read_Dwell_Timer.DN THEN 
-			'			IF ((Color = T1_TargetColor) AND NOT T1Full) THEN 
-			'				Selected_Tube := 1;
-			'				
-			'			ELSIF ((Color = T2_TargetColor) AND NOT T2Full) THEN 
-			'				Selected_Tube := 2;
-			'			
-			'			ELSIF ((Color = T3_TargetColor) AND NOT T3Full) THEN 
-			'				Selected_Tube := 3;
-			'			
-			'			ELSE 
-			'				Selected_Tube := 0;
-			'			END_IF;
-			'			
-			'		Color_Sort_Step := 20;
+			'		IF Color_Read_Dwell_Timer.DN THEN
+			'			Selected_Tube := -1;
+			'			FOR t := 0 TO 2 DO
+			'				IF ((Color = Tube[t].TargetColor) AND NOT Tube[t].Full) THEN
+			'					Selected_Tube := t;
+			'					EXIT;
+			'				END_IF;
+			'			END_FOR;
+			'
+			'			Color_Sort_Step := 20;
 			'		END_IF;
 			'		   
 			'	20: //DIVERTER FIRE
 			'	// --------------------------------------------------	
-			'		CASE Selected_Tube OF 
-			'			0:
-			'				Actuate_T1_Diverter := 0;
-			'				Actuate_T2_Diverter := 0;
-			'				Actuate_T3_Diverter := 0;
-			'			1:
-			'				Actuate_T1_Diverter := 1;
-			'				Actuate_T2_Diverter := 0;
-			'				Actuate_T3_Diverter := 0;	
-			'				Tube_Fill_Index[0] := Tube_Fill_Index[0] + 1;
-			'			2:
-			'				Actuate_T1_Diverter := 0;
-			'				Actuate_T2_Diverter := 1;
-			'				Actuate_T3_Diverter := 0;
-			'				Tube_Fill_Index[1] := Tube_Fill_Index[1] + 1;
-			'			3:
-			'				Actuate_T1_Diverter := 0;
-			'				Actuate_T2_Diverter := 0;
-			'				Actuate_T3_Diverter := 1;
-			'				Tube_Fill_Index[2] := Tube_Fill_Index[2] + 1;
-			'		END_CASE;
-			'			
+			'		Actuate_T1_Diverter := (Selected_Tube = 0);
+			'		Actuate_T2_Diverter := (Selected_Tube = 1);
+			'		Actuate_T3_Diverter := (Selected_Tube = 2);
+			'		IF (Selected_Tube > -1) THEN
+			'			Tube[Selected_Tube].FillIndex := Tube[Selected_Tube].FillIndex + 1;
+			'		END_IF;
+			'		
 			'		Color_Sort_Step := 30;
 			'			
 			'	30: //RELEASE
 			'	// --------------------------------------------------	
 			'		Retract_Color_Release_Cylinder := 1;
 			'			
-			'		IF Color_Sort_Dwell_Timer.DN THEN Color_Sort_Step := 0;
+			'		IF Color_Sort_Dwell_Timer.DN THEN
+			'			Color_Sort_Step := 0;
 			'		END_IF;
-			'				
 			'END_CASE;
 		END_ST_ROUTINE
 

@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Oct  6 18:20:47 2026
+  Exported  := Tue Oct  6 18:36:25 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -1104,25 +1104,20 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'//			HMI_All_Tubes_Are_Empty States: 0-UNDEF; 10-Yes; 20-No;
 			'
 			'IF ((HMI_All_Tubes_Are_Empty = 10) AND NOT Fill_Indexes_Cleared) THEN 
-			'Tube_Fill_Index[0] := 0; 
-			'Tube_Fill_Index[1] := 0; 
-			'Tube_Fill_Index[2] := 0;
-			'Fill_Indexes_Cleared := 1;
+			'	FOR t := 0 TO 2 DO
+			'		Tube[t].FillIndex := 0;
+			'	END_FOR;
+			'	Fill_Indexes_Cleared := 1;
 			'END_IF;
 			'
-			'T1Full := (Tube_Fill_Index[0] >= Number_of_Positions);
-			'T2Full := (Tube_Fill_Index[1] >= Number_of_Positions);
-			'T3Full := (Tube_Fill_Index[2] >= Number_of_Positions);
-			'//Clamp
-			'IF (Tube_Fill_Index[0] > Number_of_Positions) THEN
-			'	Tube_Fill_Index[0] := Number_of_Positions;
-			'END_IF;   
-			'IF (Tube_Fill_Index[1] > Number_of_Positions) THEN
-			'	Tube_Fill_Index[1] := Number_of_Positions;
-			'END_IF;
-			'IF (Tube_Fill_Index[2] > Number_of_Positions) THEN
-			'	Tube_Fill_Index[2] := Number_of_Positions;
-			'END_IF;
+			'FOR t := 0 TO 2 DO
+			'	Tube[t].Full := (Tube[t].FillIndex >= Number_of_Positions);
+			'
+			'	//Clamp
+			'	IF (Tube[t].FillIndex > Number_of_Positions) THEN
+			'		Tube[t].FillIndex := Number_of_Positions;
+			'	END_IF;
+			'END_FOR;
 		END_ST_ROUTINE
 
 		CHILD_PROGRAMS

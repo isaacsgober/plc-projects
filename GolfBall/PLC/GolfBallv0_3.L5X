@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Oct 06 18:36:32 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Oct 06 18:36:16 2026" SFCExecutionControl="CurrentActive"
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Oct 06 18:49:38 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Oct 06 18:49:24 2026" SFCExecutionControl="CurrentActive"
  SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
@@ -273,6 +273,14 @@
 </Modules>
 <AddOnInstructionDefinitions/>
 <Tags>
+<Tag Name="acc" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
 <Tag Name="Actuate_T1_Diverter" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.5" ExternalAccess="Read Only"/>
 <Tag Name="Actuate_T1_Drop_Advance" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.12" ExternalAccess="Read Only"/>
 <Tag Name="Actuate_T1_Drop_Release" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.13" ExternalAccess="Read Only"/>
@@ -2794,7 +2802,7 @@
 <![CDATA[Monitoring and Data Management Subroutines]]>
 </Comment>
 <Text>
-<![CDATA[JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(TubeFill_Indexing,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);]]>
+<![CDATA[JSR(TubeFill_Indexing,0)JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);]]>
 </Text>
 </Rung>
 <Rung Number="2" Type="N">
@@ -3245,19 +3253,19 @@
 <![CDATA[]]>
 </Line>
 <Line Number="24">
-<![CDATA[IF (T1Full AND T2Full AND T3Full) THEN]]>
+<![CDATA[acc := 1;]]>
 </Line>
 <Line Number="25">
-<![CDATA[	All_Tubes_Full := 1;]]>
+<![CDATA[FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="26">
-<![CDATA[ELSE ]]>
+<![CDATA[	acc := (acc AND Tube[t].Full);]]>
 </Line>
 <Line Number="27">
-<![CDATA[	All_Tubes_Full := 0;]]>
+<![CDATA[END_FOR;]]>
 </Line>
 <Line Number="28">
-<![CDATA[END_IF;]]>
+<![CDATA[All_Tubes_Full := acc;]]>
 </Line>
 <Line Number="29">
 <![CDATA[]]>

@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Oct  6 18:36:25 2026
+  Exported  := Tue Oct  6 18:49:32 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -177,6 +177,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 	END_MODULE
 
 	TAG
+		acc : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
 		Actuate_T1_Diverter OF Local:4:O.Data.5 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Actuate_T1_Drop_Advance OF Local:4:O.Data.12 (RADIX := Decimal,
@@ -917,7 +919,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 				RC: "System Initialization";
 				N: XIO(PLC_Init_Done)JSR(Initialization,0);
 				RC: "Monitoring and Data Management Subroutines";
-				N: JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(TubeFill_Indexing,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);
+				N: JSR(TubeFill_Indexing,0)JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);
 				N: JSR(Mode_Dispatch,0);
 		END_ROUTINE
 
@@ -1074,11 +1076,11 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'END_IF;
 			'//------------------------------------//|
 			'
-			'IF (T1Full AND T2Full AND T3Full) THEN
-			'	All_Tubes_Full := 1;
-			'ELSE 
-			'	All_Tubes_Full := 0;
-			'END_IF;
+			'acc := 1;
+			'FOR t := 0 TO 2 DO
+			'	acc := (acc AND Tube[t].Full);
+			'END_FOR;
+			'All_Tubes_Full := acc;
 			'
 			'IF Drop_Ball_Feeder THEN
 			'	Dropping_Ball_Feeder := 1;

@@ -36,4 +36,8 @@ The project uses Structured Text wherever practical.
 
 ## Workflow
 
-Studio 5000 and Crimson run on lab computers where Git can't be installed, so a GitHub Codespace was opened to serve as the Git client. Each session, files pulled from GitHub are verified against the last session's output with SHA-256 hashes (`GolfBall/tools/hashcheck.ps1`) before work begins. Changes are committed on a branch per issue and merged through PRs.
+The PLC owns all process state and configuration; the HMI only displays it and sends requests.
+
+Studio 5000 and Crimson run on lab computers where Git can't be installed, so a GitHub Codespace was opened to serve as
+the Git client. Each session, files pulled from GitHub are verified against the last session's output with SHA-256 hashes
+(`GolfBall/tools/hashcheck.ps1`) before work begins. Changes are committed on a branch per issue and merged through PRs.

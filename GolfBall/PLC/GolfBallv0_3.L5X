@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Thu Oct 01 16:42:31 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Thu Oct 01 16:42:10 2026" SFCExecutionControl="CurrentActive" SFCRestartPosition="MostRecent" SFCLastScan="DontScan"
- ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Oct 06 17:34:40 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Oct 06 17:34:24 2026" SFCExecutionControl="CurrentActive"
+ SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
 <SafetyInfo/>
@@ -45,17 +45,17 @@
 <Members>
 <Member Name="TargetPattern" DataType="INT" Dimension="8" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
 <Description>
-<![CDATA[Target color assigned to each position]]>
+<![CDATA[Target color assigned to each position.]]>
 </Description>
 </Member>
 <Member Name="TargetColor" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
 <Description>
-<![CDATA[Target color of next empty position. -1 when full]]>
+<![CDATA[Target color of next empty position. -1 when full.]]>
 </Description>
 </Member>
 <Member Name="FillIndex" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
 <Description>
-<![CDATA[Balls currently in tube]]>
+<![CDATA[Number of balls currently in tube.]]>
 </Description>
 </Member>
 <Member Name="Inventory" DataType="INT" Dimension="8" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
@@ -63,15 +63,30 @@
 <![CDATA[Actual color in each position. -1 = empty]]>
 </Description>
 </Member>
-<Member Name="ZZZZZZZZZZUDT_Tube4" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read Only"/>
-<Member Name="Full" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube4" BitNumber="0" ExternalAccess="Read Only">
+<Member Name="HMI_SortModeReq" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
 <Description>
-<![CDATA[Tube is at capacity]]>
+<![CDATA[Sort Mode requested by HMI. 0 = Manual, 1 = Pink, 2 = Orange, 3 = Green]]>
 </Description>
 </Member>
-<Member Name="InventoryValid" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube4" BitNumber="1" ExternalAccess="Read Only">
+<Member Name="SortMode" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
 <Description>
-<![CDATA[Inventory has been validated]]>
+<![CDATA[Sort Mode used by processes. Buffer of HMI_SortModeReq]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZUDT_Tube6" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read Only"/>
+<Member Name="Full" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="0" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Tube is at capacity.]]>
+</Description>
+</Member>
+<Member Name="InventoryValid" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="1" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Inventory has been validated.]]>
+</Description>
+</Member>
+<Member Name="SortModeReq_Invalid" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="2" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Sort Mode requested by HMI is outside of limit.]]>
 </Description>
 </Member>
 </Members>
@@ -905,23 +920,7 @@
 <DataValue DataType="INT" Radix="Decimal" Value="8"/>
 </Data>
 </Tag>
-<Tag Name="idx1" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="idx2" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="idx3" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="idx" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
 <![CDATA[0]]>
 </Data>
@@ -1052,6 +1051,14 @@
 <DataValue DataType="INT" Radix="Decimal" Value="30"/>
 </Data>
 </Tag>
+<Tag Name="req" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
 <Tag Name="Retract_Color_Advance_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.3" ExternalAccess="Read Only"/>
 <Tag Name="Retract_Color_Release_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.4" ExternalAccess="Read Only"/>
 <Tag Name="Run_Allowed" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -1159,16 +1166,12 @@
 <DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
-<Tag Name="t" TagType="Base" DataType="INT" Dimensions="3" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="t" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[0,0,0]]]>
+<![CDATA[0]]>
 </Data>
 <Data Format="Decorated">
-<Array DataType="INT" Dimensions="3" Radix="Decimal">
-<Element Index="[0]" Value="0"/>
-<Element Index="[1]" Value="0"/>
-<Element Index="[2]" Value="0"/>
-</Array>
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
 </Data>
 </Tag>
 <Tag Name="T1Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -1325,7 +1328,7 @@
 </Comment>
 </Comments>
 <Data Format="L5K">
-<![CDATA[[[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0]]]]>
+<![CDATA[[[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0]]]]>
 </Data>
 <Data Format="Decorated">
 <Array DataType="UDT_Tube" Dimensions="3">
@@ -1353,8 +1356,11 @@
 <Element Index="[6]" Value="0"/>
 <Element Index="[7]" Value="0"/>
 </ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="Full" DataType="BOOL" Value="0"/>
 <DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
 </Structure>
 </Element>
 <Element Index="[1]">
@@ -1381,8 +1387,11 @@
 <Element Index="[6]" Value="0"/>
 <Element Index="[7]" Value="0"/>
 </ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="Full" DataType="BOOL" Value="0"/>
 <DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
 </Structure>
 </Element>
 <Element Index="[2]">
@@ -1409,8 +1418,11 @@
 <Element Index="[6]" Value="0"/>
 <Element Index="[7]" Value="0"/>
 </ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="Full" DataType="BOOL" Value="0"/>
 <DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
 </Structure>
 </Element>
 </Array>
@@ -2526,133 +2538,94 @@
 <![CDATA[]]>
 </Line>
 <Line Number="5">
-<![CDATA[// Sort modes: 0 = manual (the HMI writes each position of T<N>_Color),]]>
+<![CDATA[// Sort modes: 0 = manual (the HMI writes each position of Tube[<n>].TargetPattern).]]>
 </Line>
 <Line Number="6">
 <![CDATA[// 1-3 = fill all eight positions with Pink, Orange, or Green.]]>
 </Line>
 <Line Number="7">
-<![CDATA[IF (HMI_T1SortMode > 0) THEN]]>
+<![CDATA[]]>
 </Line>
 <Line Number="8">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="9">
-<![CDATA[        T1_Color[i] := HMI_T1SortMode;]]>
+<![CDATA[	// HMI writes async; buffer and validate each HMI requested sort mode once per scan.]]>
 </Line>
 <Line Number="10">
-<![CDATA[    END_FOR;]]>
+<![CDATA[	req := Tube[t].HMI_SortModeReq;]]>
 </Line>
 <Line Number="11">
-<![CDATA[END_IF;]]>
+<![CDATA[	IF ((req >= 0) AND (req <= 3)) THEN]]>
 </Line>
 <Line Number="12">
-<![CDATA[IF (HMI_T2SortMode > 0) THEN]]>
+<![CDATA[		Tube[t].SortMode := req;]]>
 </Line>
 <Line Number="13">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[		Tube[t].SortModeReq_Invalid := 0;]]>
 </Line>
 <Line Number="14">
-<![CDATA[        T2_Color[i] := HMI_T2SortMode;]]>
+<![CDATA[	ELSE]]>
 </Line>
 <Line Number="15">
-<![CDATA[    END_FOR;]]>
+<![CDATA[		Tube[t].SortModeReq_Invalid := 1;]]>
 </Line>
 <Line Number="16">
-<![CDATA[END_IF;]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="17">
-<![CDATA[IF (HMI_T3SortMode > 0) THEN]]>
+<![CDATA[	]]>
 </Line>
 <Line Number="18">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[	// Write validated sort mode into TargetPattern when in modes 1-3.]]>
 </Line>
 <Line Number="19">
-<![CDATA[        T3_Color[i] := HMI_T3SortMode;]]>
+<![CDATA[	IF (Tube[t].SortMode > 0) THEN]]>
 </Line>
 <Line Number="20">
-<![CDATA[    END_FOR;]]>
+<![CDATA[		FOR i := 0 TO 7 DO]]>
 </Line>
 <Line Number="21">
-<![CDATA[END_IF;]]>
+<![CDATA[			Tube[t].TargetPattern[i] := Tube[t].SortMode;]]>
 </Line>
 <Line Number="22">
-<![CDATA[]]>
+<![CDATA[		END_FOR;]]>
 </Line>
 <Line Number="23">
-<![CDATA[// Each tube's target is the color assigned to its next empty position.]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="24">
-<![CDATA[// A full tube has no next position, so its target is -1, which no ball can match.]]>
+<![CDATA[	]]>
 </Line>
 <Line Number="25">
-<![CDATA[// Logix won't accept an array element as a subscript; each fill count]]>
+<![CDATA[	// Each tube's target is the color assigned to its next empty position.]]>
 </Line>
 <Line Number="26">
-<![CDATA[// writes into an INT first.]]>
+<![CDATA[	// A full tube has no next position, so its target is -1.]]>
 </Line>
 <Line Number="27">
-<![CDATA[idx1 := Tube_Fill_Index[0];]]>
+<![CDATA[	// Copy FillIndex into INT idx first; unable to use array element as subscript.]]>
 </Line>
 <Line Number="28">
-<![CDATA[idx2 := Tube_Fill_Index[1];]]>
+<![CDATA[	idx := Tube[t].FillIndex;]]>
 </Line>
 <Line Number="29">
-<![CDATA[idx3 := Tube_Fill_Index[2];]]>
+<![CDATA[	IF (Tube[t].Full OR (idx < 0) OR (idx > 7)) THEN]]>
 </Line>
 <Line Number="30">
-<![CDATA[]]>
+<![CDATA[		Tube[t].TargetColor := -1;]]>
 </Line>
 <Line Number="31">
-<![CDATA[IF (T1Full OR (idx1 < 0) OR (idx1 > 7)) THEN]]>
+<![CDATA[	ELSE]]>
 </Line>
 <Line Number="32">
-<![CDATA[    T1_TargetColor := -1;]]>
+<![CDATA[		Tube[t].TargetColor := Tube[t].TargetPattern[idx];]]>
 </Line>
 <Line Number="33">
-<![CDATA[ELSE]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="34">
-<![CDATA[    T1_TargetColor := T1_Color[idx1];]]>
-</Line>
-<Line Number="35">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="36">
-<![CDATA[]]>
-</Line>
-<Line Number="37">
-<![CDATA[IF (T2Full OR (idx2 < 0) OR (idx2 > 7)) THEN]]>
-</Line>
-<Line Number="38">
-<![CDATA[    T2_TargetColor := -1;]]>
-</Line>
-<Line Number="39">
-<![CDATA[ELSE]]>
-</Line>
-<Line Number="40">
-<![CDATA[    T2_TargetColor := T2_Color[idx2];]]>
-</Line>
-<Line Number="41">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="42">
-<![CDATA[]]>
-</Line>
-<Line Number="43">
-<![CDATA[IF (T3Full OR (idx3 < 0) OR (idx3 > 7)) THEN]]>
-</Line>
-<Line Number="44">
-<![CDATA[    T3_TargetColor := -1;]]>
-</Line>
-<Line Number="45">
-<![CDATA[ELSE]]>
-</Line>
-<Line Number="46">
-<![CDATA[    T3_TargetColor := T3_Color[idx3];]]>
-</Line>
-<Line Number="47">
-<![CDATA[END_IF;]]>
+<![CDATA[END_FOR;]]>
 </Line>
 </STContent>
 </Routine>

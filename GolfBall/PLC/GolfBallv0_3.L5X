@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Tue Sep 29 18:25:41 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Tue Sep 29 18:25:28 2026" SFCExecutionControl="CurrentActive"
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="36.03" TargetName="GolfBall" TargetType="Controller" ContainsContext="false" ExportDate="Thu Oct 08 17:46:49 2026" ExportOptions="NoRawData L5KData DecoratedData ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Target" Name="GolfBall" ProcessorType="1769-L24ER-QB1B" MajorRev="36" MinorRev="12" TimeSlice="20" ShareUnusedTimeSlice="1" PowerLossProgram="Initialize" ProjectCreationDate="Tue Sep 29 13:10:44 2026" LastModifiedDate="Thu Oct 08 17:46:36 2026" SFCExecutionControl="CurrentActive"
  SFCRestartPosition="MostRecent" SFCLastScan="DontScan" ProjectSN="16#c01e_3352" MatchProjectToController="false" CanUseRPIFromProducer="false" InhibitAutomaticFirmwareUpdate="0" PassThroughConfiguration="EnabledWithAppend" DownloadProjectDocumentationAndExtendedProperties="true" DownloadProjectCustomProperties="true" ReportMinorOverflow="false">
 <RedundancyInfo Enabled="false" KeepTestEditsOnSwitchOver="false" IOMemoryPadPercentage="90" DataTablePadPercentage="50"/>
 <Security Code="0" ChangesToDetect="16#ffff_ffff_ffff_ffff"/>
@@ -34,6 +34,59 @@
 <Member Name="Info" DataType="DINT" Dimension="8" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
 <Description>
 <![CDATA[Fault specific information]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+<DataType Name="UDT_Tube" Family="NoFamily" Class="User" ExternalLogging="true">
+<Description>
+<![CDATA[Per-tube sort configuration, fill state, and ball inventory. Position 0 = bottom of tube.]]>
+</Description>
+<Members>
+<Member Name="TargetPattern" DataType="INT" Dimension="8" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Target color assigned to each position.]]>
+</Description>
+</Member>
+<Member Name="TargetColor" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Target color of next empty position. -1 when full.]]>
+</Description>
+</Member>
+<Member Name="FillIndex" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Number of balls currently in tube.]]>
+</Description>
+</Member>
+<Member Name="Inventory" DataType="INT" Dimension="8" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Actual color in each position. -1 = empty]]>
+</Description>
+</Member>
+<Member Name="HMI_SortModeReq" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Sort Mode requested by HMI. 0 = Manual, 1 = Pink, 2 = Orange, 3 = Green]]>
+</Description>
+</Member>
+<Member Name="SortMode" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Sort Mode used by processes. Buffer of HMI_SortModeReq]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZUDT_Tube6" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read Only"/>
+<Member Name="Full" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="0" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Tube is at capacity.]]>
+</Description>
+</Member>
+<Member Name="InventoryValid" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="1" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Inventory has been validated.]]>
+</Description>
+</Member>
+<Member Name="SortModeReq_Invalid" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_Tube6" BitNumber="2" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Sort Mode requested by HMI is outside of limit.]]>
 </Description>
 </Member>
 </Members>
@@ -90,7 +143,7 @@
 <Data Format="Decorated">
 <Structure DataType="AB:Embedded_DiscreteIO1:I:0">
 <DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
-<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#1010_1001_0101_0000"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0010_1001_0101_0000"/>
 <DataValueMember Name="Readback" DataType="INT" Radix="Binary" Value="2#0000_0000_0000_0000"/>
 </Structure>
 </Data>
@@ -157,7 +210,7 @@
 <Data Format="Decorated">
 <Structure DataType="AB:1769_DI16:I:0">
 <DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
-<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0000_0100_0010_0110"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0100_0100_0110_0110"/>
 </Structure>
 </Data>
 </InputTag>
@@ -196,17 +249,17 @@
 <Data Format="Decorated">
 <Structure DataType="AB:1769_DO16:I:0">
 <DataValueMember Name="Fault" DataType="DINT" Radix="Binary" Value="2#0000_0000_0000_0000_0000_0000_0000_0000"/>
-<DataValueMember Name="ReadBack" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0000"/>
+<DataValueMember Name="ReadBack" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0100"/>
 </Structure>
 </Data>
 </InputTag>
 <OutputTag ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[10752]]]>
+<![CDATA[[10756]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="AB:1769_DO16:O:0">
-<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0000"/>
+<DataValueMember Name="Data" DataType="INT" Radix="Binary" Value="2#0010_1010_0000_0100"/>
 </Structure>
 </Data>
 </OutputTag>
@@ -220,6 +273,14 @@
 </Modules>
 <AddOnInstructionDefinitions/>
 <Tags>
+<Tag Name="acc" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
 <Tag Name="Actuate_T1_Diverter" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.5" ExternalAccess="Read Only"/>
 <Tag Name="Actuate_T1_Drop_Advance" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.12" ExternalAccess="Read Only"/>
 <Tag Name="Actuate_T1_Drop_Release" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.13" ExternalAccess="Read Only"/>
@@ -251,15 +312,15 @@
 <Tag Name="Ball_Feeder_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.10" ExternalAccess="Read Only"/>
 <Tag Name="Ball_Feeder_Retracted_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[4,0,400,0,0,0,543183,1536,990057071,2,0,0]]]>
+<![CDATA[[5,1,400,0,0,1,732330,5632,981668463,0,0,1]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="400"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="1"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
 <DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="0"/>
@@ -281,33 +342,33 @@
 <Tag Name="Ball_Present_Ball_Feeder" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.11" ExternalAccess="Read Only"/>
 <Tag Name="Blink_Bit" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
 <Tag Name="Color" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[2]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValue DataType="DINT" Radix="Decimal" Value="2"/>
 </Data>
 </Tag>
 <Tag Name="Color_Advance_Cylinder_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.6" ExternalAccess="Read Only"/>
 <Tag Name="Color_Advance_Cylinder_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.7" ExternalAccess="Read Only"/>
 <Tag Name="Color_Read_Advance_Cylinder_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[0,0,1000,0,0,1,543925,5632,981668463,2,0,0]]]>
+<![CDATA[[1,1,1000,0,0,1,736223,5632,981668463,0,0,1]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="1000"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
 <DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="0"/>
@@ -320,18 +381,18 @@
 </Tag>
 <Tag Name="Color_Read_Dwell_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[0,0,1500,0,0,1,545427,5632,981668463,2,0,0]]]>
+<![CDATA[[3,7,1500,1017,0,1,737241,5632,981668463,0,1017,7]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
-<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="1500"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
-<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
-<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="1017"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
 <DataValueMember Name="DN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
 <DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
@@ -346,18 +407,18 @@
 <Tag Name="Color_Scan_Pink" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.12" ExternalAccess="Read Only"/>
 <Tag Name="Color_Sort_Dwell_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[2,6,3500,651,0,1,546079,5632,981668463,2,651,6]]]>
+<![CDATA[[1,1,3500,0,0,1,735223,5632,981668463,0,0,1]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
-<DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3500"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="651"/>
-<DataValueMember Name="EN" DataType="BOOL" Value="1"/>
-<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
 <DataValueMember Name="DN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
 <DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
@@ -387,18 +448,18 @@
 <![CDATA[Master Fault]]>
 </Description>
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
 <Tag Name="Fault_Blink" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
 <Tag Name="Fault_Feeder_Drop_Timeout" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -419,23 +480,23 @@
 </Tag>
 <Tag Name="Fault_Feeder_Watchdog" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
 <Tag Name="Feeder_Drop_Timeout_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[4,0,3000,0,0,1,543076,5632,981668463,2,0,0]]]>
+<![CDATA[[5,1,5000,0,0,1,732240,5632,981668463,0,0,1]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
-<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="1"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
 <DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="0"/>
@@ -448,18 +509,18 @@
 </Tag>
 <Tag Name="Feeder_Extend_Count" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[5]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValue DataType="DINT" Radix="Decimal" Value="5"/>
 </Data>
 </Tag>
 <Tag Name="Feeder_Fault" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
 <Tag Name="Feeder_Fault_Active" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -488,19 +549,19 @@
 </Tag>
 <Tag Name="Feeder_Lift_Timeout_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[2,10,3000,3000,0,1,546079,5632,981668463,2,3000,10]]]>
+<![CDATA[[3,7,6000,5000,0,1,737241,5632,981668463,0,5000,7]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
-<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="6000"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="3000"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="5000"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="1"/>
-<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
-<DataValueMember Name="DN" DataType="BOOL" Value="1"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
 <DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
@@ -533,15 +594,15 @@
 </Tag>
 <Tag Name="Feeder_Recovery_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[0,0,5000,0,0,0,257911,25088,0,2,0,0]]]>
+<![CDATA[[1,1,5000,0,0,0,257911,25088,0,0,0,1]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
 <DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="0"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="0"/>
@@ -570,19 +631,19 @@
 </Tag>
 <Tag Name="Feeder_Watchdog_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[2,6,5000,3002,0,1,546079,5632,981668463,2,3002,6]]]>
+<![CDATA[[3,11,5000,5000,0,1,737241,5632,981668463,0,5000,11]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
-<DataValueMember Name="EnableIn" DataType="BOOL" Value="0"/>
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TimerEnable" DataType="BOOL" Value="1"/>
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
-<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="3002"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="5000"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="1"/>
-<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
-<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="1"/>
 <DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
 <DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
 <DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
@@ -755,103 +816,7 @@
 <DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
 </Data>
 </Tag>
-<Tag Name="HMI_T1Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T1Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[1]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T1SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T2Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T2Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T2SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[3]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="3"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T3Drop1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T3Enable" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_T3SortMode" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[2]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="2"/>
-</Data>
-</Tag>
 <Tag Name="HMI_Trigger_Init" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_Tube1_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_Tube2_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="HMI_Tube3_Diverter" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
 <Data Format="L5K">
 <![CDATA[0]]>
 </Data>
@@ -867,61 +832,45 @@
 <DataValue DataType="INT" Radix="Decimal" Value="8"/>
 </Data>
 </Tag>
-<Tag Name="idx1" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="idx" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[8]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="idx2" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="idx3" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+<DataValue DataType="INT" Radix="Decimal" Value="8"/>
 </Data>
 </Tag>
 <Tag Name="Lift_Ball_Feeder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.14" ExternalAccess="Read Only"/>
 <Tag Name="Lift_Time_Max" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[4000]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValue DataType="DINT" Radix="Decimal" Value="4000"/>
 </Data>
 </Tag>
 <Tag Name="Lift_Time_Max_Full" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[5000]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValue DataType="DINT" Radix="Decimal" Value="5000"/>
 </Data>
 </Tag>
 <Tag Name="Magazine_Full" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.15" ExternalAccess="Read Only"/>
 <Tag Name="major_fault_record" TagType="Base" DataType="FAULTRECORD" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]]]]>
+<![CDATA[[1650918283,210157,0,0,[1599709850,210157,0,0,0,0,0,0]]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FAULTRECORD">
-<DataValueMember Name="Time_Low" DataType="DINT" Radix="Decimal" Value="-1123216650"/>
-<DataValueMember Name="Time_High" DataType="DINT" Radix="Decimal" Value="209391"/>
+<DataValueMember Name="Time_Low" DataType="DINT" Radix="Decimal" Value="1650918283"/>
+<DataValueMember Name="Time_High" DataType="DINT" Radix="Decimal" Value="210157"/>
 <DataValueMember Name="Type" DataType="INT" Radix="Decimal" Value="0"/>
 <DataValueMember Name="Code" DataType="INT" Radix="Decimal" Value="0"/>
 <ArrayMember Name="Info" DataType="DINT" Dimensions="8" Radix="Hex">
-<Element Index="[0]" Value="16#ba69_35d2"/>
-<Element Index="[1]" Value="16#0003_31ef"/>
+<Element Index="[0]" Value="16#5f59_a29a"/>
+<Element Index="[1]" Value="16#0003_34ed"/>
 <Element Index="[2]" Value="16#0000_0000"/>
 <Element Index="[3]" Value="16#0000_0000"/>
 <Element Index="[4]" Value="16#0000_0000"/>
@@ -963,7 +912,7 @@
 </Tag>
 <Tag Name="One_Sec_Blink_Timer" TagType="Base" DataType="FBD_TIMER" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[3,7,500,184,0,0,3981885,1536,981668463,0,184,7]]]>
+<![CDATA[[3,7,500,94,0,1,1493218,5632,981668463,0,94,7]]]>
 </Data>
 <Data Format="Decorated">
 <Structure DataType="FBD_TIMER">
@@ -972,7 +921,7 @@
 <DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
 <DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
 <DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
-<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="184"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="94"/>
 <DataValueMember Name="EN" DataType="BOOL" Value="1"/>
 <DataValueMember Name="TT" DataType="BOOL" Value="1"/>
 <DataValueMember Name="DN" DataType="BOOL" Value="0"/>
@@ -1006,22 +955,22 @@
 <DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
 </Data>
 </Tag>
-<Tag Name="PowerUp_Handler_Ran" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="req" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[30]]>
+<![CDATA[0]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="30"/>
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
 </Data>
 </Tag>
 <Tag Name="Retract_Color_Advance_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.3" ExternalAccess="Read Only"/>
 <Tag Name="Retract_Color_Release_Cylinder" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.4" ExternalAccess="Read Only"/>
 <Tag Name="Run_Allowed" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[1]]>
+<![CDATA[0]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
 </Data>
 </Tag>
 <Tag Name="Run_Latch" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -1033,20 +982,12 @@
 </Data>
 </Tag>
 <Tag Name="Run_Light" TagType="Alias" Radix="Decimal" AliasFor="Local:4:O.Data.2" ExternalAccess="Read Only"/>
-<Tag Name="Run_Permissive" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
 <Tag Name="Selected_Tube" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[-1]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValue DataType="DINT" Radix="Decimal" Value="-1"/>
 </Data>
 </Tag>
 <Tag Name="Sort_Bypass" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
@@ -1115,47 +1056,18 @@
 </Tag>
 <Tag Name="System_Standby" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[1]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
-</Data>
-</Tag>
-<Tag Name="t" TagType="Base" DataType="INT" Dimensions="3" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[[0,0,0]]]>
-</Data>
-<Data Format="Decorated">
-<Array DataType="INT" Dimensions="3" Radix="Decimal">
-<Element Index="[0]" Value="0"/>
-<Element Index="[1]" Value="0"/>
-<Element Index="[2]" Value="0"/>
-</Array>
-</Data>
-</Tag>
-<Tag Name="T1Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
 <![CDATA[0]]>
 </Data>
 <Data Format="Decorated">
 <DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
 </Data>
 </Tag>
-<Tag Name="T1_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="t" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
-<![CDATA[[3,2,1,3,2,1,3,2]]]>
+<![CDATA[2]]>
 </Data>
 <Data Format="Decorated">
-<Array DataType="INT" Dimensions="8" Radix="Decimal">
-<Element Index="[0]" Value="3"/>
-<Element Index="[1]" Value="2"/>
-<Element Index="[2]" Value="1"/>
-<Element Index="[3]" Value="3"/>
-<Element Index="[4]" Value="2"/>
-<Element Index="[5]" Value="1"/>
-<Element Index="[6]" Value="3"/>
-<Element Index="[7]" Value="2"/>
-</Array>
+<DataValue DataType="INT" Radix="Decimal" Value="2"/>
 </Data>
 </Tag>
 <Tag Name="T1_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.11" ExternalAccess="Read Only"/>
@@ -1164,114 +1076,129 @@
 <Tag Name="T1_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.5" ExternalAccess="Read Only"/>
 <Tag Name="T1_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.6" ExternalAccess="Read Only"/>
 <Tag Name="T1_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.7" ExternalAccess="Read Only"/>
-<Tag Name="T1_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="T1_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[3]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="3"/>
-</Data>
-</Tag>
-<Tag Name="T2Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="T2_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[[3,3,3,3,3,3,3,3]]]>
-</Data>
-<Data Format="Decorated">
-<Array DataType="INT" Dimensions="8" Radix="Decimal">
-<Element Index="[0]" Value="3"/>
-<Element Index="[1]" Value="3"/>
-<Element Index="[2]" Value="3"/>
-<Element Index="[3]" Value="3"/>
-<Element Index="[4]" Value="3"/>
-<Element Index="[5]" Value="3"/>
-<Element Index="[6]" Value="3"/>
-<Element Index="[7]" Value="3"/>
-</Array>
-</Data>
-</Tag>
 <Tag Name="T2_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.13" ExternalAccess="Read Only"/>
 <Tag Name="T2_Diverter_Opened" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.12" ExternalAccess="Read Only"/>
 <Tag Name="T2_Drop_Adv_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.0" ExternalAccess="Read Only"/>
 <Tag Name="T2_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.1" ExternalAccess="Read Only"/>
 <Tag Name="T2_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.2" ExternalAccess="Read Only"/>
 <Tag Name="T2_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:3:I.Data.3" ExternalAccess="Read Only"/>
-<Tag Name="T2_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="T2_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[3]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="3"/>
-</Data>
-</Tag>
-<Tag Name="T3Full" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[0]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="T3_Color" TagType="Base" DataType="INT" Dimensions="8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[[2,2,2,2,2,2,2,2]]]>
-</Data>
-<Data Format="Decorated">
-<Array DataType="INT" Dimensions="8" Radix="Decimal">
-<Element Index="[0]" Value="2"/>
-<Element Index="[1]" Value="2"/>
-<Element Index="[2]" Value="2"/>
-<Element Index="[3]" Value="2"/>
-<Element Index="[4]" Value="2"/>
-<Element Index="[5]" Value="2"/>
-<Element Index="[6]" Value="2"/>
-<Element Index="[7]" Value="2"/>
-</Array>
-</Data>
-</Tag>
 <Tag Name="T3_Diverter_Closed" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.15" ExternalAccess="Read Only"/>
 <Tag Name="T3_Diverter_Opened" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.14" ExternalAccess="Read Only"/>
 <Tag Name="T3_Drop_Adv_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.0" ExternalAccess="Read Only"/>
 <Tag Name="T3_Drop_Adv_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.1" ExternalAccess="Read Only"/>
 <Tag Name="T3_Drop_Rel_Cyl_Extended" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.2" ExternalAccess="Read Only"/>
 <Tag Name="T3_Drop_Rel_Cyl_Retracted" TagType="Alias" Radix="Decimal" AliasFor="Local:2:I.Data.3" ExternalAccess="Read Only"/>
-<Tag Name="T3_Index" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
+<Tag Name="Tube" TagType="Base" DataType="UDT_Tube" Dimensions="3" Constant="false" ExternalAccess="Read/Write">
+<Comments>
+<Comment Operand="[0]">
+<![CDATA[Tube 1]]>
+</Comment>
+<Comment Operand="[1]">
+<![CDATA[Tube 2]]>
+</Comment>
+<Comment Operand="[2]">
+<![CDATA[Tube 3]]>
+</Comment>
+</Comments>
 <Data Format="L5K">
-<![CDATA[0]]>
+<![CDATA[[[[1,2,1,2,1,1,1,1],1,4,[0,0,0,0,0,0,0,0],0,0,0],[[2,3,2,3,2,2,2,2],2,4,[0,0,0,0,0,0,0,0],0,0,0],[[3,1,2,1,3,3,3,3],-1,8,[0,0,0,0,0,0,0,0],0,0,1]]]]>
 </Data>
 <Data Format="Decorated">
-<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
-</Data>
-</Tag>
-<Tag Name="T3_TargetColor" TagType="Base" DataType="INT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[2]]>
-</Data>
-<Data Format="Decorated">
-<DataValue DataType="INT" Radix="Decimal" Value="2"/>
+<Array DataType="UDT_Tube" Dimensions="3">
+<Element Index="[0]">
+<Structure DataType="UDT_Tube">
+<ArrayMember Name="TargetPattern" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="1"/>
+<Element Index="[1]" Value="2"/>
+<Element Index="[2]" Value="1"/>
+<Element Index="[3]" Value="2"/>
+<Element Index="[4]" Value="1"/>
+<Element Index="[5]" Value="1"/>
+<Element Index="[6]" Value="1"/>
+<Element Index="[7]" Value="1"/>
+</ArrayMember>
+<DataValueMember Name="TargetColor" DataType="INT" Radix="Decimal" Value="1"/>
+<DataValueMember Name="FillIndex" DataType="INT" Radix="Decimal" Value="4"/>
+<ArrayMember Name="Inventory" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="0"/>
+<Element Index="[4]" Value="0"/>
+<Element Index="[5]" Value="0"/>
+<Element Index="[6]" Value="0"/>
+<Element Index="[7]" Value="0"/>
+</ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Full" DataType="BOOL" Value="0"/>
+<DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="UDT_Tube">
+<ArrayMember Name="TargetPattern" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="2"/>
+<Element Index="[1]" Value="3"/>
+<Element Index="[2]" Value="2"/>
+<Element Index="[3]" Value="3"/>
+<Element Index="[4]" Value="2"/>
+<Element Index="[5]" Value="2"/>
+<Element Index="[6]" Value="2"/>
+<Element Index="[7]" Value="2"/>
+</ArrayMember>
+<DataValueMember Name="TargetColor" DataType="INT" Radix="Decimal" Value="2"/>
+<DataValueMember Name="FillIndex" DataType="INT" Radix="Decimal" Value="4"/>
+<ArrayMember Name="Inventory" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="0"/>
+<Element Index="[4]" Value="0"/>
+<Element Index="[5]" Value="0"/>
+<Element Index="[6]" Value="0"/>
+<Element Index="[7]" Value="0"/>
+</ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Full" DataType="BOOL" Value="0"/>
+<DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="UDT_Tube">
+<ArrayMember Name="TargetPattern" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="3"/>
+<Element Index="[1]" Value="1"/>
+<Element Index="[2]" Value="2"/>
+<Element Index="[3]" Value="1"/>
+<Element Index="[4]" Value="3"/>
+<Element Index="[5]" Value="3"/>
+<Element Index="[6]" Value="3"/>
+<Element Index="[7]" Value="3"/>
+</ArrayMember>
+<DataValueMember Name="TargetColor" DataType="INT" Radix="Decimal" Value="-1"/>
+<DataValueMember Name="FillIndex" DataType="INT" Radix="Decimal" Value="8"/>
+<ArrayMember Name="Inventory" DataType="INT" Dimensions="8" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="0"/>
+<Element Index="[4]" Value="0"/>
+<Element Index="[5]" Value="0"/>
+<Element Index="[6]" Value="0"/>
+<Element Index="[7]" Value="0"/>
+</ArrayMember>
+<DataValueMember Name="HMI_SortModeReq" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SortMode" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="Full" DataType="BOOL" Value="1"/>
+<DataValueMember Name="InventoryValid" DataType="BOOL" Value="0"/>
+<DataValueMember Name="SortModeReq_Invalid" DataType="BOOL" Value="0"/>
+</Structure>
+</Element>
+</Array>
 </Data>
 </Tag>
 <Tag Name="Tube_1_BDPhoto" TagType="Alias" Radix="Decimal" AliasFor="Local:1:I.Data.0" ExternalAccess="Read Only">
@@ -1288,51 +1215,6 @@
 <Description>
 <![CDATA[Unused]]>
 </Description>
-</Tag>
-<Tag Name="Tube_Color" TagType="Base" DataType="INT" Dimensions="3 8" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
-<Data Format="L5K">
-<![CDATA[[3,2,1,3,2,1,3,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2]]]>
-</Data>
-<Data Format="Decorated">
-<Array DataType="INT" Dimensions="3,8" Radix="Decimal">
-<Element Index="[0,0]" Value="3"/>
-<Element Index="[0,1]" Value="2"/>
-<Element Index="[0,2]" Value="1"/>
-<Element Index="[0,3]" Value="3"/>
-<Element Index="[0,4]" Value="2"/>
-<Element Index="[0,5]" Value="1"/>
-<Element Index="[0,6]" Value="3"/>
-<Element Index="[0,7]" Value="2"/>
-<Element Index="[1,0]" Value="3"/>
-<Element Index="[1,1]" Value="3"/>
-<Element Index="[1,2]" Value="3"/>
-<Element Index="[1,3]" Value="3"/>
-<Element Index="[1,4]" Value="3"/>
-<Element Index="[1,5]" Value="3"/>
-<Element Index="[1,6]" Value="3"/>
-<Element Index="[1,7]" Value="3"/>
-<Element Index="[2,0]" Value="2"/>
-<Element Index="[2,1]" Value="2"/>
-<Element Index="[2,2]" Value="2"/>
-<Element Index="[2,3]" Value="2"/>
-<Element Index="[2,4]" Value="2"/>
-<Element Index="[2,5]" Value="2"/>
-<Element Index="[2,6]" Value="2"/>
-<Element Index="[2,7]" Value="2"/>
-</Array>
-</Data>
-</Tag>
-<Tag Name="Tube_Fill_Index" TagType="Base" DataType="INT" Dimensions="3" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
-<Data Format="L5K">
-<![CDATA[[0,0,0]]]>
-</Data>
-<Data Format="Decorated">
-<Array DataType="INT" Dimensions="3" Radix="Decimal">
-<Element Index="[0]" Value="0"/>
-<Element Index="[1]" Value="0"/>
-<Element Index="[2]" Value="0"/>
-</Array>
-</Data>
 </Tag>
 <Tag Name="White" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read Only">
 <Data Format="L5K">
@@ -2125,13 +2007,13 @@
 <![CDATA[CASE Selected_Tube OF]]>
 </Line>
 <Line Number="16">
-<![CDATA[    1: Color_Sort_Dwell_Timer.PRE := 1500;]]>
+<![CDATA[    0: Color_Sort_Dwell_Timer.PRE := 1500;]]>
 </Line>
 <Line Number="17">
-<![CDATA[    2: Color_Sort_Dwell_Timer.PRE := 2200;]]>
+<![CDATA[    1: Color_Sort_Dwell_Timer.PRE := 2200;]]>
 </Line>
 <Line Number="18">
-<![CDATA[    3: Color_Sort_Dwell_Timer.PRE := 3200;]]>
+<![CDATA[    2: Color_Sort_Dwell_Timer.PRE := 3200;]]>
 </Line>
 <Line Number="19">
 <![CDATA[ELSE]]>
@@ -2188,34 +2070,34 @@
 <![CDATA[	// --------------------------------------------------	]]>
 </Line>
 <Line Number="37">
-<![CDATA[			Retract_Color_Release_Cylinder := 0;]]>
+<![CDATA[		Retract_Color_Release_Cylinder := 0;]]>
 </Line>
 <Line Number="38">
-<![CDATA[			Retract_Color_Advance_Cylinder := 1;]]>
+<![CDATA[		Retract_Color_Advance_Cylinder := 1;]]>
 </Line>
 <Line Number="39">
 <![CDATA[		IF Color_Scan_Pink THEN]]>
 </Line>
 <Line Number="40">
-<![CDATA[    		Color := Pink;]]>
+<![CDATA[			Color := Pink;]]>
 </Line>
 <Line Number="41">
 <![CDATA[		ELSIF Color_Scan_Orange THEN]]>
 </Line>
 <Line Number="42">
-<![CDATA[    		Color := Orange;]]>
+<![CDATA[			Color := Orange;]]>
 </Line>
 <Line Number="43">
 <![CDATA[		ELSIF Color_Scan_Green THEN]]>
 </Line>
 <Line Number="44">
-<![CDATA[    		Color := Green;]]>
+<![CDATA[			Color := Green;]]>
 </Line>
 <Line Number="45">
 <![CDATA[		ELSE]]>
 </Line>
 <Line Number="46">
-<![CDATA[    		Color := White;]]>
+<![CDATA[			Color := White;]]>
 </Line>
 <Line Number="47">
 <![CDATA[		END_IF;]]>
@@ -2242,156 +2124,96 @@
 <![CDATA[	// --------------------------------------------------	]]>
 </Line>
 <Line Number="55">
-<![CDATA[		IF Color_Read_Dwell_Timer.DN THEN ]]>
+<![CDATA[		IF Color_Read_Dwell_Timer.DN THEN]]>
 </Line>
 <Line Number="56">
-<![CDATA[			IF ((Color = T1_TargetColor) AND NOT T1Full) THEN ]]>
+<![CDATA[			Selected_Tube := -1;]]>
 </Line>
 <Line Number="57">
-<![CDATA[				Selected_Tube := 1;]]>
+<![CDATA[			FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="58">
-<![CDATA[				]]>
+<![CDATA[				IF ((Color = Tube[t].TargetColor) AND NOT Tube[t].Full) THEN]]>
 </Line>
 <Line Number="59">
-<![CDATA[			ELSIF ((Color = T2_TargetColor) AND NOT T2Full) THEN ]]>
+<![CDATA[					Selected_Tube := t;]]>
 </Line>
 <Line Number="60">
-<![CDATA[				Selected_Tube := 2;]]>
+<![CDATA[					EXIT;]]>
 </Line>
 <Line Number="61">
-<![CDATA[			]]>
+<![CDATA[				END_IF;]]>
 </Line>
 <Line Number="62">
-<![CDATA[			ELSIF ((Color = T3_TargetColor) AND NOT T3Full) THEN ]]>
+<![CDATA[			END_FOR;]]>
 </Line>
 <Line Number="63">
-<![CDATA[				Selected_Tube := 3;]]>
+<![CDATA[]]>
 </Line>
 <Line Number="64">
-<![CDATA[			]]>
+<![CDATA[			Color_Sort_Step := 20;]]>
 </Line>
 <Line Number="65">
-<![CDATA[			ELSE ]]>
+<![CDATA[		END_IF;]]>
 </Line>
 <Line Number="66">
-<![CDATA[				Selected_Tube := 0;]]>
-</Line>
-<Line Number="67">
-<![CDATA[			END_IF;]]>
-</Line>
-<Line Number="68">
-<![CDATA[			]]>
-</Line>
-<Line Number="69">
-<![CDATA[		Color_Sort_Step := 20;]]>
-</Line>
-<Line Number="70">
-<![CDATA[		END_IF;]]>
-</Line>
-<Line Number="71">
 <![CDATA[		   ]]>
 </Line>
-<Line Number="72">
+<Line Number="67">
 <![CDATA[	20: //DIVERTER FIRE]]>
 </Line>
-<Line Number="73">
+<Line Number="68">
 <![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="69">
+<![CDATA[		Actuate_T1_Diverter := (Selected_Tube = 0);]]>
+</Line>
+<Line Number="70">
+<![CDATA[		Actuate_T2_Diverter := (Selected_Tube = 1);]]>
+</Line>
+<Line Number="71">
+<![CDATA[		Actuate_T3_Diverter := (Selected_Tube = 2);]]>
+</Line>
+<Line Number="72">
+<![CDATA[		IF (Selected_Tube > -1) THEN]]>
+</Line>
+<Line Number="73">
+<![CDATA[			Tube[Selected_Tube].FillIndex := Tube[Selected_Tube].FillIndex + 1;]]>
 </Line>
 <Line Number="74">
-<![CDATA[		CASE Selected_Tube OF ]]>
-</Line>
-<Line Number="75">
-<![CDATA[			0:]]>
-</Line>
-<Line Number="76">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="77">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="78">
-<![CDATA[				Actuate_T3_Diverter := 0;]]>
-</Line>
-<Line Number="79">
-<![CDATA[			1:]]>
-</Line>
-<Line Number="80">
-<![CDATA[				Actuate_T1_Diverter := 1;]]>
-</Line>
-<Line Number="81">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="82">
-<![CDATA[				Actuate_T3_Diverter := 0;	]]>
-</Line>
-<Line Number="83">
-<![CDATA[				Tube_Fill_Index[0] := Tube_Fill_Index[0] + 1;]]>
-</Line>
-<Line Number="84">
-<![CDATA[			2:]]>
-</Line>
-<Line Number="85">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="86">
-<![CDATA[				Actuate_T2_Diverter := 1;]]>
-</Line>
-<Line Number="87">
-<![CDATA[				Actuate_T3_Diverter := 0;]]>
-</Line>
-<Line Number="88">
-<![CDATA[				Tube_Fill_Index[1] := Tube_Fill_Index[1] + 1;]]>
-</Line>
-<Line Number="89">
-<![CDATA[			3:]]>
-</Line>
-<Line Number="90">
-<![CDATA[				Actuate_T1_Diverter := 0;]]>
-</Line>
-<Line Number="91">
-<![CDATA[				Actuate_T2_Diverter := 0;]]>
-</Line>
-<Line Number="92">
-<![CDATA[				Actuate_T3_Diverter := 1;]]>
-</Line>
-<Line Number="93">
-<![CDATA[				Tube_Fill_Index[2] := Tube_Fill_Index[2] + 1;]]>
-</Line>
-<Line Number="94">
-<![CDATA[		END_CASE;]]>
-</Line>
-<Line Number="95">
-<![CDATA[			]]>
-</Line>
-<Line Number="96">
-<![CDATA[		Color_Sort_Step := 30;]]>
-</Line>
-<Line Number="97">
-<![CDATA[			]]>
-</Line>
-<Line Number="98">
-<![CDATA[	30: //RELEASE]]>
-</Line>
-<Line Number="99">
-<![CDATA[	// --------------------------------------------------	]]>
-</Line>
-<Line Number="100">
-<![CDATA[		Retract_Color_Release_Cylinder := 1;]]>
-</Line>
-<Line Number="101">
-<![CDATA[			]]>
-</Line>
-<Line Number="102">
-<![CDATA[		IF Color_Sort_Dwell_Timer.DN THEN Color_Sort_Step := 0;]]>
-</Line>
-<Line Number="103">
 <![CDATA[		END_IF;]]>
 </Line>
-<Line Number="104">
-<![CDATA[				]]>
+<Line Number="75">
+<![CDATA[		]]>
 </Line>
-<Line Number="105">
+<Line Number="76">
+<![CDATA[		Color_Sort_Step := 30;]]>
+</Line>
+<Line Number="77">
+<![CDATA[			]]>
+</Line>
+<Line Number="78">
+<![CDATA[	30: //RELEASE]]>
+</Line>
+<Line Number="79">
+<![CDATA[	// --------------------------------------------------	]]>
+</Line>
+<Line Number="80">
+<![CDATA[		Retract_Color_Release_Cylinder := 1;]]>
+</Line>
+<Line Number="81">
+<![CDATA[			]]>
+</Line>
+<Line Number="82">
+<![CDATA[		IF Color_Sort_Dwell_Timer.DN THEN]]>
+</Line>
+<Line Number="83">
+<![CDATA[			Color_Sort_Step := 0;]]>
+</Line>
+<Line Number="84">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="85">
 <![CDATA[END_CASE;]]>
 </Line>
 </STContent>
@@ -2417,133 +2239,94 @@
 <![CDATA[]]>
 </Line>
 <Line Number="5">
-<![CDATA[// Sort modes: 0 = manual (the HMI writes each position of T<N>_Color),]]>
+<![CDATA[// Sort modes: 0 = manual (the HMI writes each position of Tube[<n>].TargetPattern).]]>
 </Line>
 <Line Number="6">
 <![CDATA[// 1-3 = fill all eight positions with Pink, Orange, or Green.]]>
 </Line>
 <Line Number="7">
-<![CDATA[IF (HMI_T1SortMode > 0) THEN]]>
+<![CDATA[]]>
 </Line>
 <Line Number="8">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="9">
-<![CDATA[        T1_Color[i] := HMI_T1SortMode;]]>
+<![CDATA[	// HMI writes async; buffer and validate each HMI requested sort mode once per scan.]]>
 </Line>
 <Line Number="10">
-<![CDATA[    END_FOR;]]>
+<![CDATA[	req := Tube[t].HMI_SortModeReq;]]>
 </Line>
 <Line Number="11">
-<![CDATA[END_IF;]]>
+<![CDATA[	IF ((req >= 0) AND (req <= 3)) THEN]]>
 </Line>
 <Line Number="12">
-<![CDATA[IF (HMI_T2SortMode > 0) THEN]]>
+<![CDATA[		Tube[t].SortMode := req;]]>
 </Line>
 <Line Number="13">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[		Tube[t].SortModeReq_Invalid := 0;]]>
 </Line>
 <Line Number="14">
-<![CDATA[        T2_Color[i] := HMI_T2SortMode;]]>
+<![CDATA[	ELSE]]>
 </Line>
 <Line Number="15">
-<![CDATA[    END_FOR;]]>
+<![CDATA[		Tube[t].SortModeReq_Invalid := 1;]]>
 </Line>
 <Line Number="16">
-<![CDATA[END_IF;]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="17">
-<![CDATA[IF (HMI_T3SortMode > 0) THEN]]>
+<![CDATA[	]]>
 </Line>
 <Line Number="18">
-<![CDATA[    FOR i := 0 TO 7 DO]]>
+<![CDATA[	// Write validated sort mode into TargetPattern when in modes 1-3.]]>
 </Line>
 <Line Number="19">
-<![CDATA[        T3_Color[i] := HMI_T3SortMode;]]>
+<![CDATA[	IF (Tube[t].SortMode > 0) THEN]]>
 </Line>
 <Line Number="20">
-<![CDATA[    END_FOR;]]>
+<![CDATA[		FOR i := 0 TO 7 DO]]>
 </Line>
 <Line Number="21">
-<![CDATA[END_IF;]]>
+<![CDATA[			Tube[t].TargetPattern[i] := Tube[t].SortMode;]]>
 </Line>
 <Line Number="22">
-<![CDATA[]]>
+<![CDATA[		END_FOR;]]>
 </Line>
 <Line Number="23">
-<![CDATA[// Each tube's target is the color assigned to its next empty position.]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="24">
-<![CDATA[// A full tube has no next position, so its target is -1, which no ball can match.]]>
+<![CDATA[	]]>
 </Line>
 <Line Number="25">
-<![CDATA[// Logix won't accept an array element as a subscript; each fill count]]>
+<![CDATA[	// Each tube's target is the color assigned to its next empty position.]]>
 </Line>
 <Line Number="26">
-<![CDATA[// writes into an INT first.]]>
+<![CDATA[	// A full tube has no next position, so its target is -1.]]>
 </Line>
 <Line Number="27">
-<![CDATA[idx1 := Tube_Fill_Index[0];]]>
+<![CDATA[	// Copy FillIndex into INT idx first; unable to use array element as subscript.]]>
 </Line>
 <Line Number="28">
-<![CDATA[idx2 := Tube_Fill_Index[1];]]>
+<![CDATA[	idx := Tube[t].FillIndex;]]>
 </Line>
 <Line Number="29">
-<![CDATA[idx3 := Tube_Fill_Index[2];]]>
+<![CDATA[	IF (Tube[t].Full OR (idx < 0) OR (idx > 7)) THEN]]>
 </Line>
 <Line Number="30">
-<![CDATA[]]>
+<![CDATA[		Tube[t].TargetColor := -1;]]>
 </Line>
 <Line Number="31">
-<![CDATA[IF (T1Full OR (idx1 < 0) OR (idx1 > 7)) THEN]]>
+<![CDATA[	ELSE]]>
 </Line>
 <Line Number="32">
-<![CDATA[    T1_TargetColor := -1;]]>
+<![CDATA[		Tube[t].TargetColor := Tube[t].TargetPattern[idx];]]>
 </Line>
 <Line Number="33">
-<![CDATA[ELSE]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="34">
-<![CDATA[    T1_TargetColor := T1_Color[idx1];]]>
-</Line>
-<Line Number="35">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="36">
-<![CDATA[]]>
-</Line>
-<Line Number="37">
-<![CDATA[IF (T2Full OR (idx2 < 0) OR (idx2 > 7)) THEN]]>
-</Line>
-<Line Number="38">
-<![CDATA[    T2_TargetColor := -1;]]>
-</Line>
-<Line Number="39">
-<![CDATA[ELSE]]>
-</Line>
-<Line Number="40">
-<![CDATA[    T2_TargetColor := T2_Color[idx2];]]>
-</Line>
-<Line Number="41">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="42">
-<![CDATA[]]>
-</Line>
-<Line Number="43">
-<![CDATA[IF (T3Full OR (idx3 < 0) OR (idx3 > 7)) THEN]]>
-</Line>
-<Line Number="44">
-<![CDATA[    T3_TargetColor := -1;]]>
-</Line>
-<Line Number="45">
-<![CDATA[ELSE]]>
-</Line>
-<Line Number="46">
-<![CDATA[    T3_TargetColor := T3_Color[idx3];]]>
-</Line>
-<Line Number="47">
-<![CDATA[END_IF;]]>
+<![CDATA[END_FOR;]]>
 </Line>
 </STContent>
 </Routine>
@@ -2772,7 +2555,7 @@
 <![CDATA[Monitoring and Data Management Subroutines]]>
 </Comment>
 <Text>
-<![CDATA[JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(TubeFill_Indexing,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);]]>
+<![CDATA[JSR(TubeFill_Indexing,0)JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(Color_Indexing,0)JSR(TEMPORARYTubeDrops,0);]]>
 </Text>
 </Rung>
 <Rung Number="2" Type="N">
@@ -3223,19 +3006,19 @@
 <![CDATA[]]>
 </Line>
 <Line Number="24">
-<![CDATA[IF (T1Full AND T2Full AND T3Full) THEN]]>
+<![CDATA[acc := 1;]]>
 </Line>
 <Line Number="25">
-<![CDATA[	All_Tubes_Full := 1;]]>
+<![CDATA[FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="26">
-<![CDATA[ELSE ]]>
+<![CDATA[	acc := (acc AND Tube[t].Full);]]>
 </Line>
 <Line Number="27">
-<![CDATA[	All_Tubes_Full := 0;]]>
+<![CDATA[END_FOR;]]>
 </Line>
 <Line Number="28">
-<![CDATA[END_IF;]]>
+<![CDATA[All_Tubes_Full := acc;]]>
 </Line>
 <Line Number="29">
 <![CDATA[]]>
@@ -3309,16 +3092,16 @@
 <![CDATA[IF ((HMI_All_Tubes_Are_Empty = 10) AND NOT Fill_Indexes_Cleared) THEN ]]>
 </Line>
 <Line Number="4">
-<![CDATA[Tube_Fill_Index[0] := 0; ]]>
+<![CDATA[	FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="5">
-<![CDATA[Tube_Fill_Index[1] := 0; ]]>
+<![CDATA[		Tube[t].FillIndex := 0;]]>
 </Line>
 <Line Number="6">
-<![CDATA[Tube_Fill_Index[2] := 0;]]>
+<![CDATA[	END_FOR;]]>
 </Line>
 <Line Number="7">
-<![CDATA[Fill_Indexes_Cleared := 1;]]>
+<![CDATA[	Fill_Indexes_Cleared := 1;]]>
 </Line>
 <Line Number="8">
 <![CDATA[END_IF;]]>
@@ -3327,43 +3110,28 @@
 <![CDATA[]]>
 </Line>
 <Line Number="10">
-<![CDATA[T1Full := (Tube_Fill_Index[0] >= Number_of_Positions);]]>
+<![CDATA[FOR t := 0 TO 2 DO]]>
 </Line>
 <Line Number="11">
-<![CDATA[T2Full := (Tube_Fill_Index[1] >= Number_of_Positions);]]>
+<![CDATA[	Tube[t].Full := (Tube[t].FillIndex >= Number_of_Positions);]]>
 </Line>
 <Line Number="12">
-<![CDATA[T3Full := (Tube_Fill_Index[2] >= Number_of_Positions);]]>
+<![CDATA[]]>
 </Line>
 <Line Number="13">
-<![CDATA[//Clamp]]>
+<![CDATA[	//Clamp]]>
 </Line>
 <Line Number="14">
-<![CDATA[IF (Tube_Fill_Index[0] > Number_of_Positions) THEN]]>
+<![CDATA[	IF (Tube[t].FillIndex > Number_of_Positions) THEN]]>
 </Line>
 <Line Number="15">
-<![CDATA[	Tube_Fill_Index[0] := Number_of_Positions;]]>
+<![CDATA[		Tube[t].FillIndex := Number_of_Positions;]]>
 </Line>
 <Line Number="16">
-<![CDATA[END_IF;   ]]>
+<![CDATA[	END_IF;]]>
 </Line>
 <Line Number="17">
-<![CDATA[IF (Tube_Fill_Index[1] > Number_of_Positions) THEN]]>
-</Line>
-<Line Number="18">
-<![CDATA[	Tube_Fill_Index[1] := Number_of_Positions;]]>
-</Line>
-<Line Number="19">
-<![CDATA[END_IF;]]>
-</Line>
-<Line Number="20">
-<![CDATA[IF (Tube_Fill_Index[2] > Number_of_Positions) THEN]]>
-</Line>
-<Line Number="21">
-<![CDATA[	Tube_Fill_Index[2] := Number_of_Positions;]]>
-</Line>
-<Line Number="22">
-<![CDATA[END_IF;]]>
+<![CDATA[END_FOR;]]>
 </Line>
 </STContent>
 </Routine>

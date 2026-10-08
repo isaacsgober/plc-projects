@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Oct  6 18:49:32 2026
+  Exported  := Thu Oct  8 17:46:42 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -97,7 +97,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Output (Rate := 20000,
 			                   EventID := 0,
 			                   Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,-22192,0];
+					InputData (ExternalAccess := Read Only) := [0,10576,0];
 					OutputData (ExternalAccess := Read Only) := [0];
 			END_CONNECTION
 
@@ -146,7 +146,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Input (Rate := 20000,
 			                  EventID := 0,
 			                  Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,1126];
+					InputData (ExternalAccess := Read Only) := [0,17510];
 			END_CONNECTION
 
 	END_MODULE
@@ -170,8 +170,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Output (Rate := 20000,
 			                   EventID := 0,
 			                   Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,10752];
-					OutputData (ExternalAccess := Read Only) := [10752];
+					InputData (ExternalAccess := Read Only) := [0,10756];
+					OutputData (ExternalAccess := Read Only) := [10756];
 			END_CONNECTION
 
 	END_MODULE
@@ -209,21 +209,21 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Ball_Feeder_Retracted OF Local:3:I.Data.10 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Ball_Feeder_Retracted_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,400,0,0,0,543183,1536,990057071,2,0,0];
+		Ball_Feeder_Retracted_Timer : FBD_TIMER (ExternalAccess := Read Only) := [5,1,400,0,0,1,732330,5632,981668463,0,0,1];
 		Ball_Feeder_Step : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Ball_Present_Ball_Feeder OF Local:3:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Blink_Bit : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Color : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 2;
 		Color_Advance_Cylinder_Extended OF Local:1:I.Data.6 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Color_Advance_Cylinder_Retracted OF Local:1:I.Data.7 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Color_Read_Advance_Cylinder_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1000,0,0,1,543925,5632,981668463,2,0,0];
-		Color_Read_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1500,0,0,1,545427,5632,981668463,2,0,0];
+		Color_Read_Advance_Cylinder_Timer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,1000,0,0,1,736223,5632,981668463,0,0,1];
+		Color_Read_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,1500,1017,0,1,737241,5632,981668463,0,1017,7];
 		Color_Release_Cylinder_Extended OF Local:1:I.Data.8 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Color_Release_Cylinder_Retracted OF Local:1:I.Data.9 (RADIX := Decimal,
@@ -234,7 +234,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Color_Scan_Pink OF Local:3:I.Data.12 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Color_Sort_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,3500,651,0,1,546079,5632,981668463,2,651,6];
+		Color_Sort_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,3500,0,0,1,735223,5632,981668463,0,0,1];
 		Color_Sort_Step : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Dropping_Ball_Feeder : BOOL (RADIX := Decimal,
@@ -243,39 +243,39 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Fault : BOOL (Description := "Master Fault",
 		            RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Fault_Blink : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Fault_Feeder_Drop_Timeout : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Fault_Feeder_Lift_Timeout : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Fault_Feeder_Watchdog : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,3000,0,0,1,543076,5632,981668463,2,0,0];
+		            ExternalAccess := Read Only) := 1;
+		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [5,1,5000,0,0,1,732240,5632,981668463,0,0,1];
 		Feeder_Extend_Count : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 5;
 		Feeder_Fault : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Feeder_Fault_Active : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Hard_Fault_HMI : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Homing : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Lift_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,10,3000,3000,0,1,546079,5632,981668463,2,3000,10];
+		Feeder_Lift_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,6000,5000,0,1,737241,5632,981668463,0,5000,7];
 		Feeder_Motion_Detected_OS : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Motion_Storage : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Recovery_Attempt_Counter : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Recovery_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,5000,0,0,0,257911,25088,0,2,0,0];
+		Feeder_Recovery_Timer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,5000,0,0,0,257911,25088,0,0,0,1];
 		Feeder_Recovery_Total : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Stuck_at_Sensor : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Watchdog_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,5000,3002,0,1,546079,5632,981668463,2,3002,6];
+		Feeder_Watchdog_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,11,5000,5000,0,1,737241,5632,981668463,0,5000,11];
 		Feed_Bypass : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feed_Resume_OS : BOOL (RADIX := Decimal,
@@ -303,43 +303,29 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		HMI_Setup_Done : BOOL (RADIX := Decimal) := 1;
 		HMI_Setup_in_Progress : BOOL (RADIX := Decimal) := 0;
 		HMI_Setup_Request : BOOL (RADIX := Decimal) := 0;
-		HMI_T1Drop1 : BOOL (RADIX := Decimal) := 0;
-		HMI_T1Enable : BOOL (RADIX := Decimal) := 1;
-		HMI_T1SortMode : DINT (RADIX := Decimal) := 0;
-		HMI_T2Drop1 : BOOL (RADIX := Decimal) := 0;
-		HMI_T2Enable : BOOL (RADIX := Decimal) := 0;
-		HMI_T2SortMode : DINT (RADIX := Decimal) := 2;
-		HMI_T3Drop1 : BOOL (RADIX := Decimal) := 0;
-		HMI_T3Enable : BOOL (RADIX := Decimal) := 0;
-		HMI_T3SortMode : DINT (RADIX := Decimal) := 3;
 		HMI_Trigger_Init : BOOL (RADIX := Decimal) := 0;
-		HMI_Tube1_Diverter : BOOL (RADIX := Decimal) := 0;
-		HMI_Tube2_Diverter : BOOL (RADIX := Decimal) := 0;
-		HMI_Tube3_Diverter : BOOL (RADIX := Decimal) := 0;
 		i : INT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 8;
 		idx : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 8;
 		Lift_Ball_Feeder OF Local:4:O.Data.14 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Lift_Time_Max : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 4000;
 		Lift_Time_Max_Full : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 5000;
 		Magazine_Full OF Local:3:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [-1123216650,209391,0,0,[-1167510062,209391,0,0,0,0,0,0]];
+		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [1650918283,210157,0,0,[1599709850,210157,0,0,0,0,0,0]];
 		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,0,0,0,0,0,0,0,0,0,1];
 		Number_of_Positions : DINT (RADIX := Decimal) := 8;
-		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,73,0,0,472494,1536,981668463,0,73,7];
+		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,94,0,1,1493218,5632,981668463,0,94,7];
 		Orange : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 2;
 		Pink : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
 		PLC_Init_Done : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
-		PowerUp_Handler_Ran : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 30;
 		req : INT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Retract_Color_Advance_Cylinder OF Local:4:O.Data.3 (RADIX := Decimal,
@@ -347,15 +333,13 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Retract_Color_Release_Cylinder OF Local:4:O.Data.4 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Run_Allowed : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
+		            ExternalAccess := Read Only) := 0;
 		Run_Latch : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Run_Light OF Local:4:O.Data.2 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Run_Permissive : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
 		Selected_Tube : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := -1;
 		Sort_Bypass : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Sort_Resume_OS : BOOL (RADIX := Decimal,
@@ -376,13 +360,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only) := 30;
 		System_Standby : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
+		            ExternalAccess := Read Only) := 0;
 		t : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T1Full : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T1_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [1,1,1,1,1,1,1,1];
+		            ExternalAccess := Read Only) := 2;
 		T1_Diverter_Closed OF Local:1:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T1_Diverter_Opened OF Local:1:I.Data.10 (RADIX := Decimal,
@@ -395,14 +375,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		T1_Drop_Rel_Cyl_Retracted OF Local:3:I.Data.7 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		T1_Index : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T1_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
-		T2Full : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T2_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [2,2,2,2,2,2,2,2];
 		T2_Diverter_Closed OF Local:1:I.Data.13 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T2_Diverter_Opened OF Local:1:I.Data.12 (RADIX := Decimal,
@@ -415,14 +387,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		T2_Drop_Rel_Cyl_Retracted OF Local:3:I.Data.3 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		T2_Index : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T2_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 2;
-		T3Full : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T3_Color : INT[8] (RADIX := Decimal,
-		            ExternalAccess := Read Only) := [3,3,3,3,3,3,3,3];
 		T3_Diverter_Closed OF Local:1:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		T3_Diverter_Opened OF Local:1:I.Data.14 (RADIX := Decimal,
@@ -435,13 +399,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		T3_Drop_Rel_Cyl_Retracted OF Local:2:I.Data.3 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		T3_Index : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
-		T3_TargetColor : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 3;
 		Tube : UDT_Tube[3] (COMMENT[0] := "Tube 1",
 		            COMMENT[1] := "Tube 2",
-		            COMMENT[2] := "Tube 3") := [[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0],[[0,0,0,0,0,0,0,0],0,0,[0,0,0,0,0,0,0,0],0,0,0]];
+		            COMMENT[2] := "Tube 3") := [[[1,2,1,2,1,1,1,1],1,4,[0,0,0,0,0,0,0,0],0,0,0],[[2,3,2,3,2,2,2,2],2,4,[0,0,0,0,0,0,0,0],0,0,0],[[3,1,2,1,3,3,3,3],-1,8,[0,0,0,0,0,0,0,0],0,0,1]];
 		Tube_1_BDPhoto OF Local:1:I.Data.0 (Description := "Unused",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only);
@@ -451,7 +411,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Tube_3_BDPhoto OF Local:1:I.Data.2 (Description := "Unused",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Tube_Fill_Index : INT[3] (RADIX := Decimal) := [0,0,0];
 		White : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 	END_TAG

@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Tue Oct 20 19:43:23 2026
+  Exported  := Thu Oct 22 17:14:53 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -41,6 +41,21 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		          Radix := Hex);
 	END_DATATYPE
 
+	DATATYPE UDT_Release (Description := "Machine-level release mode and cycle state.",
+	                      FamilyType := NoFamily)
+		INT HMI_ModeReq (Description := "Release mode requested by HMI. 0 = None, 10 = Standard");
+		INT Mode (Description := "Release mode in progress. Buffer of HMI_ModeReq",
+		         ExternalAccess := Read Only);
+		INT CycleStep (Description := "Step of the release cycle.",
+		              ExternalAccess := Read Only);
+		SINT ZZZZZZZZZZUDT_Releas3 (Hidden := 1,
+		                           ExternalAccess := Read Only);
+		BIT HMI_ModeReqInvalid ZZZZZZZZZZUDT_Releas3 : 0 (Description := "Value of HMI_ModeReq is invalid.",
+		                    ExternalAccess := Read Only);
+		BIT TubeReleasing ZZZZZZZZZZUDT_Releas3 : 1 (Description := "Any tube currently has a single release active.",
+		               ExternalAccess := Read Only);
+	END_DATATYPE
+
 	DATATYPE UDT_Tube (Description := "Per-tube sort configuration, fill state, and ball inventory. Position 0 = bottom of tube.",
 	                   FamilyType := NoFamily,
 	                   ExternalLogging := "true")
@@ -70,6 +85,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		BIT DropRelCmd ZZZZZZZZZZUDT_Tube7 : 6 (Description := "Release cylinder commanded.",
 		            ExternalAccess := Read Only);
+		BIT SingleReleaseReq ZZZZZZZZZZUDT_Tube7 : 7 (Description := "Release of bottom ball requested by PLC.",
+		                  ExternalAccess := Read Only);
 	END_DATATYPE
 
 	MODULE Local (Parent := "Local",
@@ -105,7 +122,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Output (Rate := 20000,
 			                   EventID := 0,
 			                   Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,10576,0];
+					InputData (ExternalAccess := Read Only) := [0,10832,0];
 					OutputData (ExternalAccess := Read Only) := [0];
 			END_CONNECTION
 
@@ -154,7 +171,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Input (Rate := 20000,
 			                  EventID := 0,
 			                  Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,1109];
+					InputData (ExternalAccess := Read Only) := [0,-31659];
 			END_CONNECTION
 
 	END_MODULE
@@ -178,11 +195,69 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Output (Rate := 20000,
 			                   EventID := 0,
 			                   Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,16128];
-					OutputData (ExternalAccess := Read Only) := [16128];
+					InputData (ExternalAccess := Read Only) := [0,16144];
+					OutputData (ExternalAccess := Read Only) := [16144];
 			END_CONNECTION
 
 	END_MODULE
+
+	ADD_ON_INSTRUCTION_DEFINITION Blink (Revision := "1.0",
+	                                     ExecutePrescan := No,
+	                                     ExecutePostscan := No,
+	                                     ExecuteEnableInFalse := No,
+	                                     CreatedDate := "2026-10-15T20:36:39.609Z",
+	                                     CreatedBy := "ICCMS\igober01",
+	                                     EditedDate := "2026-10-15T22:02:00.887Z",
+	                                     EditedBy := "ICCMS\igober01",
+	                                     SoftwareRevision := "v36.03",
+	                                     AdditionalHelpText := "Input parameter defines the half-cycle time.$N50% duty cycle.")
+		PARAMETERS
+			EnableIn : BOOL (Description := "Enable Input - System Defined Parameter",
+			                    Usage := Input,
+			                    RADIX := Decimal,
+			                    Required := No,
+			                    Visible := No,
+			                    ExternalAccess := Read Only);
+			EnableOut : BOOL (Description := "Enable Output - System Defined Parameter",
+			                     Usage := Output,
+			                     RADIX := Decimal,
+			                     Required := No,
+			                     Visible := No,
+			                     ExternalAccess := Read Only);
+			PRE : DINT (Description := "Time of each half-cycle.$NValues below 100ms clamp to 100ms.",
+			               Usage := Input,
+			               RADIX := Decimal,
+			               Required := Yes,
+			               Visible := Yes,
+			               DefaultData := 500);
+			Bit : BOOL (Description := "Flips at preset time",
+			               Usage := Output,
+			               RADIX := Decimal,
+			               Required := No,
+			               Visible := Yes,
+			               ExternalAccess := Read Only,
+			               DefaultData := 0);
+		END_PARAMETERS
+
+		LOCAL_TAGS
+			Timer : FBD_TIMER (ExternalAccess := None,
+			                DefaultData := "[1,0,0,0,0,0,0,0,0,4,0,0]");
+			b : BOOL (RADIX := Decimal,
+			            ExternalAccess := None,
+			            DefaultData := 1);
+		END_LOCAL_TAGS
+
+		ST_ROUTINE Logic (Description := "Toggles Blink.Bit on and off.$NInput parameter defines the half-cycle time.$N50% duty cycle")
+			'Timer.PRE := PRE;
+			'IF PRE < 100 THEN Timer.PRE := 100; END_IF;
+			'Timer.TimerEnable := NOT Timer.DN;
+			'TONR(Timer);
+			'
+			'b := b XOR Timer.DN;
+			'Bit := b;
+		END_ST_ROUTINE
+
+	END_ADD_ON_INSTRUCTION_DEFINITION
 
 	TAG
 		acc : BOOL (RADIX := Decimal,
@@ -205,9 +280,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Actuate_T3_Drop_Release OF Local:4:O.Data.9 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		AdvanceCloseDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,2213107,5632,981668463,0,0,1],[1,1,1000,0,0,1,2133172,5632,981668463,0,0,1],[1,1,1000,0,0,1,2139885,5632
+		AdvanceCloseDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,1003476,5632,981668463,0,0,1],[1,1,1000,0,0,2,1006479,5632,990057071,0,0,1],[1,1,1000,0,0,1,1129877,5632
 				,981668463,0,0,1]];
-		AdvanceOpenDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,2213107,5632,981668463,0,0,1],[1,1,1000,0,0,1,2133172,5632,981668463,0,0,1],[1,1,1000,0,0,1,2139885,5632
+		AdvanceOpenDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,1003476,5632,981668463,0,0,1],[1,1,1000,0,0,2,1006479,5632,990057071,0,0,1],[1,1,1000,0,0,1,1129877,5632
 				,981668463,0,0,1]];
 		All_Tubes_Full : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
@@ -221,21 +296,20 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Ball_Feeder_Retracted OF Local:3:I.Data.10 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Ball_Feeder_Retracted_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,400,0,0,2,2196598,5632,990057071,2,0,0];
+		Ball_Feeder_Retracted_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,400,294,0,1,692399,5632,981668463,0,294,7];
 		Ball_Feeder_Step : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Ball_Present_Ball_Feeder OF Local:3:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Blink_Bit : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		Blink_1Hz : Blink (ExternalAccess := Read Only) := [3,500,[3,7,500,353,0,0,607546,1536,981668463,0,353,7]];
 		Color : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Color_Advance_Cylinder_Extended OF Local:1:I.Data.6 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Color_Advance_Cylinder_Retracted OF Local:1:I.Data.7 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Color_Read_Advance_Cylinder_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1000,0,0,1,2199332,5632,981668463,2,0,0];
-		Color_Read_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,1500,0,0,1,2195693,5632,981668463,2,0,0];
+		Color_Read_Advance_Cylinder_Timer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,1000,0,0,1,687821,5632,981668463,0,0,1];
+		Color_Read_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,1500,0,0,3,689322,5632,994352038,0,0,1];
 		Color_Release_Cylinder_Extended OF Local:1:I.Data.8 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Color_Release_Cylinder_Retracted OF Local:1:I.Data.9 (RADIX := Decimal,
@@ -246,7 +320,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Color_Scan_Pink OF Local:3:I.Data.12 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Color_Sort_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,3500,0,0,1,2199195,5632,981668463,2,0,0];
+		Color_Sort_Dwell_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,3500,3075,0,1,692399,5632,981668463,0,3075,7];
 		Color_Sort_Step : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Drop_Ball_Feeder OF Local:4:O.Data.15 (RADIX := Decimal,
@@ -262,7 +336,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 0;
 		Fault_Feeder_Watchdog : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,3000,1300,0,1,2199333,5632,981668463,2,1300,6];
+		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,3000,1997,0,1,692399,5632,981668463,0,1997,7];
 		Feeder_Extend_Count : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Fault : BOOL (RADIX := Decimal,
@@ -273,19 +347,19 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Homing : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Lift_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [4,0,4000,0,0,1,2198032,5632,981668463,2,0,0];
+		Feeder_Lift_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [5,1,4000,0,0,1,690400,5632,981668463,0,0,1];
 		Feeder_Motion_Detected_OS : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Motion_Storage : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Feeder_Recovery_Attempt_Counter : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Recovery_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,5000,0,0,0,2199333,25088,0,2,0,6];
+		Feeder_Recovery_Timer : FBD_TIMER (ExternalAccess := Read Only) := [5,1,5000,0,0,0,2199333,25088,0,0,0,1];
 		Feeder_Recovery_Total : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Stuck_at_Sensor : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
-		Feeder_Watchdog_Timer : FBD_TIMER (ExternalAccess := Read Only) := [0,0,5000,0,0,1,2199332,5632,981668463,2,0,0];
+		Feeder_Watchdog_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,5000,293,0,1,692399,5632,981668463,0,293,7];
 		Feed_Bypass : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feed_Resume_OS : BOOL (RADIX := Decimal,
@@ -295,10 +369,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Feed_Run : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Fill_Indexes_Cleared : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
+		            ExternalAccess := Read Only) := 0;
 		Green : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 3;
-		HMI_All_Tubes_Are_Empty : INT (RADIX := Decimal) := 10;
+		HMI_All_Tubes_Are_Empty : INT (RADIX := Decimal) := 20;
 		HMI_ColorStationAdv : BOOL (RADIX := Decimal) := 0;
 		HMI_ColorStationRel : BOOL (RADIX := Decimal) := 1;
 		HMI_Diverter1 : BOOL (RADIX := Decimal) := 0;
@@ -306,10 +380,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		HMI_Diverter3 : BOOL (RADIX := Decimal) := 0;
 		HMI_DropFeedCylinder : BOOL (RADIX := Decimal) := 0;
 		HMI_Fault_Reset_PB : BOOL (RADIX := Decimal) := 0;
-		HMI_Page_State : INT (RADIX := Decimal) := 2;
+		HMI_Page_State : INT (RADIX := Decimal) := 4;
 		HMI_RaiseFeedCylinder : BOOL (RADIX := Decimal) := 0;
 		HMI_RequestedMode : INT (Description := "30: Auto$N20: Manual$N10: Recovery$N0: Undefined",
-		            RADIX := Decimal) := 0;
+		            RADIX := Decimal) := 20;
 		HMI_Setup_Done : BOOL (RADIX := Decimal) := 1;
 		HMI_Setup_Request : BOOL (RADIX := Decimal) := 0;
 		HMI_Trigger_Init : BOOL (RADIX := Decimal) := 0;
@@ -320,25 +394,25 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Lift_Ball_Feeder OF Local:4:O.Data.14 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Lift_Time_Max : DINT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 4000;
+		            ExternalAccess := Read Only) := 4001;
 		Lift_Time_Max_Full : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 5000;
 		Magazine_Full OF Local:3:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [320590399,210402,0,0,[165342576,210402,0,0,0,0,0,0]];
-		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [1,1,0,0,0,0,0,0,0,0,0,1];
+		ModeChangeTimer : FBD_TIMER (ExternalAccess := Read Only) := [5,1,0,0,0,1,1118672,5632,981668463,0,0,1];
 		Number_of_Positions : DINT (RADIX := Decimal) := 8;
-		One_Sec_Blink_Timer : FBD_TIMER (ExternalAccess := Read Only) := [3,7,500,26,0,1,295656,5632,981668463,0,26,7];
 		Orange : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 2;
 		Pink : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
 		PLC_Init_Done : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
-		ReleaseDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,2213107,5632,981668463,0,0,1],[1,1,1000,0,0,1,2133172,5632,981668463,0,0,1],[1,1,1000,0,0,1,2139885,5632
+		Release : UDT_Release  := [0,0,0,0];
+		ReleaseDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,1,1003476,5632,981668463,0,0,1],[1,1,1000,0,0,2,1006479,5632,990057071,0,0,1],[1,1,1000,0,0,1,1129877,5632
 				,981668463,0,0,1]];
 		req : INT (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Retract_Color_Advance_Cylinder OF Local:4:O.Data.3 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Retract_Color_Release_Cylinder OF Local:4:O.Data.4 (RADIX := Decimal,
@@ -369,7 +443,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		System_Mode : DINT (Description := "30: Auto$N20: Manual$N10: Recovery$N0: Undefined",
 		            RADIX := Decimal,
-		            ExternalAccess := Read Only) := 30;
+		            ExternalAccess := Read Only) := 20;
 		System_Standby : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
 		t : INT (RADIX := Decimal,
@@ -412,8 +486,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only);
 		Tube : UDT_Tube[3] (COMMENT[0] := "Tube 1",
 		            COMMENT[1] := "Tube 2",
-		            COMMENT[2] := "Tube 3") := [[[2,1,2,1,2,1,2,1],2,0,0,[-1,-1,-1,-1,-1,-1,-1,-1],0,0,96],[[2,3,2,3,2,3,2,3],2,0,0,[-1,-1,-1,-1,-1,-1,-1,-1],0,0,96],[[1,3,1,3,1,3,1,3],1,0,0,[-1,-1,-1,-1
-				,-1,-1,-1,-1],0,0,96]];
+		            COMMENT[2] := "Tube 3") := [[[3,3,3,3,3,3,3,3],3,0,0,[-1,-1,-1,-1,-1,-1,-1,-1],3,3,96],[[1,1,1,1,1,1,1,0],1,0,0,[-1,-1,-1,-1,-1,-1,-1,-1],0,0,96],[[1,1,1,1,1,1,1,1],1,1,0,[-1,-1,-1,-1
+				,-1,-1,-1,-1],1,1,96]];
 		Tube_1_BDPhoto OF Local:1:I.Data.0 (Description := "Unused",
 		            RADIX := Decimal,
 		            ExternalAccess := Read Only);
@@ -479,7 +553,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'    // -------------------------------
 			'    Feeder_Extend_Count := 0;
 			'    Start_PB_Storage := Start_PB;
-			'    Blink_Bit := 0;
 			'	HMI_Setup_Done := 0;
 			'	HMI_Trigger_Init := 0;
 			'	Number_of_Positions := 8;
@@ -870,7 +943,6 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'    // -------------------------------
 			'    Feeder_Extend_Count := 0;
 			'    Start_PB_Storage := Start_PB;
-			'    Blink_Bit := 0;
 			'	HMI_Setup_Done := 0;
 			'	HMI_Trigger_Init := 0;
 			'	Number_of_Positions := 8;
@@ -895,7 +967,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 				RC: "Monitoring and Data Management Subroutines";
 				N: JSR(TubeFill_Indexing,0)JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(Color_Indexing,0);
 				N: JSR(Mode_Dispatch,0);
-				N: JSR(Release,0)JSR(Output_Map,0);
+				N: JSR(ReleaseControl,0)JSR(Output_Map,0);
 		END_ROUTINE
 
 		ST_ROUTINE Manual_Ctrl 
@@ -974,7 +1046,78 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'Actuate_T3_Drop_Release := Tube[2].DropRelCmd;
 		END_ST_ROUTINE
 
-		ST_ROUTINE Release (Description := "Single Ball Release")
+		ST_ROUTINE ReleaseControl (Description := "Release Routine Dispatch")
+			'CASE Release.HMI_ModeReq OF
+			'	0, 10:
+			'		IF NOT (Run_Latch OR (Release.Mode <> 0)) THEN
+			'			Release.Mode := Release.HMI_ModeReq;
+			'		END_IF;
+			'		Release.HMI_ModeReqInvalid := 0;
+			'		Release.HMI_ModeReq := 0;
+			'	ELSE
+			'		Release.HMI_ModeReqInvalid := 1;
+			'END_CASE;
+			'
+			'IF Run_Latch OR NOT Stop_PB THEN
+			'	Release.HMI_ModeReq := 0;
+			'	Release.Mode := 0;
+			'END_IF;
+			'
+			'Release.TubeReleasing := 0;
+			'FOR t := 0 to 2 DO
+			'	Release.TubeReleasing := Release.TubeReleasing OR Tube[t].SingleReleaseActive;
+			'END_FOR;
+			'
+			'CASE Release.Mode OF
+			'	0:  // No release requested
+			'		Release.CycleStep := 0;
+			'		
+			'	10: // Standard release requested
+			'		CASE Release.CycleStep OF
+			'			0:	
+			'				acc := 1;
+			'				FOR t := 0 TO 2 DO
+			'						acc := acc AND (Tube[t].FillIndex <= 0);
+			'				END_FOR;
+			'				
+			'				IF acc THEN
+			'					Release.CycleStep := 99;
+			'					
+			'				ELSIF NOT Release.TubeReleasing THEN
+			'					
+			'					Tube[0].SingleReleaseReq := 1;
+			'					
+			'					Release.CycleStep := 10;
+			'						
+			'				END_IF;
+			'			10:
+			'				IF NOT Tube[0].SingleReleaseActive THEN
+			'					
+			'					Tube[1].SingleReleaseReq := 1;
+			'					
+			'					Release.CycleStep := 20;
+			'					
+			'				END_IF;
+			'			20:
+			'				IF NOT Tube[1].SingleReleaseActive THEN
+			'					
+			'					Tube[2].SingleReleaseReq := 1;
+			'					
+			'					Release.CycleStep := 0;
+			'					
+			'				END_IF;
+			'			99:
+			'				Release.Mode := 0;
+			'				
+			'		END_CASE;
+			'		
+			'END_CASE;
+			'
+			'JSR(SingleRelease, 0);
+			'
+		END_ST_ROUTINE
+
+		ST_ROUTINE SingleRelease (Description := "Single Ball Release")
 			'FOR t := 0 TO 2 DO
 			'	AdvanceOpenDwell[t].TimerEnable := Tube[t].SingleReleaseActive;
 			'	AdvanceOpenDwell[t].PRE := 1000;
@@ -986,8 +1129,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'	ReleaseDwell[t].PRE := 1000;
 			'	TONR(ReleaseDwell[t]);
 			'	
-			'	IF Tube[t].HMI_SingleReleaseReq THEN
+			'	IF Tube[t].HMI_SingleReleaseReq OR Tube[t].SingleReleaseReq THEN
 			'		Tube[t].HMI_SingleReleaseReq := 0;
+			'		Tube[t].SingleReleaseReq := 0;
 			'		
 			'		IF NOT Tube[t].SingleReleaseActive AND (Tube[t].FillIndex > 0) THEN
 			'			Tube[t].SingleReleaseActive := 1;
@@ -1030,6 +1174,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'Actuate_T3_Diverter := 0;
 			'Retract_Color_Advance_Cylinder := 1;
 			'Retract_Color_Release_Cylinder := 1;
+		END_ST_ROUTINE
+
+		ST_ROUTINE StandardRelease (Description := "Round-robin Release")
+			'
 		END_ST_ROUTINE
 
 		ST_ROUTINE StopProcedures 
@@ -1095,18 +1243,9 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'	HMI_Setup_Request := 0;
 			'END_IF;
 			'
-			'Fault_Blink := (Fault AND Blink_Bit);
+			'Blink(Blink_1Hz, 500);
 			'
-			'//----// Global 1Hz Blink Timer //----//|
-			'One_Sec_Blink_Timer.TimerEnable := 1;
-			'One_Sec_Blink_Timer.PRE := 500;
-			'TONR(One_Sec_Blink_Timer);
-			'IF One_Sec_Blink_Timer.DN THEN
-			'	One_Sec_Blink_Timer.Reset := 1;
-			'	Blink_Bit := NOT Blink_Bit;
-			'ELSE
-			'	One_Sec_Blink_Timer.Reset := 0;
-			'END_IF;
+			'Fault_Blink := (Fault AND Blink_1Hz.Bit);
 			'
 		END_ST_ROUTINE
 

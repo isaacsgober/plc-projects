@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Thu Oct 29 16:56:21 2026
+  Exported  := Thu Oct 29 17:53:38 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -43,17 +43,14 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 
 	DATATYPE UDT_Release (Description := "Machine-level release mode and cycle state.",
 	                      FamilyType := NoFamily)
-		INT HMI_ModeReq (Description := "Release mode requested by HMI. 0 = None, 10 = Standard");
-		INT Mode (Description := "Release mode in progress. Buffer of HMI_ModeReq",
-		         ExternalAccess := Read Only);
 		INT CycleStep (Description := "Step of the release cycle.",
 		              ExternalAccess := Read Only);
-		SINT ZZZZZZZZZZUDT_Releas3 (Hidden := 1,
+		SINT ZZZZZZZZZZUDT_Releas1 (Hidden := 1,
 		                           ExternalAccess := Read Only);
-		BIT HMI_ModeReqInvalid ZZZZZZZZZZUDT_Releas3 : 0 (Description := "Value of HMI_ModeReq is invalid.",
-		                    ExternalAccess := Read Only);
-		BIT TubeReleasing ZZZZZZZZZZUDT_Releas3 : 1 (Description := "Any tube currently has a single release active.",
+		BIT TubeReleasing ZZZZZZZZZZUDT_Releas1 : 0 (Description := "Any tube currently has a single release active.",
 		               ExternalAccess := Read Only);
+		BIT RunEnable ZZZZZZZZZZUDT_Releas1 : 1 (Description := "Enables the release cycle",
+		           ExternalAccess := Read Only);
 	END_DATATYPE
 
 	DATATYPE UDT_Tube (Description := "Per-tube sort configuration, fill state, and ball inventory. Position 0 = bottom of tube.",
@@ -261,7 +258,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 
 	TAG
 		acc : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 0;
+		            ExternalAccess := Read Only) := 1;
 		Actuate_T1_Diverter OF Local:4:O.Data.5 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		Actuate_T1_Drop_Advance OF Local:4:O.Data.12 (RADIX := Decimal,
@@ -301,7 +298,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 0;
 		Ball_Present_Ball_Feeder OF Local:3:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Blink_1Hz : Blink (ExternalAccess := Read Only) := [15,500,[3,7,500,11,0,2,3350632,5632,990057071,0,11,7]];
+		Blink_1Hz : Blink (ExternalAccess := Read Only) := [3,500,[3,7,500,52,0,1,2593287,5632,981668463,0,52,7]];
 		Color : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
 		Color_Advance_Cylinder_Extended OF Local:1:I.Data.6 (RADIX := Decimal,
@@ -335,6 +332,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Fault_Feeder_Lift_Timeout : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Fault_Feeder_Watchdog : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
+		Fault_InvalidModeRequest : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Feeder_Drop_Timeout_Timer : FBD_TIMER (ExternalAccess := Read Only) := [2,6,3000,1716,0,1,2091497,5632,981668463,2,1716,6];
 		Feeder_Extend_Count : DINT (RADIX := Decimal,
@@ -397,6 +396,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 4001;
 		Lift_Time_Max_Full : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 5000;
+		Machine_Homed : BOOL (RADIX := Decimal,
+		            ExternalAccess := Read Only) := 0;
 		Magazine_NotFull OF Local:3:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
 		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [433279396,210579,0,0,[26133280,210579,0,0,0,0,0,0]];
@@ -407,7 +408,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 1;
 		PLC_Init_Done : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
-		Release : UDT_Release  := [0,0,0,0];
+		Release : UDT_Release  := [0,0];
 		ReleaseDwell : FBD_TIMER[3] (ExternalAccess := Read Only) := [[1,1,1000,0,0,2,560628,5632,990057071,0,0,1],[1,1,1000,0,0,1,2113203,5632,981668463,0,0,1],[1,1,1000,0,0,2,983524,5632
 				,990057071,0,0,1]];
 		req : INT (RADIX := Decimal,
@@ -580,10 +581,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 	                     DisableFlag := 0,
 	                     UseAsFolder := 0)
 		TAG
-			Fault_InvalidModeRequest : BOOL (RADIX := Decimal,
-			            ExternalAccess := Read Only) := 0;
-			Machine_Homed : BOOL (RADIX := Decimal,
-			            ExternalAccess := Read Only) := 0;
+			All_Tubes_Empty : BOOL (RADIX := Decimal,
+			            ExternalAccess := Read Only) := 1;
 		END_TAG
 
 		ST_ROUTINE Auto_Feed (Description := "Feeding cylinder step-based machine.")
@@ -988,7 +987,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 				RC: "Monitoring and Data Management Subroutines";
 				N: JSR(TubeFill_Indexing,0)JSR(SysMon,0)JSR(Mode_Mgmt,0)JSR(SysCtl,0)JSR(Color_Indexing,0);
 				N: JSR(Mode_Dispatch,0);
-				N: JSR(ReleaseControl,0)JSR(Output_Map,0);
+				N: JSR(SingleRelease,0)JSR(Output_Map,0);
 		END_ROUTINE
 
 		ST_ROUTINE Manual_Ctrl 
@@ -1008,6 +1007,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'END_IF;
 			'
 			'Auto_Run_Enable := (Run_Latch AND PLC_Init_Done AND (System_Mode = 30));
+			'Release.RunEnable := (Run_Latch AND PLC_Init_Done AND (System_Mode = 40));
 			'
 			'// Feed:
 			'Feed_Run            := (Auto_Run_Enable AND NOT Feed_Bypass);
@@ -1027,6 +1027,13 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'    JSR(Auto_Sort, 0);
 			'ELSIF Auto_Run_Enable THEN        // Auto with Sort_Bypass on
 			'    JSR(Sort_ProcessBypass, 0);
+			'END_IF;
+			'
+			'// Release:
+			'IF Release.RunEnable THEN
+			'	JSR(ReleaseControl, 0);
+			'ELSE
+			'	Release.CycleStep := 0;
 			'END_IF;
 			'
 			'// Manual and recovery:
@@ -1069,73 +1076,37 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		END_ST_ROUTINE
 
 		ST_ROUTINE ReleaseControl (Description := "Release Routine Dispatch")
-			'CASE Release.HMI_ModeReq OF
-			'	0, 10:
-			'		IF NOT (Run_Latch OR (Release.Mode <> 0)) THEN
-			'			Release.Mode := Release.HMI_ModeReq;
-			'		END_IF;
-			'		Release.HMI_ModeReqInvalid := 0;
-			'		Release.HMI_ModeReq := 0;
-			'	ELSE
-			'		Release.HMI_ModeReqInvalid := 1;
-			'END_CASE;
-			'
-			'IF Run_Latch OR NOT Stop_PB THEN
-			'	Release.HMI_ModeReq := 0;
-			'	Release.Mode := 0;
-			'END_IF;
-			'
 			'Release.TubeReleasing := 0;
 			'FOR t := 0 to 2 DO
 			'	Release.TubeReleasing := Release.TubeReleasing OR Tube[t].SingleReleaseActive;
 			'END_FOR;
 			'
-			'CASE Release.Mode OF
-			'	0:  // No release requested
-			'		Release.CycleStep := 0;
-			'		
-			'	10: // Standard release requested
-			'		CASE Release.CycleStep OF
-			'			0:	
-			'				acc := 1;
-			'				FOR t := 0 TO 2 DO
-			'						acc := acc AND (Tube[t].FillIndex <= 0);
-			'				END_FOR;
+			'CASE Release.CycleStep OF
+			'	0:	
+			'		IF NOT Release.TubeReleasing THEN
+			'			
+			'			Tube[0].SingleReleaseReq := 1;
+			'			
+			'			Release.CycleStep := 10;
 			'				
-			'				IF acc THEN
-			'					Release.CycleStep := 99;
-			'					
-			'				ELSIF NOT Release.TubeReleasing THEN
-			'					
-			'					Tube[0].SingleReleaseReq := 1;
-			'					
-			'					Release.CycleStep := 10;
-			'						
-			'				END_IF;
-			'			10:
-			'				IF NOT Tube[0].SingleReleaseActive THEN
-			'					
-			'					Tube[1].SingleReleaseReq := 1;
-			'					
-			'					Release.CycleStep := 20;
-			'					
-			'				END_IF;
-			'			20:
-			'				IF NOT Tube[1].SingleReleaseActive THEN
-			'					
-			'					Tube[2].SingleReleaseReq := 1;
-			'					
-			'					Release.CycleStep := 0;
-			'					
-			'				END_IF;
-			'			99:
-			'				Release.Mode := 0;
-			'				
-			'		END_CASE;
-			'		
+			'		END_IF;
+			'	10:
+			'		IF NOT Tube[0].SingleReleaseActive THEN
+			'			
+			'			Tube[1].SingleReleaseReq := 1;
+			'			
+			'			Release.CycleStep := 20;
+			'			
+			'		END_IF;
+			'	20:
+			'		IF NOT Tube[1].SingleReleaseActive THEN
+			'			
+			'			Tube[2].SingleReleaseReq := 1;
+			'			
+			'			Release.CycleStep := 0;
+			'			
+			'		END_IF;
 			'END_CASE;
-			'
-			'JSR(SingleRelease, 0);
 			'
 		END_ST_ROUTINE
 
@@ -1155,7 +1126,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'		Tube[t].HMI_SingleReleaseReq := 0;
 			'		Tube[t].SingleReleaseReq := 0;
 			'		
-			'		IF NOT Tube[t].SingleReleaseActive AND (Tube[t].FillIndex > 0) THEN
+			'		IF NOT Tube[t].SingleReleaseActive AND (Tube[t].FillIndex > 0) AND HMI_Setup_Done THEN
 			'			Tube[t].SingleReleaseActive := 1;
 			'		END_IF;
 			'	END_IF;
@@ -1213,7 +1184,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'	Fault_Feeder_Watchdog;
 			'
 			'Fault := ((Feeder_Stuck_at_Sensor OR Feeder_Fault) AND NOT Feeder_Homing) OR Fault_InvalidModeRequest;
-			'Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT Fault;
+			'Run_Allowed := Stop_PB AND HMI_Setup_Done AND PLC_Init_Done AND NOT ((System_Mode = 40) AND All_Tubes_Empty) AND NOT Fault;
 			'Run_Latch := ((Run_Latch OR Start_PB_RE) AND Stop_PB AND Run_Allowed AND ((System_Mode = 30) OR (System_Mode = 40)));
 			'System_Standby := Run_Allowed AND NOT Run_Latch;
 			'
@@ -1295,6 +1266,12 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'	acc := (acc AND Tube[t].Full);
 			'END_FOR;
 			'All_Tubes_Full := acc;
+			'
+			'acc:= 1;
+			'FOR t:= 0 TO 2 DO
+			'	acc := (acc AND (Tube[t].FillIndex = 0));
+			'END_FOR;
+			'All_Tubes_Empty := acc;
 			'
 		END_ST_ROUTINE
 

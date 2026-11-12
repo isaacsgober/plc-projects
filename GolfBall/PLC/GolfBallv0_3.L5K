@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v36.03
   Owner     := , 
-  Exported  := Thu Nov 12 15:02:29 2026
+  Exported  := Thu Nov 12 15:54:49 2026
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -56,7 +56,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 	DATATYPE UDT_Tube (Description := "Per-tube sort configuration, fill state, and ball inventory. Position 0 = bottom of tube.",
 	                   FamilyType := NoFamily,
 	                   ExternalLogging := "true")
-		INT TargetPattern[8] (Description := "Target color assigned to each position.");
+		INT TargetPattern[8] (Description := "Manual-mode target color for each position");
 		INT TargetColor (Description := "Target color of next empty position. -1 when full.",
 		                ExternalAccess := Read Only);
 		INT HMI_FillIndexReq (Description := "Ball count (0-8) supplied by operator during setup.");
@@ -168,7 +168,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			CONNECTION Input (Rate := 20000,
 			                  EventID := 0,
 			                  Unicast := No)
-					InputData (ExternalAccess := Read Only) := [0,1109];
+					InputData (ExternalAccess := Read Only) := [0,-31659];
 			END_CONNECTION
 
 	END_MODULE
@@ -389,7 +389,7 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 0;
 		Ball_Present_Ball_Feeder OF Local:3:I.Data.11 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		Blink_1Hz : Blink (ExternalAccess := Read Only) := [3,500,[3,7,500,485,0,1,4101010,5632,981668463,0,485,7]];
+		Blink_1Hz : Blink (ExternalAccess := Read Only) := [15,500,[3,7,500,420,0,1,137521,5632,981668463,0,420,7]];
 		Color : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 3;
 		Color_Advance_Cylinder_Extended OF Local:1:I.Data.6 (RADIX := Decimal,
@@ -459,10 +459,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		Feed_Run : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 0;
 		Fill_Indexes_Cleared : BOOL (RADIX := Decimal,
-		            ExternalAccess := Read Only) := 1;
+		            ExternalAccess := Read Only) := 0;
 		Green : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 3;
-		HMI_All_Tubes_Are_Empty : INT (RADIX := Decimal) := 10;
+		HMI_All_Tubes_Are_Empty : INT (RADIX := Decimal) := 0;
 		HMI_ColorStationAdv : BOOL (RADIX := Decimal) := 1;
 		HMI_ColorStationRel : BOOL (RADIX := Decimal) := 0;
 		HMI_Diverter1 : BOOL (RADIX := Decimal) := 0;
@@ -471,11 +471,11 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		HMI_DropFeedCylinder : BOOL (RADIX := Decimal) := 0;
 		HMI_Fault_Reset_PB : BOOL (RADIX := Decimal) := 0;
 		HMI_Init_Refused_Akn : BOOL (RADIX := Decimal) := 0;
-		HMI_Page_State : INT (RADIX := Decimal) := 2;
+		HMI_Page_State : INT (RADIX := Decimal) := 1;
 		HMI_RaiseFeedCylinder : BOOL (RADIX := Decimal) := 0;
 		HMI_RequestedMode : INT (Description := "40: Auto Release 30: Auto Sort 20: Manual 10: Recovery 0: Undefined",
 		            RADIX := Decimal) := 40;
-		HMI_Setup_Done : BOOL (RADIX := Decimal) := 1;
+		HMI_Setup_Done : BOOL (RADIX := Decimal) := 0;
 		HMI_Setup_Request : BOOL (RADIX := Decimal) := 0;
 		HMI_Trigger_Init : BOOL (RADIX := Decimal) := 0;
 		i : INT (RADIX := Decimal,
@@ -492,10 +492,10 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 		            ExternalAccess := Read Only) := 5000;
 		Machine_Homed : BOOL (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 1;
-		Magazine_NotFull : BitDelay (ExternalAccess := Read Only) := [3,500,80,[1,1,80,80,0,1,4101053,5632,981668463,0,80,1],[1,1,500,0,0,1,189997,5632,981668463,0,0,1]];
+		Magazine_NotFull : BitDelay (ExternalAccess := Read Only) := [63,500,80,[3,11,80,0,0,1,4101053,5632,981668463,0,0,11],[3,11,500,500,0,1,137570,5632,981668463,0,500,11]];
 		Magazine_NotFull_Raw OF Local:3:I.Data.15 (RADIX := Decimal,
 		            ExternalAccess := Read Only);
-		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [-843201942,210859,0,0,[-906508856,210859,0,0,0,0,0,0]];
+		major_fault_record : FAULTRECORD (ExternalAccess := Read Only) := [1864689803,210862,0,0,[1811556290,210862,0,0,0,0,0,0]];
 		Number_of_Positions : DINT (RADIX := Decimal) := 8;
 		Orange : DINT (RADIX := Decimal,
 		            ExternalAccess := Read Only) := 2;
@@ -953,8 +953,8 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'Green := 3;
 			'White := 0;
 			'
-			'// Sort modes: 0 = manual (the HMI writes each position of Tube[<n>].TargetPattern).
-			'// 1-3 = fill all eight positions with Pink, Orange, or Green.
+			'// Sort modes: 0 = Manual (each position targets Tube[<n>].TargetPattern, written by the HMI).
+			'// 1-3 = every position targets Pink, Orange, or Green; TargetPattern is left unchanged.
 			'
 			'FOR t := 0 TO 2 DO
 			'	// HMI writes async; buffer and validate each HMI requested sort mode once per scan.
@@ -966,21 +966,16 @@ CONTROLLER GolfBall (ProcessorType := "1769-L24ER-QB1B",
 			'		Tube[t].SortModeReq_Invalid := 1;
 			'	END_IF;
 			'	
-			'	// Write validated sort mode into TargetPattern when in modes 1-3.
-			'	IF (Tube[t].SortMode > 0) THEN
-			'		FOR i := 0 TO 7 DO
-			'			Tube[t].TargetPattern[i] := Tube[t].SortMode;
-			'		END_FOR;
-			'	END_IF;
-			'	
 			'	// Each tube's target is the color assigned to its next empty position.
 			'	// A full tube has no next position, so its target is -1.
 			'	// Copy FillIndex into INT idx first; unable to use array element as subscript.
 			'	idx := Tube[t].FillIndex;
 			'	IF (Tube[t].Full OR (idx < 0) OR (idx > 7)) THEN
 			'		Tube[t].TargetColor := -1;
-			'	ELSE
+			'	ELSIF Tube[t].SortMode = 0 THEN
 			'		Tube[t].TargetColor := Tube[t].TargetPattern[idx];
+			'	ELSE
+			'		Tube[t].TargetColor := Tube[t].SortMode;
 			'	END_IF;
 			'END_FOR;
 		END_ST_ROUTINE
